@@ -1,0 +1,358 @@
+-- Flashback data archive - 11.2.0.1, 12.1.0.1 (not yet for a CDB)
+
+-- grant FLASHBACK DATA ARCHIVES to mjensen;
+
+alter session set nls_language=American;
+
+create user mjensen identified by mjensen;
+grant connect, resource to mjensen;
+
+grant FLASHBACK ARCHIVE ADMINISTER to mjensen;
+
+
+select * from dba_tablespaces order by tablespace_name;
+
+set long 9000
+select dbms_metadata.get_ddl('TABLESPACE', 'USERS') from dual;
+
+ CREATE TABLESPACE "LOW_COST_STORE" DATAFILE
+ 'E:\APP\ORACLE\ORADATA\O121\DD30BF99F00B4E00B00A18AF7D056254\DATAFILE\LOW_COST_STORE_P1.DBF' SIZE 100M
+ LOGGING ONLINE PERMANENT BLOCKSIZE 8192
+ EXTENT MANAGEMENT LOCAL AUTOALLOCATE SEGMENT SPACE MANAGEMENT AUTO;
+
+
+CREATE FLASHBACK ARCHIVE DEFAULT FLAR
+TABLESPACE LOW_COST_STORE optimize data -- 12c
+RETENTION 1 YEAR;
+
+ORA-65131: The feature Flashback Data Archive  is not supported in a pluggable
+database.
+
+alter FLASHBACK ARCHIVE FLAR modify RETENTION 10 DAY;
+
+alter FLASHBACK ARCHIVE FLAR modify quota 10M;
+
+
+select * from dba_flashback_archive;
+
+connect mjensen/mjensen
+
+rem ALTER FLASHBACK ARCHIVE FLAR SET DEFAULT;
+
+create table tabnoarchive (n number primary key, t date);
+
+insert into tabnoarchive values (1, sysdate);
+commit;
+
+update tabnoarchive set n = 2, t = sysdate;
+commit;
+
+SELECT * FROM tabnoarchive AS
+OF TIMESTAMP sysdate - 1/(24*60);
+
+-------------------
+To set the user context level (determining how much user context is to be saved), use the DBMS_FLASHBACK_ARCHIVE.SET_CONTEXT_LEVEL procedure. To access the context information, use the DBMS_FLASHBACK_ARCHIVE.GET_SYS_CONTEXT function. (The DBMS_FLASHBACK_ARCHIVE package is described in Oracle Database PL/SQL Packages and Types Reference.)
+
+exec DBMS_FLASHBACK_ARCHIVE.SET_CONTEXT_LEVEL ('TYPICAL');
+exec DBMS_FLASHBACK_ARCHIVE.SET_CONTEXT_LEVEL ('ALL');
+-- check in: 
+
+select * from SYS.SYS_FBA_CONTEXT_LIST where namespace = 'FBA_CONTEXT';
+
+create table tab2archive (n number primary key, t date);
+
+ALTER TABLE tab2archive FLASHBACK ARCHIVE;
+
+show parameter retention -- 900
+alter system set undo_retention=60 scope=memory;
+
+db_flashback_retention_target        integer     1440
+alter system set db_flashback_retention_target=60 scope=memory;
+
+
+delete from tab2archive;
+commit;
+
+insert into tab2archive values (1, sysdate);
+commit;
+
+update tab2archive set n = 2, t = sysdate;
+commit;
+
+insert into tab2archive values (3, sysdate);
+commit;
+
+insert into tab2archive values (4, sysdate);
+commit;
+
+delete from tab2archive  where n = 3;
+commit;
+
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
+
+SELECT * FROM tab2archive AS
+OF TIMESTAMP sysdate - 2/(24*60);
+
+select flashback_archive_name, archive_table_name, status
+from dba_flashback_archive_tables
+where table_name = 'TAB2ARCHIVE';
+
+FLAR  SYS_FBA_HIST_91995				      ENABLED
+
+--- wait a little ...
+
+select * from SYS_FBA_HIST_91995;
+
+select segment_name, segment_type, sum(bytes)/1000000 Mb 
+from dba_extents
+where tablespace_name = 'LOW_COST_STORE'
+group by segment_name, segment_type
+order by segment_name, segment_type;
+
+
+SYS_FBA_DDL_COLMAP_93739
+TABLE		      .065536
+
+SYS_FBA_HIST_93739
+TABLE PARTITION      8.388608
+
+SYS_FBA_TCRV_93739
+TABLE		      .065536
+
+SYS_FBA_TCRV_IDX_93739
+INDEX		      .065536
+
+
+
+set long 7000
+select dbms_metadata.get_ddl('TABLE', 'SYS_FBA_HIST_91995') from dual;
+
+  CREATE TABLE "MJENSEN"."SYS_FBA_HIST_91995"
+   (	"RID" VARCHAR2(4000),
+	"STARTSCN" NUMBER,
+	"ENDSCN" NUMBER,
+	"XID" RAW(8),
+	"OPERATION" VARCHAR2(1),
+	"N" NUMBER,
+	"T" DATE
+   ) PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255
+  STORAGE(
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "LOW_COST_STORE"
+  PARTITION BY RANGE ("ENDSCN")
+ (PARTITION "HIGH_PART"  VALUES LESS THAN (MAXVALUE) SEGMENT CREATION IMMEDIATE
+
+---
+alter session set nls_date_format='YYYY-MM-DD Hh24:MI:SS';
+
+select * from SYS_FBA_HIST_91995 order by startscn;
+
+RID
+---------------------------------------------------------------------------
+
+  STARTSCN     ENDSCN XID              O          N T
+---------- ---------- ---------------- - ---------- -------------------
+AAAWdbAAGAAAAD1AAA
+   2402559    2402564 0A00020001070000 I          1 2013-12-10 09:11:49
+
+AAAWdbAAGAAAAD1AAB
+   2402567    2402574 08000B0017080000 I          3 2013-12-10 09:11:49
+
+AAAWdbAAGAAAAD1AAB
+   2402574    2402574 03001C00F2070000 D          3 2013-12-10 09:11:49
+
+
+-- 12c
+select DBMS_FLASHBACK_ARCHIVE.GET_SYS_CONTEXT('0A00020001070000','USERENV', 'CURRENT_USER')
+from dual;
+-- SYS ??
+
+select DBMS_FLASHBACK_ARCHIVE.GET_SYS_CONTEXT('0A00020001070000','USERENV', 'MODULE')
+from dual;
+-- Sql*plus
+
+select DBMS_FLASHBACK_ARCHIVE.GET_SYS_CONTEXT('0A00020001070000','USERENV', 'TERMINAL')
+from dual;
+-- MJENSEN-DK
+
+select * from SYS.SYS_FBA_CONTEXT_AUD; -- the actual extra information
+select * from SYS.SYS_FBA_CONTEXT_LIST; -- total list (FBA_CONTEXT: ALL)
+
+SYSTEM SYS_FBA_CONTEXT_AUD
+
+
+set long 7000
+select dbms_metadata.get_ddl('TABLE', 'SYS_FBA_CONTEXT') from dual;
+
+
+---
+connect / as sysdba
+
+grant dba to mjensen;
+
+connect mjensen/mjensen
+
+create or replace view tab2archive_v as
+select * from tab2archive as OF TIMESTAMP sysdate;
+
+create or replace view tab2archive_v as
+select * from tab2archive as OF TIMESTAMP sysdate -- - 2/(24*60);
+
+FEJL i linie 2: - solved in 12.1
+ORA-00600: intern fejlkode, argumenter: [ktfapqbTxt], [907], [], [], [], [],
+[], [], [], [], [], []
+	Bug 14459044 - ora-600[ktfapqbTxt][907] occurs flashback query [ID 14459044.8]
+no comment lines should be added !
+
+select * from tab2archive_v;
+
+connect / as sysdba
+
+revoke dba from mjensen;
+
+connect mjensen/mjensen
+
+select * from dba_flashback_archive_tables;
+
+select * from dba_flashback_archive_ts;
+
+ALTER TABLE tab2archive NO FLASHBACK ARCHIVE;
+
+drop table tab2archive;
+
+
+-----------------------------------------------
+
+SELECT * FROM tab2archive AS
+OF TIMESTAMP sysdate - 5;
+
+-----
+
+update tab2archive set n = 3, t = sysdate;
+commit;
+
+alter session set nls_date_format='YYYY-MM-DD HH24:MI:SS';
+
+update tab2archive set n = 5, t = sysdate;
+commit;
+
+
+select * from SYS_FBA_HIST_70971
+order by startscn;
+
+RID
+---------------------------------------------------------------------------
+
+  STARTSCN     ENDSCN XID              O          N T
+---------- ---------- ---------------- - ---------- -------------------
+AAARU7AAEAAAAGmAAA
+    950407     950825 06001A00A1020000 I          1 2007-11-01 19:26:42
+
+AAARU7AAEAAAAGmAAA
+    950825     983050 01001500A2020000 U          2 2007-11-01 19:30:19
+
+SQL> select * from
+  2  SYS_FBA_TCRV_70971;
+
+RID
+-----------------------------------------
+
+  STARTSCN     ENDSCN XID              O
+---------- ---------- ---------------- -
+AAARU7AAEAAAAGmAAA
+    950825     983050 01001500A2020000 U
+
+AAARU7AAEAAAAGmAAA
+    983050            02001700BE020000 U
+
+select * from SMON_SCN_TIME order by scn;
+
+SELECT 950407, SCN_TO_TIMESTAMP(950407) FROM dual;
+
+alter table tab2archive add w varchar2(30);
+
+
+alter table tab2archive drop column w;
+------
+
+alter table tab2archive add v varchar2(30);
+
+
+alter table tab2archive drop column  v;
+-- ORA-55610: Ugyldig DDL-sµtning for historikaktiveret tabel
+
+==============================================
+
+ALTER TABLE emp_salaries FLASHBACK ARCHIVE;
+
+insert into emp_salaries (name, sal)
+select ename, sal from scott.emp;
+commit;
+
+select count(1), sum(sal) from emp_salaries;
+
+  COUNT(1)   SUM(SAL)
+---------- ----------
+        18     325425
+
+select count(1) from emp_salaries as of timestamp (sysdate -4/(24*60));
+
+select table_name from user_tables order by 1;
+
+descr SYS_FBA_HIST_71012
+
+select count(1) from SYS_FBA_TCRV_71012;
+
+update emp_salaries
+set sal = sal + 1000;
+commit;
+
+shutdown abort
+
+startup
+
+select count(1), sum(sal) from emp_salaries;
+
+  COUNT(1)   SUM(SAL)
+---------- ----------
+        18     340425
+
+select count(1), sum(sal) from emp_salaries as of timestamp (sysdate -4/(24*60));
+
+select op, count(1) from SYS_FBA_TCRV_71012 group by op;
+
+====================================
+
+update emp_salaries
+set sal = sal + 1000;
+commit;
+
+select count(1), sum(sal) from emp_salaries;
+
+  COUNT(1)   SUM(SAL)
+---------- ----------
+        18     355425
+
+select count(1), sum(sal) from emp_salaries as of timestamp (sysdate -2);
+
+  COUNT(1)   SUM(SAL)
+---------- ----------
+        18     340425
+
+set autotrace on
+
+
+SELECT versions_startscn scn, versions_starttime AS start_time,
+  versions_endtime AS end_time, versions_operation, versions_xid, name, sal
+FROM emp_salaries
+VERSIONS BETWEEN SCN MINVALUE AND MAXVALUE
+WHERE versions_startscn is not null
+order by name, versions_startscn;
+
+SELECT versions_startscn scn, versions_starttime AS start_time,
+  versions_endtime AS end_time, versions_operation, versions_xid, name, sal
+FROM emp_salaries
+VERSIONS BETWEEN timestamp sysdate-3 AND sysdate-1
+WHERE versions_startscn is not null
+order by name, versions_startscn;
+

@@ -1,0 +1,7 @@
+col hostname for a20
+
+SELECT a.name DB_NAME, b.instance_name, a.created, a.log_mode, 
+       a.open_mode, a.database_role, a.force_logging, b.host_name, 
+       b.database_status 
+from v$database a, v$instance b
+/

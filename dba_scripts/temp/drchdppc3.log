@@ -1,0 +1,247 @@
+02/05/2016 10:36:38
+Creating Data Guard Broker Monitor Process (DMON)
+02/05/2016 10:36:46
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/05/2016 10:36:50
+Dynamically adding instance hdppc3 to database hdppc
+02/05/2016 10:36:55
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+DMON Registering service hdppc_DGB with listener(s)
+Creating process RSM0
+02/09/2016 14:41:12
+Notifying DMON of db close
+Notifying RSM0 of db close
+02/09/2016 14:41:20
+Warning: the apply instance hdppc2 is not running.
+02/09/2016 14:41:35
+Warning: the apply instance hdppc2 is not running.
+Warning: the apply instance hdppc2 has not been running for at least 15 seconds, which exceeds the timeout limit 0 given by the ApplyInstanceTimeout property. Initiate an automatic apply instance failover.
+Instance closed due to abnormal termination of recovery instance.  Opening now
+02/09/2016 14:41:53
+Apply Instance for Database hdppc set to hdppc3
+Apply Instance for Database hdppc set to hdppc3
+Command EDIT DATABASE hdppc SET PROPERTY ActualApplyInstance = hdppc3 completed
+02/09/2016 14:41:54
+Command EDIT DATABASE hdppc SET PROPERTY ActualApplyInstance = hdppc3 completed
+02/09/2016 23:55:05
+Creating Data Guard Broker Monitor Process (DMON)
+02/09/2016 23:55:18
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/09/2016 23:55:21
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/09/2016 23:55:25
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/10/2016 00:46:44
+Creating Data Guard Broker Monitor Process (DMON)
+02/10/2016 00:46:57
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/10/2016 00:47:00
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/10/2016 00:47:04
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/10/2016 01:25:14
+Creating Data Guard Broker Monitor Process (DMON)
+02/10/2016 01:25:27
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/10/2016 01:25:30
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/10/2016 01:25:35
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/10/2016 17:25:50
+Creating Data Guard Broker Monitor Process (DMON)
+02/10/2016 17:26:08
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/10/2016 17:26:16
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/10/2016 17:26:20
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+03/17/2016 16:01:19
+NSV1 network call timeout. Killing it now.
+03/30/2016 14:40:40
+Process RSM0, PID = 5298, will be killed
+03/30/2016 14:40:42
+Creating process RSM0
+03/30/2016 14:40:46
+Process RSM0 re-created with PID = 130076
+04/09/2016 09:36:21
+Notifying DMON of db close
+Notifying RSM0 of db close
+04/09/2016 09:36:22
+Data Guard Broker shutting down
+RSM0 successfully terminated
+04/09/2016 09:36:24
+>> Data Guard Broker Has Been Shut Down <<
+04/09/2016 09:36:51
+Creating Data Guard Broker Monitor Process (DMON)
+04/09/2016 09:36:59
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+04/09/2016 09:37:02
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+04/09/2016 09:37:06
+Connection to database hdpph returns ORA-01017.
+Please check database hdpph is using a remote password file,
+its remote_login_passwordfile is set to SHARED or EXCLUSIVE,
+and the SYS password is the same as this database.
+Failed to connect to remote database hdpph. Error is ORA-01017
+Failed to send message to site hdpph. Error code is ORA-01017.
+database hdppc unable to contact primary database for version check; status ORA-01017
+      completing bootstrap of this database
+Creating process RSM0
+04/09/2016 09:47:19
+Command EDIT DATABASE hdppc SET STATE = APPLY-ON completed
+04/11/2016 09:15:34
+Connection to database hdpph returns ORA-01017.
+Please check database hdpph is using a remote password file,
+its remote_login_passwordfile is set to SHARED or EXCLUSIVE,
+and the SYS password is the same as this database.
+Failed to connect to remote database hdpph. Error is ORA-01017
+Failed to send message to site hdpph. Error code is ORA-01017.
+04/16/2016 09:37:22
+Notifying DMON of db close
+Notifying RSM0 of db close
+04/16/2016 09:37:24
+Data Guard Broker shutting down
+RSM0 successfully terminated
+04/16/2016 09:37:27
+>> Data Guard Broker Has Been Shut Down <<
+04/16/2016 09:54:58
+Creating Data Guard Broker Monitor Process (DMON)
+04/16/2016 09:55:06
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+04/16/2016 09:55:09
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdppc (0x01010000)
+      Standby Database:           hdpph, Enabled Physical Standby (0x02010000)
+Creating process RSM0
+04/16/2016 09:56:28
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 09:57:36
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 10:00:40
+Site hdpph returned ORA-16665.
+04/16/2016 10:00:55
+Site hdpph returned ORA-16665.
+04/16/2016 10:01:10
+Site hdpph returned ORA-16665.
+04/16/2016 10:01:25
+Site hdpph returned ORA-16665.
+04/16/2016 10:01:40
+Site hdpph returned ORA-16665.
+04/16/2016 10:01:55
+Site hdpph returned ORA-16665.
+04/16/2016 10:02:10
+Site hdpph returned ORA-16665.
+04/16/2016 10:02:25
+Site hdpph returned ORA-16665.
+04/16/2016 10:02:40
+Site hdpph returned ORA-16665.
+04/16/2016 10:02:55
+Site hdpph returned ORA-16665.
+04/16/2016 10:03:10
+Site hdpph returned ORA-16665.
+04/16/2016 10:03:25
+Site hdpph returned ORA-16665.
+04/16/2016 10:03:56
+Command SWITCHOVER TO hdpph completed with error ORA-16665
+04/16/2016 10:20:31
+Notifying DMON of db close
+Notifying RSM0 of db close
+04/16/2016 10:20:38
+Data Guard Broker shutting down
+RSM0 successfully terminated
+04/16/2016 10:20:41
+>> Data Guard Broker Has Been Shut Down <<
+04/18/2016 09:24:24
+Creating Data Guard Broker Monitor Process (DMON)
+04/18/2016 09:24:32
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+04/18/2016 09:24:35
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdppc (0x01010000)
+      Standby Database:           hdpph, Enabled Physical Standby (0x02010000)
+04/18/2016 09:24:39
+Version Check Results:
+      Database hdpph returned ORA-00000
+Creating process RSM0
+04/20/2016 11:58:24
+EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2
+04/20/2016 11:58:26
+Apply Instance for database hdpph is hdpph2
+Command EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2 completed

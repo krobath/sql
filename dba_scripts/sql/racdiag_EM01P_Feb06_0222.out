@@ -1,0 +1,2470 @@
+Connected to: SYS @ EM01P
+SQL> set lines 200
+Connected to: SYS @ EM01P
+SQL> set pagesize 35
+Connected to: SYS @ EM01P
+SQL> set trim on
+Connected to: SYS @ EM01P
+SQL> set trims on
+Connected to: SYS @ EM01P
+SQL> alter session set nls_date_format = 'MON-DD-YYYY HH24:MI:SS';
+Connected to: SYS @ EM01P
+SQL> alter session set timed_statistics = true;
+Connected to: SYS @ EM01P
+SQL> set feedback on
+Connected to: SYS @ EM01P
+SQL> select to_char(sysdate) time from dual;
+
+FEB-06-2013 14:22:47
+
+1 row selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column host_name format a20 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, instance_name, host_name, version, status, startup_time
+  2  from gv$instance
+  3  order by inst_id;
+
+      1 EM01P1           roxy01               11.2.0.3.0       OPEN         OCT-23-2012 07:05:05
+      2 EM01P2           roxy02               11.2.0.3.0       OPEN         OCT-23-2012 06:48:05
+
+2 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> set echo on
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- WAIT CHAINS
+Connected to: SYS @ EM01P
+SQL> -- 11.x+ Only (This will not work in < v11
+Connected to: SYS @ EM01P
+SQL> -- See Note 1428210.1 for instructions on interpreting.
+Connected to: SYS @ EM01P
+SQL> set pages 1000
+Connected to: SYS @ EM01P
+SQL> set lines 120
+Connected to: SYS @ EM01P
+SQL> set heading off
+Connected to: SYS @ EM01P
+SQL> column w_proc format a50 tru
+Connected to: SYS @ EM01P
+SQL> column instance format a20 tru
+Connected to: SYS @ EM01P
+SQL> column inst format a28 tru
+Connected to: SYS @ EM01P
+SQL> column wait_event format a50 tru
+Connected to: SYS @ EM01P
+SQL> column p1 format a16 tru
+Connected to: SYS @ EM01P
+SQL> column p2 format a16 tru
+Connected to: SYS @ EM01P
+SQL> column p3 format a15 tru
+Connected to: SYS @ EM01P
+SQL> column Seconds format a50 tru
+Connected to: SYS @ EM01P
+SQL> column sincelw format a50 tru
+Connected to: SYS @ EM01P
+SQL> column blocker_proc format a50 tru
+Connected to: SYS @ EM01P
+SQL> column waiters format a50 tru
+Connected to: SYS @ EM01P
+SQL> column chain_signature format a100 wra
+Connected to: SYS @ EM01P
+SQL> column blocker_chain format a100 wra
+Connected to: SYS @ EM01P
+SQL> SELECT *
+  2  FROM (SELECT 'Current Process: '||osid W_PROC, 'SID '||i.instance_name INSTANCE,
+  3  'INST #: '||instance INST,'Blocking Process: '||decode(blocker_osid,null,'<none>',blocker_osid)||
+  4  ' from Instance '||blocker_instance BLOCKER_PROC,'Number of waiters: '||num_waiters waiters,
+  5  'Wait Event: ' ||wait_event_text wait_event, 'P1: '||p1 p1, 'P2: '||p2 p2, 'P3: '||p3 p3,
+  6  'Seconds in Wait: '||in_wait_secs Seconds, 'Seconds Since Last Wait: '||time_since_last_wait_secs sincelw,
+  7  'Wait Chain: '||chain_id ||': '||chain_signature chain_signature,'Blocking Wait Chain: '||decode(blocker_chain_id,null,
+  8  '<none>',blocker_chain_id) blocker_chain
+  9  FROM v$wait_chains wc,
+ 10  v$instance i
+ 11  WHERE wc.instance = i.instance_number (+)
+ 12  AND ( num_waiters > 0
+ 13  OR ( blocker_osid IS NOT NULL
+ 14  AND in_wait_secs > 10 ) )
+ 15  ORDER BY chain_id,
+ 16  num_waiters DESC)
+ 17  WHERE ROWNUM < 101;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- Taking Hang Analyze dumps
+Connected to: SYS @ EM01P
+SQL> -- This may take a little while...
+Connected to: SYS @ EM01P
+SQL> oradebug setmypid
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> oradebug unlimit
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> oradebug -g all hanganalyze 3
+Hang Analysis in /oracle/app/oracle/diag/rdbms/em01p/EM01P1/trace/EM01P1_diag_4005.trc
+Connected to: SYS @ EM01P
+SQL> -- This part may take the longest, you can monitor bdump or udump to see if
+Connected to: SYS @ EM01P
+SQL> -- the file is being generated.
+Connected to: SYS @ EM01P
+SQL> oradebug -g all dump systemstate 258
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- WAITING SESSIONS:
+Connected to: SYS @ EM01P
+SQL> -- The entries that are shown at the top are the sessions that have
+Connected to: SYS @ EM01P
+SQL> -- waited the longest amount of time that are waiting for non-idle wait
+Connected to: SYS @ EM01P
+SQL> -- events (event column). You can research and find out what the wait
+Connected to: SYS @ EM01P
+SQL> -- event indicates (along with its parameters) by checking the Oracle
+Connected to: SYS @ EM01P
+SQL> -- Server Reference Manual or look for any known issues or documentation
+Connected to: SYS @ EM01P
+SQL> -- by searching Metalink for the event name in the search bar. Example
+Connected to: SYS @ EM01P
+SQL> -- (include single quotes): [ 'buffer busy due to global cache' ].
+Connected to: SYS @ EM01P
+SQL> -- Metalink and/or the Server Reference Manual should return some useful
+Connected to: SYS @ EM01P
+SQL> -- information on each type of wait event. The inst_id column shows the
+Connected to: SYS @ EM01P
+SQL> -- instance where the session resides and the SID is the unique identifier
+Connected to: SYS @ EM01P
+SQL> -- for the session (gv$session). The p1, p2, and p3 columns will show
+Connected to: SYS @ EM01P
+SQL> -- event specific information that may be important to debug the problem.
+Connected to: SYS @ EM01P
+SQL> -- To find out what the p1, p2, and p3 indicates see the next section.
+Connected to: SYS @ EM01P
+SQL> -- Items with wait_time of anything other than 0 indicate we do not know
+Connected to: SYS @ EM01P
+SQL> -- how long these sessions have been waiting.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 10
+Connected to: SYS @ EM01P
+SQL> column state format a7 tru
+Connected to: SYS @ EM01P
+SQL> column event format a25 tru
+Connected to: SYS @ EM01P
+SQL> column last_sql format a40 tru
+Connected to: SYS @ EM01P
+SQL> select sw.inst_id, sw.sid, sw.state, sw.event, sw.seconds_in_wait seconds,
+  2  sw.p1, sw.p2, sw.p3, sa.sql_text last_sql
+  3  from gv$session_wait sw, gv$session s, gv$sqlarea sa
+  4  where sw.event not in
+  5  ('rdbms ipc message','smon timer','pmon timer',
+  6  'SQL*Net message from client','lock manager wait for remote message',
+  7  'ges remote message', 'gcs remote message', 'gcs for action', 'client message',
+  8  'pipe get', 'null event', 'PX Idle Wait', 'single-task message',
+  9  'PX Deq: Execution Msg', 'KXFQ: kxfqdeq - normal deqeue',
+ 10  'listen endpoint status','slave wait','wakeup time manager')
+ 11  and sw.seconds_in_wait > 0
+ 12  and (sw.inst_id = s.inst_id and sw.sid = s.sid)
+ 13  and (s.inst_id = sa.inst_id and s.sql_address = sa.address)
+ 14  order by seconds desc;
+
+         1        300 WAITING Streams AQ: waiting for m ########## ########## ########## ##########
+BEGIN EM_ADMINMSG_BUS.DEQUEUE(:1 , :2 );
+
+         1        843 WAITING Streams AQ: waiting for m ########## ########## ########## ##########
+BEGIN EM_ADMINMSG_BUS.DEQUEUE(:1 , :2 );
+
+         1        384 WAITING wait for unread message o ########## ########## ########## ##########
+BEGIN EM_NOTIF_PKG.QUEUE_READY(:1 , :2 ,
+
+
+3 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- EVENT PARAMETER LOOKUP:
+Connected to: SYS @ EM01P
+SQL> -- This section will give a description of the parameter names of the
+Connected to: SYS @ EM01P
+SQL> -- events seen in the last section. p1test is the parameter value for
+Connected to: SYS @ EM01P
+SQL> -- p1 in the WAITING SESSIONS section while p2text is the parameter
+Connected to: SYS @ EM01P
+SQL> -- value for p3 and p3 text is the parameter value for p3. The
+Connected to: SYS @ EM01P
+SQL> -- parameter values in the first section can be helpful for debugging
+Connected to: SYS @ EM01P
+SQL> -- the wait event.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> column event format a30 tru
+Connected to: SYS @ EM01P
+SQL> column p1text format a25 tru
+Connected to: SYS @ EM01P
+SQL> column p2text format a25 tru
+Connected to: SYS @ EM01P
+SQL> column p3text format a25 tru
+Connected to: SYS @ EM01P
+SQL> select distinct event, p1text, p2text, p3text
+  2  from gv$session_wait sw
+  3  where sw.event not in ('rdbms ipc message','smon timer','pmon timer',
+  4  'SQL*Net message from client','lock manager wait for remote message',
+  5  'ges remote message', 'gcs remote message', 'gcs for action', 'client message',
+  6  'pipe get', 'null event', 'PX Idle Wait', 'single-task message',
+  7  'PX Deq: Execution Msg', 'KXFQ: kxfqdeq - normal deqeue',
+  8  'listen endpoint status','slave wait','wakeup time manager')
+  9  and seconds_in_wait > 0
+ 10  order by event;
+
+ASM background timer
+EMON slave idle wait
+GCR sleep                      lock retry count
+PING
+Space Manager: slave idle wait Slave ID
+Streams AQ: emn coordinator id
+Streams AQ: qmn coordinator id
+Streams AQ: qmn slave idle wai Type
+Streams AQ: waiting for messag queue id                  process#                  wait time
+Streams AQ: waiting for time m
+VKTM Logical Idle Wait
+class slave wait               slave id
+wait for unread message on bro channel context           channel handle
+
+13 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- GES LOCK BLOCKERS:
+Connected to: SYS @ EM01P
+SQL> -- This section will show us any sessions that are holding locks that
+Connected to: SYS @ EM01P
+SQL> -- are blocking other users. The inst_id will show us the instance that
+Connected to: SYS @ EM01P
+SQL> -- the session resides on while the sid will be a unique identifier for
+Connected to: SYS @ EM01P
+SQL> -- the session. The grant_level will show us how the GES lock is granted to
+Connected to: SYS @ EM01P
+SQL> -- the user. The request_level will show us what status we are trying to
+Connected to: SYS @ EM01P
+SQL> -- obtain.  The lockstate column will show us what status the lock is in.
+Connected to: SYS @ EM01P
+SQL> -- The last column shows how long this session has been waiting.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column state format a16 tru;
+Connected to: SYS @ EM01P
+SQL> column event format a30 tru;
+Connected to: SYS @ EM01P
+SQL> select dl.inst_id, s.sid, p.spid, dl.resource_name1,
+  2  decode(substr(dl.grant_level,1,8),'KJUSERNL','Null','KJUSERCR','Row-S (SS)',
+  3  'KJUSERCW','Row-X (SX)','KJUSERPR','Share','KJUSERPW','S/Row-X (SSX)',
+  4  'KJUSEREX','Exclusive',request_level) as grant_level,
+  5  decode(substr(dl.request_level,1,8),'KJUSERNL','Null','KJUSERCR','Row-S (SS)',
+  6  'KJUSERCW','Row-X (SX)','KJUSERPR','Share','KJUSERPW','S/Row-X (SSX)',
+  7  'KJUSEREX','Exclusive',request_level) as request_level,
+  8  decode(substr(dl.state,1,8),'KJUSERGR','Granted','KJUSEROP','Opening',
+  9  'KJUSERCA','Canceling','KJUSERCV','Converting') as state,
+ 10  s.sid, sw.event, sw.seconds_in_wait sec
+ 11  from gv$ges_enqueue dl, gv$process p, gv$session s, gv$session_wait sw
+ 12  where blocker = 1
+ 13  and (dl.inst_id = p.inst_id and dl.pid = p.spid)
+ 14  and (p.inst_id = s.inst_id and p.addr = s.paddr)
+ 15  and (s.inst_id = sw.inst_id and s.sid = sw.sid)
+ 16  order by sw.seconds_in_wait desc;
+
+      2   925 31100                    [0x19][0x2],[RS][ext 0x0,0x0]  Exclusive     Exclusive                        925
+rdbms ipc message                  0
+
+
+1 row selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- GES LOCK WAITERS:
+Connected to: SYS @ EM01P
+SQL> -- This section will show us any sessions that are waiting for locks that
+Connected to: SYS @ EM01P
+SQL> -- are blocked by other users. The inst_id will show us the instance that
+Connected to: SYS @ EM01P
+SQL> -- the session resides on while the sid will be a unique identifier for
+Connected to: SYS @ EM01P
+SQL> -- the session. The grant_level will show us how the GES lock is granted to
+Connected to: SYS @ EM01P
+SQL> -- the user. The request_level will show us what status we are trying to
+Connected to: SYS @ EM01P
+SQL> -- obtain.  The lockstate column will show us what status the lock is in.
+Connected to: SYS @ EM01P
+SQL> -- The last column shows how long this session has been waiting.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column state format a16 tru;
+Connected to: SYS @ EM01P
+SQL> column event format a30 tru;
+Connected to: SYS @ EM01P
+SQL> select dl.inst_id, s.sid, p.spid, dl.resource_name1,
+  2  decode(substr(dl.grant_level,1,8),'KJUSERNL','Null','KJUSERCR','Row-S (SS)',
+  3  'KJUSERCW','Row-X (SX)','KJUSERPR','Share','KJUSERPW','S/Row-X (SSX)',
+  4  'KJUSEREX','Exclusive',request_level) as grant_level,
+  5  decode(substr(dl.request_level,1,8),'KJUSERNL','Null','KJUSERCR','Row-S (SS)',
+  6  'KJUSERCW','Row-X (SX)','KJUSERPR','Share','KJUSERPW','S/Row-X (SSX)',
+  7  'KJUSEREX','Exclusive',request_level) as request_level,
+  8  decode(substr(dl.state,1,8),'KJUSERGR','Granted','KJUSEROP','Opening',
+  9  'KJUSERCA','Cancelling','KJUSERCV','Converting') as state,
+ 10  s.sid, sw.event, sw.seconds_in_wait sec
+ 11  from gv$ges_enqueue dl, gv$process p, gv$session s, gv$session_wait sw
+ 12  where blocked = 1
+ 13  and (dl.inst_id = p.inst_id and dl.pid = p.spid)
+ 14  and (p.inst_id = s.inst_id and p.addr = s.paddr)
+ 15  and (s.inst_id = sw.inst_id and s.sid = sw.sid)
+ 16  order by sw.seconds_in_wait desc;
+
+      1   925 4149                     [0x19][0x2],[RS][ext 0x0,0x0]  Null          Exclusive                        925
+rdbms ipc message                  3
+
+
+1 row selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- LOCAL ENQUEUES:
+Connected to: SYS @ EM01P
+SQL> -- This section will show us if there are any local enqueues. The inst_id will
+Connected to: SYS @ EM01P
+SQL> -- show us the instance that the session resides on while the sid will be a
+Connected to: SYS @ EM01P
+SQL> -- unique identifier for. The addr column will show the lock address. The type
+Connected to: SYS @ EM01P
+SQL> -- will show the lock type. The id1 and id2 columns will show specific
+Connected to: SYS @ EM01P
+SQL> -- parameters for the lock type.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 12
+Connected to: SYS @ EM01P
+SQL> column event format a12 tru
+Connected to: SYS @ EM01P
+SQL> select l.inst_id, l.sid, l.addr, l.type, l.id1, l.id2,
+  2  decode(l.block,0,'blocked',1,'blocking',2,'global') block,
+  3  sw.event, sw.seconds_in_wait sec
+  4  from gv$lock l, gv$session_wait sw
+  5  where (l.sid = sw.sid and l.inst_id = sw.inst_id)
+  6  and l.block in (0,1)
+  7  order by l.type, l.inst_id, l.sid;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- LATCH HOLDERS:
+Connected to: SYS @ EM01P
+SQL> -- If there is latch contention or 'latch free' wait events in the WAITING
+Connected to: SYS @ EM01P
+SQL> -- SESSIONS section we will need to find out which proceseses are holding
+Connected to: SYS @ EM01P
+SQL> -- latches. The inst_id will show us the instance that the session resides
+Connected to: SYS @ EM01P
+SQL> -- on while the sid will be a unique identifier for. The username column
+Connected to: SYS @ EM01P
+SQL> -- will show the session's username. The os_user column will show the os
+Connected to: SYS @ EM01P
+SQL> -- user that the user logged in as. The name column will show us the type
+Connected to: SYS @ EM01P
+SQL> -- of latch being waited on. You can search Metalink for the latch name in
+Connected to: SYS @ EM01P
+SQL> -- the search bar. Example (include single quotes):
+Connected to: SYS @ EM01P
+SQL> -- [ 'library cache' latch ]. Metalink should return some useful information
+Connected to: SYS @ EM01P
+SQL> -- on the type of latch.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> select distinct lh.inst_id, s.sid, s.username, p.username os_user, lh.name
+  2  from gv$latchholder lh, gv$session s, gv$process p
+  3  where (lh.sid = s.sid and lh.inst_id = s.inst_id)
+  4  and (s.inst_id = p.inst_id and s.paddr = p.addr)
+  5  order by lh.inst_id, s.sid;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- LATCH STATS:
+Connected to: SYS @ EM01P
+SQL> -- This view will show us latches with less than optimal hit ratios
+Connected to: SYS @ EM01P
+SQL> -- The inst_id will show us the instance for the particular latch. The
+Connected to: SYS @ EM01P
+SQL> -- latch_name column will show us the type of latch. You can search Metalink
+Connected to: SYS @ EM01P
+SQL> -- for the latch name in the search bar. Example (include single quotes):
+Connected to: SYS @ EM01P
+SQL> -- [ 'library cache' latch ]. Metalink should return some useful information
+Connected to: SYS @ EM01P
+SQL> -- on the type of latch. The hit_ratio shows the percentage of time we
+Connected to: SYS @ EM01P
+SQL> -- successfully acquired the latch.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> column latch_name format a30 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, name latch_name,
+  2  round((gets-misses)/decode(gets,0,1,gets),3) hit_ratio,
+  3  round(sleeps/decode(misses,0,1,misses),3) "SLEEPS/MISS"
+  4  from gv$latch
+  5  where round((gets-misses)/decode(gets,0,1,gets),3) < .99
+  6  and gets != 0
+  7  order by round((gets-misses)/decode(gets,0,1,gets),3);
+
+      1 NLS data objects                    .583         1.4
+      2 KJC receiver ctx free list          .667           0
+      2 name-service entry                  .857           0
+      2 rules engine aggregate statist      .923           0
+      2 rules engine rule set statisti      .941           0
+      2 gcs remastering latch               .969           0
+      1 gcs remastering latch                .98           0
+      2 kokc descriptor allocation lat       .98        .002
+      2 ASM map operation freelist          .988        .004
+      1 kokc descriptor allocation lat      .988        .001
+
+10 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- No Wait Latches:
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> select inst_id, name latch_name,
+  2  round((immediate_gets/(immediate_gets+immediate_misses)), 3) hit_ratio,
+  3  round(sleeps/decode(immediate_misses,0,1,immediate_misses),3) "SLEEPS/MISS"
+  4  from gv$latch
+  5  where round((immediate_gets/(immediate_gets+immediate_misses)), 3) < .99
+  6  and immediate_gets + immediate_misses > 0
+  7  order by round((immediate_gets/(immediate_gets+immediate_misses)), 3);
+
+      2 job workq parent latch              .954           0
+      1 job workq parent latch              .985           0
+
+2 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- GLOBAL CACHE CR PERFORMANCE
+Connected to: SYS @ EM01P
+SQL> -- This shows the average latency of a consistent block request.
+Connected to: SYS @ EM01P
+SQL> -- AVG CR BLOCK RECEIVE TIME should typically be about 15 milliseconds
+Connected to: SYS @ EM01P
+SQL> -- depending on your system configuration and volume, is the average
+Connected to: SYS @ EM01P
+SQL> -- latency of a consistent-read request round-trip from the requesting
+Connected to: SYS @ EM01P
+SQL> -- instance to the holding instance and back to the requesting instance. If
+Connected to: SYS @ EM01P
+SQL> -- your CPU has limited idle time and your system typically processes
+Connected to: SYS @ EM01P
+SQL> -- long-running queries, then the latency may be higher. However, it is
+Connected to: SYS @ EM01P
+SQL> -- possible to have an average latency of less than one millisecond with
+Connected to: SYS @ EM01P
+SQL> -- User-mode IPC. Latency can be influenced by a high value for the
+Connected to: SYS @ EM01P
+SQL> -- DB_MULTI_BLOCK_READ_COUNT parameter. This is because a requesting process
+Connected to: SYS @ EM01P
+SQL> -- can issue more than one request for a block depending on the setting of
+Connected to: SYS @ EM01P
+SQL> -- this parameter. Correspondingly, the requesting process may wait longer.
+Connected to: SYS @ EM01P
+SQL> -- Also check interconnect badwidth, OS tcp settings, and OS udp settings if
+Connected to: SYS @ EM01P
+SQL> -- AVG CR BLOCK RECEIVE TIME is high.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 20
+Connected to: SYS @ EM01P
+SQL> column "AVG CR BLOCK RECEIVE TIME (ms)" format 9999999.9
+Connected to: SYS @ EM01P
+SQL> select b1.inst_id, b2.value "GCS CR BLOCKS RECEIVED",
+  2  b1.value "GCS CR BLOCK RECEIVE TIME",
+  3  ((b1.value / b2.value) * 10) "AVG CR BLOCK RECEIVE TIME (ms)"
+  4  from gv$sysstat b1, gv$sysstat b2
+  5  where b1.name = 'global cache cr block receive time' and
+  6  b2.name = 'global cache cr blocks received' and b1.inst_id = b2.inst_id
+  7  or b1.name = 'gc cr block receive time' and
+  8  b2.name = 'gc cr blocks received' and b1.inst_id = b2.inst_id ;
+
+                   1               22275126                    599146                             .3
+                   2               27939123                    556889                             .2
+
+2 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- GLOBAL CACHE LOCK PERFORMANCE
+Connected to: SYS @ EM01P
+SQL> -- This shows the average global enqueue get time.
+Connected to: SYS @ EM01P
+SQL> -- Typically AVG GLOBAL LOCK GET TIME should be 20-30 milliseconds. the
+Connected to: SYS @ EM01P
+SQL> -- elapsed time for a get includes the allocation and initialization of a
+Connected to: SYS @ EM01P
+SQL> -- new global enqueue. If the average global enqueue get (global cache
+Connected to: SYS @ EM01P
+SQL> -- get time) or average global enqueue conversion times are excessive,
+Connected to: SYS @ EM01P
+SQL> -- then your system may be experiencing timeouts. See the 'WAITING SESSIONS',
+Connected to: SYS @ EM01P
+SQL> -- 'GES LOCK BLOCKERS', GES LOCK WAITERS', and 'TOP 10 WAIT EVENTS ON SYSTEM'
+Connected to: SYS @ EM01P
+SQL> -- sections if the AVG GLOBAL LOCK GET TIME is high.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 20
+Connected to: SYS @ EM01P
+SQL> column "AVG GLOBAL LOCK GET TIME (ms)" format 9999999.9
+Connected to: SYS @ EM01P
+SQL> select b1.inst_id, (b1.value + b2.value) "GLOBAL LOCK GETS",
+  2  b3.value "GLOBAL LOCK GET TIME",
+  3  (b3.value / (b1.value + b2.value) * 10) "AVG GLOBAL LOCK GET TIME (ms)"
+  4  from gv$sysstat b1, gv$sysstat b2, gv$sysstat b3
+  5  where b1.name = 'global lock sync gets' and
+  6  b2.name = 'global lock async gets' and b3.name = 'global lock get time'
+  7  and b1.inst_id = b2.inst_id and b2.inst_id = b3.inst_id
+  8  or b1.name = 'global enqueue gets sync' and
+  9  b2.name = 'global enqueue gets async' and b3.name = 'global enqueue get time'
+ 10  and b1.inst_id = b2.inst_id and b2.inst_id = b3.inst_id;
+
+                   1           1501453021              7819474                            .1
+                   2           7935005211             11885809                            .0
+
+2 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- RESOURCE USAGE
+Connected to: SYS @ EM01P
+SQL> -- This section will show how much of our resources we have used.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 8
+Connected to: SYS @ EM01P
+SQL> select inst_id, resource_name, current_utilization, max_utilization,
+  2  initial_allocation
+  3  from gv$resource_limit
+  4  where max_utilization > 0
+  5  order by inst_id, resource_name;
+
+       1 cmtcallbk                                       26              31       1108
+       1 enqueue_locks                                   52              78      12872
+       1 enqueue_resources                               24              84       4652
+       1 gcs_resources                               265338          269351  UNLIMITED
+       1 gcs_shadows                                 137782          143549  UNLIMITED
+       1 ges_big_msgs                                    40             564       1888
+       1 ges_cache_ress                                3681            4664          0
+       1 ges_locks                                    11485           21428      32606
+       1 ges_procs                                       75             102        651
+       1 ges_reg_msgs                                   122            1382       2030
+       1 ges_ress                                     35102           79451      21707
+       1 max_rollback_segments                           12              98       1108
+       1 max_shared_servers                               1               1  UNLIMITED
+       1 parallel_max_servers                             2               3        635
+       1 processes                                       79             107        650
+       1 sessions                                        96             127       1008
+       1 smartio_overhead_memory                          0           68632          0
+       1 smartio_sessions                                 0               1          0
+       1 sort_segment_locks                               5              20  UNLIMITED
+       1 temporary_table_locks                            0              12  UNLIMITED
+       1 transactions                                     5               5       1108
+       2 cmtcallbk                                        7              20       1108
+       2 enqueue_locks                                   54             108      12872
+       2 enqueue_resources                               25              84       4652
+       2 gcs_resources                               269426          273265  UNLIMITED
+       2 gcs_shadows                                 193371          207410  UNLIMITED
+       2 ges_big_msgs                                    25             574       1888
+       2 ges_cache_ress                                3479            4506          0
+       2 ges_locks                                    14730           23262      32606
+       2 ges_procs                                       79             126        651
+       2 ges_reg_msgs                                   112            1276       2030
+       2 ges_ress                                     30338           60240      21707
+       2 max_rollback_segments                           12              99       1108
+       2 max_shared_servers                               1               1  UNLIMITED
+       2 parallel_max_servers                             2              23        635
+       2 processes                                       83             132        650
+       2 sessions                                       101             141       1008
+       2 smartio_overhead_memory                          0           68632          0
+       2 smartio_sessions                                 0               1          0
+       2 sort_segment_locks                               5              22  UNLIMITED
+       2 temporary_table_locks                            0              12  UNLIMITED
+       2 transactions                                     1               1       1108
+
+42 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- DLM TRAFFIC INFORMATION
+Connected to: SYS @ EM01P
+SQL> -- This section shows how many tickets are available in the DLM. If the
+Connected to: SYS @ EM01P
+SQL> -- TCKT_WAIT columns says "YES" then we have run out of DLM tickets which
+Connected to: SYS @ EM01P
+SQL> -- could cause a DLM hang. Make sure that you also have enough TCKT_AVAIL.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> select * from gv$dlm_traffic_controller
+  2  order by TCKT_AVAIL;
+
+      1         0          1          2          4        738       1000         0 NO              #####          0
+        0       187     #####         #####             0  #####        14
+
+      1         0          1          1          4        745       1000         0 NO              #####          0
+        0       188     #####         #####             0  #####        13
+
+      2         1          0          2          4        750       1000        19 NO              #####          0
+        0       198     #####         #####             0  #####        14
+
+      2         1          0          0          4        750       1000        19 NO              #####          0
+        0       125     #####         81151             0  65601        12
+
+      2         1          0          1          4        750       1000        19 NO              #####          0
+        0       198     #####         #####             0  #####        13
+
+      1         0          1          0          4        750       1000         0 NO              #####          0
+        0       138     #####         78042             0  65601        12
+
+
+6 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- DLM MISC
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 10
+Connected to: SYS @ EM01P
+SQL> select * from gv$dlm_misc;
+
+         1          0 messages sent direct ##########
+         1          1 messages flow contro ##########
+         1          2 messages sent indire ##########
+         1          3 messages received lo ##########
+         1          4 flow control message ##########
+         1          5 flow control message ##########
+         1          6 gcs msgs received    ##########
+         1          7 gcs msgs process tim ##########
+         1          8 ges msgs received    ##########
+         1          9 ges msgs process tim ##########
+         1         10 msgs causing lmd to  ##########
+         1         11 lmd msg send time(ms ##########
+         1         12 gcs side channel msg ##########
+         1         13 gcs side channel msg ##########
+         1         14 gcs pings refused    ##########
+         1         15 gcs writes refused   ##########
+         1         16 gcs error msgs       ##########
+         1         17 gcs out-of-order msg ##########
+         1         18 gcs immediate (null) ##########
+         1         19 gcs immediate cr (nu ##########
+         1         20 gcs immediate (compa ##########
+         1         21 gcs immediate cr (co ##########
+         1         22 gcs blocked converts ##########
+         1         23 gcs queued converts  ##########
+         1         24 gcs blocked cr conve ##########
+         1         25 gcs compatible basts ##########
+         1         26 gcs compatible cr ba ##########
+         1         27 gcs cr basts to PIs  ##########
+         1         28 dynamically allocate ##########
+         1         29 dynamically allocate ##########
+         1         30 gcs recovery claim m ##########
+         1         31 gcs share recovery b ##########
+         1         32 gcs indirect ast     ##########
+         1         33 gcs dbwr write reque ##########
+         1         34 gcs dbwr flush pi ms ##########
+         1         35 gcs lms write reques ##########
+         1         36 gcs lms flush pi msg ##########
+         1         37 gcs write notificati ##########
+         1         38 gcs retry convert re ##########
+         1         39 gcs regular cr       ##########
+         1         40 gcs undo cr          ##########
+         1         41 gcs stale cr         ##########
+         1         42 gcs assume no cvt    ##########
+         1         43 gcs assume cvt       ##########
+         1         44 broadcast msgs on co ##########
+         1         45 broadcast msgs on co ##########
+         1         46 broadcast msgs on co ##########
+         1         47 acks for commit broa ##########
+         1         48 acks for commit broa ##########
+         1         49 gcs forward cr to pi ##########
+         1         50 gcs cr serve without ##########
+         1         51 msgs sent queued     ##########
+         1         52 msgs sent queue time ##########
+         1         53 msgs sent queued on  ##########
+         1         54 msgs sent queue time ##########
+         1         55 msgs received queue  ##########
+         1         56 msgs received queued ##########
+         1         57 implicit batch messa ##########
+         1         58 implicit batch messa ##########
+         1         59 gcs refuse xid       ##########
+         1         60 gcs ast xid          ##########
+         1         61 gcs compatible cr ba ##########
+         1         62 gcs pkey conflicts r ##########
+         1         63 gcs reader bypass gr ##########
+         1         64 gcs reader bypass gr ##########
+         1         65 gcs reader bypass gr ##########
+         1         66 gcs reader bypass N- ##########
+         1         67 gcs reader bypass N- ##########
+         1         68 gcs reader bypass gr ##########
+         1         69 gcs apply delta      ##########
+         1         70 gcs push delta       ##########
+         1         71 gcs delta push creat ##########
+         1         72 gcs delta wait cance ##########
+         1         73 gcs delta push cance ##########
+         1         74 gcs delta push abort ##########
+         1         75 gcs delta wait abort ##########
+         1         76 gcs delta push cance ##########
+         1         77 gcs delta push cance ##########
+         1         78 gcs delta push cance ##########
+         1         79 gcs delta push cance ##########
+         1         80 gcs delta push cance ##########
+         1         81 gcs delta push abort ##########
+         1         82 gcs delta msgs sent  ##########
+         1         83 gcs delta update mas ##########
+         1         84 gcs new served by ma ##########
+         1         85 gcs indirect fg ast  ##########
+         1         86 gcs indirect bidless ##########
+         1         87 messages received ac ##########
+         1         88 process batch messag ##########
+         1         89 process batch messag ##########
+         1         90 messages sent pbatch ##########
+         1         91 msgs causing lms(s)  ##########
+         1         92 lms(s) msg send time ##########
+         1         93 global posts request ##########
+         1         94 global posts dropped ##########
+         1         95 global posts queued  ##########
+         1         96 global posts sent    ##########
+         1         97 global posts queue t ##########
+         1         98 messages sent not im ##########
+         1         99 messages queue sent  ##########
+         1        100 messages queue sent  ##########
+         1        101 number of ges deadlo ##########
+         1        102 gcs force cr no curr ##########
+         1        103 gcs force cr grant   ##########
+         1        104 gcs force cr block o ##########
+         1        105 number of broadcaste ##########
+         2          0 messages sent direct ##########
+         2          1 messages flow contro ##########
+         2          2 messages sent indire ##########
+         2          3 messages received lo ##########
+         2          4 flow control message ##########
+         2          5 flow control message ##########
+         2          6 gcs msgs received    ##########
+         2          7 gcs msgs process tim ##########
+         2          8 ges msgs received    ##########
+         2          9 ges msgs process tim ##########
+         2         10 msgs causing lmd to  ##########
+         2         11 lmd msg send time(ms ##########
+         2         12 gcs side channel msg ##########
+         2         13 gcs side channel msg ##########
+         2         14 gcs pings refused    ##########
+         2         15 gcs writes refused   ##########
+         2         16 gcs error msgs       ##########
+         2         17 gcs out-of-order msg ##########
+         2         18 gcs immediate (null) ##########
+         2         19 gcs immediate cr (nu ##########
+         2         20 gcs immediate (compa ##########
+         2         21 gcs immediate cr (co ##########
+         2         22 gcs blocked converts ##########
+         2         23 gcs queued converts  ##########
+         2         24 gcs blocked cr conve ##########
+         2         25 gcs compatible basts ##########
+         2         26 gcs compatible cr ba ##########
+         2         27 gcs cr basts to PIs  ##########
+         2         28 dynamically allocate ##########
+         2         29 dynamically allocate ##########
+         2         30 gcs recovery claim m ##########
+         2         31 gcs share recovery b ##########
+         2         32 gcs indirect ast     ##########
+         2         33 gcs dbwr write reque ##########
+         2         34 gcs dbwr flush pi ms ##########
+         2         35 gcs lms write reques ##########
+         2         36 gcs lms flush pi msg ##########
+         2         37 gcs write notificati ##########
+         2         38 gcs retry convert re ##########
+         2         39 gcs regular cr       ##########
+         2         40 gcs undo cr          ##########
+         2         41 gcs stale cr         ##########
+         2         42 gcs assume no cvt    ##########
+         2         43 gcs assume cvt       ##########
+         2         44 broadcast msgs on co ##########
+         2         45 broadcast msgs on co ##########
+         2         46 broadcast msgs on co ##########
+         2         47 acks for commit broa ##########
+         2         48 acks for commit broa ##########
+         2         49 gcs forward cr to pi ##########
+         2         50 gcs cr serve without ##########
+         2         51 msgs sent queued     ##########
+         2         52 msgs sent queue time ##########
+         2         53 msgs sent queued on  ##########
+         2         54 msgs sent queue time ##########
+         2         55 msgs received queue  ##########
+         2         56 msgs received queued ##########
+         2         57 implicit batch messa ##########
+         2         58 implicit batch messa ##########
+         2         59 gcs refuse xid       ##########
+         2         60 gcs ast xid          ##########
+         2         61 gcs compatible cr ba ##########
+         2         62 gcs pkey conflicts r ##########
+         2         63 gcs reader bypass gr ##########
+         2         64 gcs reader bypass gr ##########
+         2         65 gcs reader bypass gr ##########
+         2         66 gcs reader bypass N- ##########
+         2         67 gcs reader bypass N- ##########
+         2         68 gcs reader bypass gr ##########
+         2         69 gcs apply delta      ##########
+         2         70 gcs push delta       ##########
+         2         71 gcs delta push creat ##########
+         2         72 gcs delta wait cance ##########
+         2         73 gcs delta push cance ##########
+         2         74 gcs delta push abort ##########
+         2         75 gcs delta wait abort ##########
+         2         76 gcs delta push cance ##########
+         2         77 gcs delta push cance ##########
+         2         78 gcs delta push cance ##########
+         2         79 gcs delta push cance ##########
+         2         80 gcs delta push cance ##########
+         2         81 gcs delta push abort ##########
+         2         82 gcs delta msgs sent  ##########
+         2         83 gcs delta update mas ##########
+         2         84 gcs new served by ma ##########
+         2         85 gcs indirect fg ast  ##########
+         2         86 gcs indirect bidless ##########
+         2         87 messages received ac ##########
+         2         88 process batch messag ##########
+         2         89 process batch messag ##########
+         2         90 messages sent pbatch ##########
+         2         91 msgs causing lms(s)  ##########
+         2         92 lms(s) msg send time ##########
+         2         93 global posts request ##########
+         2         94 global posts dropped ##########
+         2         95 global posts queued  ##########
+         2         96 global posts sent    ##########
+         2         97 global posts queue t ##########
+         2         98 messages sent not im ##########
+         2         99 messages queue sent  ##########
+         2        100 messages queue sent  ##########
+         2        101 number of ges deadlo ##########
+         2        102 gcs force cr no curr ##########
+         2        103 gcs force cr grant   ##########
+         2        104 gcs force cr block o ##########
+         2        105 number of broadcaste ##########
+
+212 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- LOCK CONVERSION DETAIL:
+Connected to: SYS @ EM01P
+SQL> -- This view shows the types of lock conversion being done on each instance.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> select * from gv$lock_activity;
+
+         0 NULL S Lock buffers for read          0
+         0 NULL S Lock buffers for read          0
+
+2 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- TOP 10 WRITE PINGING/FUSION OBJECTS
+Connected to: SYS @ EM01P
+SQL> -- This view shows the top 10 objects for write pings accross instances.
+Connected to: SYS @ EM01P
+SQL> -- The inst_id column shows the node that the block was pinged on. The name
+Connected to: SYS @ EM01P
+SQL> -- column shows the object name of the offending object. The file# shows the
+Connected to: SYS @ EM01P
+SQL> -- offending file number (gc_files_to_locks). The STATUS column will show the
+Connected to: SYS @ EM01P
+SQL> -- current status of the pinged block. The READ_PINGS will show us read
+Connected to: SYS @ EM01P
+SQL> -- converts and the WRITE_PINGS will show us objects with write converts.
+Connected to: SYS @ EM01P
+SQL> -- Any rows that show up are objects that are concurrently accessed across
+Connected to: SYS @ EM01P
+SQL> -- more than 1 instance.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 8
+Connected to: SYS @ EM01P
+SQL> column name format a20 tru
+Connected to: SYS @ EM01P
+SQL> column kind format a10 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, name, kind, file#, status, BLOCKS,
+  2  READ_PINGS, WRITE_PINGS
+  3  from (select p.inst_id, p.name, p.kind, p.file#, p.status,
+  4  count(p.block#) BLOCKS, sum(p.forced_reads) READ_PINGS,
+  5  sum(p.forced_writes) WRITE_PINGS
+  6  from gv$ping p, gv$datafile df
+  7  where p.file# = df.file# (+)
+  8  group by p.inst_id, p.name, p.kind, p.file#, p.status
+  9  order by sum(p.forced_writes) desc)
+ 10  where rownum < 11
+ 11  order by WRITE_PINGS desc;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- TOP 10 READ PINGING/FUSION OBJECTS
+Connected to: SYS @ EM01P
+SQL> -- This view shows the top 10 objects for read pings. The inst_id column shows
+Connected to: SYS @ EM01P
+SQL> -- the node that the block was pinged on. The name column shows the object
+Connected to: SYS @ EM01P
+SQL> -- name of the offending object. The file# shows the offending file number
+Connected to: SYS @ EM01P
+SQL> -- (gc_files_to_locks). The STATUS column will show the current status of the
+Connected to: SYS @ EM01P
+SQL> -- pinged block. The READ_PINGS will show us read converts and the WRITE_PINGS
+Connected to: SYS @ EM01P
+SQL> -- will show us objects with write converts. Any rows that show up are objects
+Connected to: SYS @ EM01P
+SQL> -- that are concurrently accessed across more than 1 instance.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 8
+Connected to: SYS @ EM01P
+SQL> column name format a20 tru
+Connected to: SYS @ EM01P
+SQL> column kind format a10 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, name, kind, file#, status, BLOCKS,
+  2  READ_PINGS, WRITE_PINGS
+  3  from (select p.inst_id, p.name, p.kind, p.file#, p.status,
+  4  count(p.block#) BLOCKS, sum(p.forced_reads) READ_PINGS,
+  5  sum(p.forced_writes) WRITE_PINGS
+  6  from gv$ping p, gv$datafile df
+  7  where p.file# = df.file# (+)
+  8  group by p.inst_id, p.name, p.kind, p.file#, p.status
+  9  order by sum(p.forced_reads) desc)
+ 10  where rownum < 11
+ 11  order by READ_PINGS desc;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- TOP 10 FALSE PINGING OBJECTS
+Connected to: SYS @ EM01P
+SQL> -- This view shows the top 10 objects for false pings. This can be avoided by
+Connected to: SYS @ EM01P
+SQL> -- better gc_files_to_locks configuration. The inst_id column shows the node
+Connected to: SYS @ EM01P
+SQL> -- that the block was pinged on. The name column shows the object name of the
+Connected to: SYS @ EM01P
+SQL> -- offending object. The file# shows the offending file number
+Connected to: SYS @ EM01P
+SQL> -- (gc_files_to_locks). The STATUS column will show the current status of the
+Connected to: SYS @ EM01P
+SQL> -- pinged block. The READ_PINGS will show us read converts and the WRITE_PINGS
+Connected to: SYS @ EM01P
+SQL> -- will show us objects with write converts. Any rows that show up are objects
+Connected to: SYS @ EM01P
+SQL> -- that are concurrently accessed across more than 1 instance.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 8
+Connected to: SYS @ EM01P
+SQL> column name format a20 tru
+Connected to: SYS @ EM01P
+SQL> column kind format a10 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, name, kind, file#, status, BLOCKS,
+  2  READ_PINGS, WRITE_PINGS
+  3  from (select p.inst_id, p.name, p.kind, p.file#, p.status,
+  4  count(p.block#) BLOCKS, sum(p.forced_reads) READ_PINGS,
+  5  sum(p.forced_writes) WRITE_PINGS
+  6  from gv$false_ping p, gv$datafile df
+  7  where p.file# = df.file# (+)
+  8  group by p.inst_id, p.name, p.kind, p.file#, p.status
+  9  order by sum(p.forced_writes) desc)
+ 10  where rownum < 11
+ 11  order by WRITE_PINGS desc;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- INITIALIZATION PARAMETERS:
+Connected to: SYS @ EM01P
+SQL> -- Non-default init parameters for each node.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column name format a30 tru
+Connected to: SYS @ EM01P
+SQL> column value format a50 wra
+Connected to: SYS @ EM01P
+SQL> column description format a60 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, name, value, description
+  2  from gv$parameter
+  3  where isdefault = 'FALSE'
+  4  order by inst_id, name;
+
+      1 audit_file_dest                /oracle/app/oracle/admin/EM01P/adump
+Directory in which auditing files are to reside
+
+      1 audit_trail                    DB
+enable system auditing
+
+      1 cluster_database               TRUE
+if TRUE startup in cluster database mode
+
+      1 compatible                     11.2.0.0.0
+Database will be completely compatible with this software ve
+
+      1 control_files                  +DG_DATA/em01p/controlfile/current.332.796923159,
+                                       +DG_FLASH/em01p/controlfile/current.342.796923159
+control file names list
+
+      1 db_block_size                  8192
+Size of database block in bytes
+
+      1 db_create_file_dest            +DG_DATA
+default database location
+
+      1 db_create_online_log_dest_1    +DG_DATA
+online log/controlfile destination #1
+
+      1 db_domain
+directory part of global database name stored with CREATE DA
+
+      1 db_name                        EM01P
+database name specified in CREATE DATABASE
+
+      1 db_recovery_file_dest          +DG_FLASH
+default database recovery file location
+
+      1 db_recovery_file_dest_size     6005194752
+database recovery files size limit
+
+      1 diagnostic_dest                /oracle/app/oracle
+diagnostic base directory
+
+      1 dispatchers                    (PROTOCOL=TCP) (SERVICE=EM01PXDB)
+specifications of dispatchers
+
+      1 instance_number                1
+instance number
+
+      1 open_cursors                   300
+max # cursors per session
+
+      1 pga_aggregate_target           2147483648
+Target size for the aggregate PGA memory consumed by the ins
+
+      1 processes                      650
+user processes
+
+      1 remote_listener                roxyclu:1521
+remote listener
+
+      1 remote_login_passwordfile      EXCLUSIVE
+password file usage parameter
+
+      1 session_cached_cursors         400
+Number of cursors to cache in a session.
+
+      1 sessions                       1008
+user and system sessions
+
+      1 sga_target                     6442450944
+Target size of SGA
+
+      1 spfile                         +DG_DATA/em01p/spfileem01p.ora
+server parameter file
+
+      1 thread                         1
+Redo thread to mount
+
+      1 undo_tablespace                UNDOTBS1
+use/switch undo tablespace
+
+      2 audit_file_dest                /oracle/app/oracle/admin/EM01P/adump
+Directory in which auditing files are to reside
+
+      2 audit_trail                    DB
+enable system auditing
+
+      2 cluster_database               TRUE
+if TRUE startup in cluster database mode
+
+      2 compatible                     11.2.0.0.0
+Database will be completely compatible with this software ve
+
+      2 control_files                  +DG_DATA/em01p/controlfile/current.332.796923159,
+                                       +DG_FLASH/em01p/controlfile/current.342.796923159
+control file names list
+
+      2 db_block_size                  8192
+Size of database block in bytes
+
+      2 db_create_file_dest            +DG_DATA
+default database location
+
+      2 db_create_online_log_dest_1    +DG_DATA
+online log/controlfile destination #1
+
+      2 db_domain
+directory part of global database name stored with CREATE DA
+
+      2 db_name                        EM01P
+database name specified in CREATE DATABASE
+
+      2 db_recovery_file_dest          +DG_FLASH
+default database recovery file location
+
+      2 db_recovery_file_dest_size     6005194752
+database recovery files size limit
+
+      2 diagnostic_dest                /oracle/app/oracle
+diagnostic base directory
+
+      2 dispatchers                    (PROTOCOL=TCP) (SERVICE=EM01PXDB)
+specifications of dispatchers
+
+      2 instance_number                2
+instance number
+
+      2 open_cursors                   300
+max # cursors per session
+
+      2 pga_aggregate_target           2147483648
+Target size for the aggregate PGA memory consumed by the ins
+
+      2 processes                      650
+user processes
+
+      2 remote_listener                roxyclu:1521
+remote listener
+
+      2 remote_login_passwordfile      EXCLUSIVE
+password file usage parameter
+
+      2 session_cached_cursors         400
+Number of cursors to cache in a session.
+
+      2 sessions                       1008
+user and system sessions
+
+      2 sga_target                     6442450944
+Target size of SGA
+
+      2 spfile                         +DG_DATA/em01p/spfileem01p.ora
+server parameter file
+
+      2 thread                         2
+Redo thread to mount
+
+      2 undo_tablespace                UNDOTBS2
+use/switch undo tablespace
+
+
+52 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- TOP 10 WAIT EVENTS ON SYSTEM
+Connected to: SYS @ EM01P
+SQL> -- This view will provide a summary of the top wait events in the db.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 10
+Connected to: SYS @ EM01P
+SQL> column event format a25 tru
+Connected to: SYS @ EM01P
+SQL> select inst_id, event, time_waited, total_waits, total_timeouts
+  2  from (select inst_id, event, time_waited, total_waits, total_timeouts
+  3  from gv$system_event where event not in ('rdbms ipc message','smon timer',
+  4  'pmon timer', 'SQL*Net message from client','lock manager wait for remote message',
+  5  'ges remote message', 'gcs remote message', 'gcs for action', 'client message',
+  6  'pipe get', 'null event', 'PX Idle Wait', 'single-task message',
+  7  'PX Deq: Execution Msg', 'KXFQ: kxfqdeq - normal deqeue',
+  8  'listen endpoint status','slave wait','wakeup time manager')
+  9  order by time_waited desc)
+ 10  where rownum < 11
+ 11  order by time_waited desc;
+
+         2 EMON slave idle wait       4594518081     9187686        9187486
+         1 EMON slave idle wait       4594014839     9186344        9186284
+         1 jobq slave wait            4578242071    91718748       90835015
+         1 wait for unread message o  3416987356    34455102       32091060
+         2 jobq slave wait            3259195658    65965261       64116756
+         2 wait for unread message o  3012534096    30875311       29828583
+         2 class slave wait           2083880342     1078910              0
+         2 DIAG idle wait             1835066073   204079637      152693780
+         1 DIAG idle wait             1834585967   212174686      155196507
+         1 class slave wait           1734720739      743279              0
+
+10 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- SESSION/PROCESS REFERENCE:
+Connected to: SYS @ EM01P
+SQL> -- This section is very important for most of the above sections to find out
+Connected to: SYS @ EM01P
+SQL> -- which user/os_user/process is identified to which session/process.
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 7
+Connected to: SYS @ EM01P
+SQL> column event format a30 tru
+Connected to: SYS @ EM01P
+SQL> column program format a25 tru
+Connected to: SYS @ EM01P
+SQL> column username format a15 tru
+Connected to: SYS @ EM01P
+SQL> select p.inst_id, s.sid, s.serial#, p.pid, p.spid, p.program, s.username,
+  2  p.username os_user, sw.event, sw.seconds_in_wait sec
+  3  from gv$process p, gv$session s, gv$session_wait sw
+  4  where (p.inst_id = s.inst_id and p.addr = s.paddr)
+  5  and (s.inst_id = sw.inst_id and s.sid = sw.sid)
+  6  order by p.inst_id, s.sid;
+
+      1       1       1      24 4164                     oracle@roxy01 (RECO)                      oracle
+rdbms ipc message                    9
+
+      1       2   14943      48 3251                     oracle@roxy01 (J001)                      oracle
+jobq slave wait                      0
+
+      1       3   38831      72 12044                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client        227
+
+      1      43       3      49 4738                     oracle@roxy01 (E000)                      oracle
+EMON slave idle wait                 2
+
+      1      44       1      25 4172                     oracle@roxy01 (RBAL)                      oracle
+rdbms ipc message                    2
+
+      1      47   15293      73 12050                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         91
+
+      1      85       1       2 3927                     oracle@roxy01 (PMON)                      oracle
+pmon timer                           2
+
+      1      86       1      26 4178                     oracle@roxy01 (ASMB)                      oracle
+ASM background timer                 4
+
+      1      87   14159      74 17816                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         32
+
+      1      89   25475      50 1425                     oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         62
+
+      1     127       1       3 3940                     oracle@roxy01 (PSP0)                      oracle
+rdbms ipc message                    1
+
+      1     128       1      27 4191                     oracle@roxy01 (MMON)                      oracle
+rdbms ipc message                    2
+
+      1     130       1      51 4746                     oracle@roxy01 (E001)                      oracle
+EMON slave idle wait                 2
+
+      1     132    2737      75 2761                     oracle@roxy01             SYS             oracle
+PX Deq: Execute Reply                0
+
+      1     169       1       4 3987                     oracle@roxy01 (VKTM)                      oracle
+VKTM Logical Idle Wait         9188272
+
+      1     170       1      28 4198                     oracle@roxy01 (MMNL)                      oracle
+rdbms ipc message                    1
+
+      1     172       1      52 4750                     oracle@roxy01 (E002)                      oracle
+EMON slave idle wait                 2
+
+      1     176   53779      76 17403                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client          4
+
+      1     211       1       5 3996                     oracle@roxy01 (GEN0)                      oracle
+rdbms ipc message                    3
+
+      1     212       1      53 4754                     oracle@roxy01 (E003)                      oracle
+EMON slave idle wait                 2
+
+      1     253       1       6 4005                     oracle@roxy01 (DIAG)                      oracle
+DIAG idle wait                       0
+
+      1     254       1      54 4758                     oracle@roxy01 (E004)                      oracle
+EMON slave idle wait                 2
+
+      1     295       1       7 4014                     oracle@roxy01 (DBRM)                      oracle
+rdbms ipc message                    2
+
+      1     296       1      31 4265                     oracle@roxy01 (MARK)                      oracle
+wait for unread message on bro       1
+
+      1     300   35315      55 10429                    oracle@roxy01             SYSMAN          oracle
+Streams AQ: waiting for messag       7
+
+      1     337       1       8 4021                     oracle@roxy01 (PING)                      oracle
+PING                                13
+
+      1     339       3      56 4783                     oracle@roxy01 (CJQ0)                      oracle
+rdbms ipc message                    1
+
+      1     341   25793      32 8804                     oracle@roxy01             SYSMAN_APM      oracle
+SQL*Net message from client          8
+
+      1     343   52921      80 10942                    oracle@roxy01             DBSNMP          oracle
+SQL*Net message from client          9
+
+      1     379       1       9 4029                     oracle@roxy01 (ACMS)                      oracle
+rdbms ipc message                    3
+
+      1     380       1      33 4284                     oracle@roxy01 (LCK0)                      oracle
+rdbms ipc message                    0
+
+      1     384    9997      57 10437                    oracle@roxy01             SYSMAN          oracle
+wait for unread message on bro       1
+
+      1     421       1      10 4038                     oracle@roxy01 (DIA0)                      oracle
+DIAG idle wait                       0
+
+      1     422       1      34 4305                     oracle@roxy01 (RSMN)                      oracle
+rdbms ipc message                    3
+
+      1     423   43267      58 10452                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client          6
+
+      1     426    8363      82 1185                     oracle@roxy01             DBSNMP          oracle
+SQL*Net message from client        258
+
+      1     463       1      11 4046                     oracle@roxy01 (LMON)                      oracle
+rdbms ipc message                    0
+
+      1     464       1      35 4319                     oracle@roxy01 (TNS V1-V3) SYS             oracle
+SQL*Net message from client    9188253
+
+      1     468   63971      59 10458                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client          5
+
+      1     505       1      12 4056                     oracle@roxy01 (LMD0)                      oracle
+ges remote message                   0
+
+      1     508   56311      36 3239                     oracle@roxy01                             oracle
+SQL*Net message from client          3
+
+      1     510   18333      84 2714                     oracle@roxy01 (GCR0)                      oracle
+class slave wait                    60
+
+      1     511   36201      60 14626                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         24
+
+      1     547       1      13 4064                     oracle@roxy01 (LMS0)                      oracle
+gcs remote message                   0
+
+      1     549       3      37 4466                     oracle@roxy01 (GTX0)                      oracle
+rdbms ipc message                    3
+
+      1     551   26061      61 18582                    oracle@roxy01 (O000)      DBSNMP          oracle
+class slave wait                     6
+
+      1     589       1      14 4074                     oracle@roxy01 (LMS1)                      oracle
+gcs remote message                   0
+
+      1     591       1      38 4470                     oracle@roxy01 (RCBG)                      oracle
+wait for unread message on bro       0
+
+      1     595   57007      62 27124                    oracle@roxy01 (W003)                      oracle
+Space Manager: slave idle wait       1
+
+      1     631       1      15 4091                     oracle@roxy01 (RMS0)                      oracle
+rdbms ipc message                    0
+
+      1     632       3      39 4478                     oracle@roxy01 (QMNC)                      oracle
+Streams AQ: qmn coordinator id      29
+
+      1     635   48031      87 19539                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client        125
+
+      1     637   47217      63 23501                    oracle@roxy01 (PZ99)      SYS             oracle
+PX Deq: Execution Msg                0
+
+      1     673       1      16 4096                     oracle@roxy01 (LMHB)                      oracle
+GCR sleep                            4
+
+      1     674       1      40 4487                     oracle@roxy01 (SMCO)                      oracle
+rdbms ipc message                    0
+
+      1     675   56469      88 25146                    oracle@roxy01             DBSNMP          oracle
+SQL*Net message from client          2
+
+      1     676   54637      64 10486                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         32
+
+      1     715       1      17 4104                     oracle@roxy01 (MMAN)                      oracle
+rdbms ipc message                    3
+
+      1     716       3      41 4517                     oracle@roxy01 (EMNC)                      oracle
+Streams AQ: emn coordinator id       8
+
+      1     757       1      18 4113                     oracle@roxy01 (DBW0)                      oracle
+rdbms ipc message                    2
+
+      1     758       1      42 4511                     oracle@roxy01 (TNS V1-V3) SYS             oracle
+SQL*Net message from client    9188253
+
+      1     759      13      66 10503                    oracle@roxy01             SYSMAN          oracle
+wait for unread message on bro       0
+
+      1     799       1      19 4119                     oracle@roxy01 (DBW1)                      oracle
+rdbms ipc message                    2
+
+      1     800   14925      67 30829                    oracle@roxy01 (Q002)                      oracle
+Streams AQ: qmn slave idle wai      29
+
+      1     841       1      20 4132                     oracle@roxy01 (DBW2)                      oracle
+rdbms ipc message                    2
+
+      1     843   58495      68 10625                    oracle@roxy01             SYSMAN          oracle
+Streams AQ: waiting for messag       6
+
+      1     847   33337      44 3247                     oracle@roxy01 (J000)                      oracle
+jobq slave wait                      0
+
+      1     883       1      21 4140                     oracle@roxy01 (LGWR)                      oracle
+rdbms ipc message                    1
+
+      1     884   30189      45 16326                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client          4
+
+      1     885   65323      93 19564                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client          7
+
+      1     887   46615      69 10633                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         28
+
+      1     925       1      22 4149                     oracle@roxy01 (CKPT)                      oracle
+rdbms ipc message                    1
+
+      1     928   31927      46 12201                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         23
+
+      1     931   61249      70 10641                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client        427
+
+      1     967       1      23 4157                     oracle@roxy01 (SMON)                      oracle
+smon timer                           9
+
+      1     968      11      47 4713                     oracle@roxy01 (Q000)                      oracle
+Streams AQ: waiting for time m 9188244
+
+      1     969   59009      71 17332                    oracle@roxy01             SYSMAN          oracle
+SQL*Net message from client         43
+
+      2       1       1      24 31116                    oracle@roxy02 (RECO)                      oracle
+rdbms ipc message                    9
+
+      2       2      11      72 32200                    oracle@roxy02 (QMNC)                      oracle
+Streams AQ: qmn coordinator id       8
+
+      2       4       1      96 32467                    oracle@roxy02 (Q001)                      oracle
+Streams AQ: waiting for time m       5
+
+      2       5   23857      48 13815                    oracle@roxy02 (W000)                      oracle
+Space Manager: slave idle wait       1
+
+      2      43       5      73 32170                    oracle@roxy02 (RCBG)                      oracle
+wait for unread message on bro       0
+
+      2      44       1      25 31124                    oracle@roxy02 (RBAL)                      oracle
+rdbms ipc message                    3
+
+      2      45       5      97 32550                    oracle@roxy02 (E002)                      oracle
+EMON slave idle wait                 5
+
+      2      47   12617      49 17025                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         87
+
+      2      85       1       2 30877                    oracle@roxy02 (PMON)                      oracle
+pmon timer                           2
+
+      2      86       1      26 31131                    oracle@roxy02 (ASMB)                      oracle
+ASM background timer                 4
+
+      2      87   12339      50 30229                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client        286
+
+      2      88       9      98 32555                    oracle@roxy02 (E003)                      oracle
+EMON slave idle wait                 5
+
+      2     127       1       3 30882                    oracle@roxy02 (PSP0)                      oracle
+rdbms ipc message                    0
+
+      2     128       1      27 31138                    oracle@roxy02 (MMON)                      oracle
+rdbms ipc message                    0
+
+      2     130       3      75 32261                    oracle@roxy02 (TNS V1-V3) SYS             oracle
+SQL*Net message from client    8313699
+
+      2     131   58767      51 20331                    oracle@roxy02             SYSMAN_MDS      oracle
+SQL*Net message from client          8
+
+      2     132       1      99 32559                    oracle@roxy02 (E004)                      oracle
+EMON slave idle wait                 5
+
+      2     169       1       4 30940                    oracle@roxy02 (VKTM)                      oracle
+VKTM Logical Idle Wait         9189293
+
+      2     170       1      28 31146                    oracle@roxy02 (MMNL)                      oracle
+rdbms ipc message                    0
+
+      2     172       7      76 32285                    oracle@roxy02 (EMNC)                      oracle
+Streams AQ: emn coordinator id       5
+
+      2     174       1     100 32563                    oracle@roxy02 (TNS V1-V3) SYS             oracle
+SQL*Net message from client          8
+
+      2     175   26443      52 5207                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client        160
+
+      2     211       1       5 30950                    oracle@roxy02 (GEN0)                      oracle
+rdbms ipc message                    0
+
+      2     213   10611      77 7557                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client          5
+
+      2     216   12883      53 2990                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client        194
+
+      2     253       1       6 30959                    oracle@roxy02 (DIAG)                      oracle
+DIAG idle wait                       0
+
+      2     254   59677      78 22459                    oracle@roxy02             SYSMAN_OPSS     oracle
+SQL*Net message from client        245
+
+      2     256   21539      54 2011                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         12
+
+      2     295       1       7 30965                    oracle@roxy02 (DBRM)                      oracle
+rdbms ipc message                    2
+
+      2     296       1      31 31192                    oracle@roxy02 (MARK)                      oracle
+wait for unread message on bro       0
+
+      2     337       1       8 30974                    oracle@roxy02 (PING)                      oracle
+PING                                13
+
+      2     338   17105      56 28468                    oracle@roxy02             SYSMAN_MDS      oracle
+SQL*Net message from client          8
+
+      2     341       5     128 479                      oracle@roxy02 (SMCO)                      oracle
+rdbms ipc message                    2
+
+      2     343   49927      32 1347                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         24
+
+      2     379       1       9 30984                    oracle@roxy02 (ACMS)                      oracle
+rdbms ipc message                    1
+
+      2     380       1      33 31220                    oracle@roxy02 (LCK0)                      oracle
+rdbms ipc message                    0
+
+      2     382       5     105 32614                    oracle@roxy02 (CJQ0)                      oracle
+rdbms ipc message                    1
+
+      2     384   32313      57 30113                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client          5
+
+      2     421       1      10 30990                    oracle@roxy02 (DIA0)                      oracle
+DIAG idle wait                       0
+
+      2     422       1      34 31234                    oracle@roxy02 (RSMN)                      oracle
+rdbms ipc message                    2
+
+      2     426   33141      58 2027                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         50
+
+      2     463       1      11 30999                    oracle@roxy02 (LMON)                      oracle
+rdbms ipc message                    0
+
+      2     464       1      35 31252                    oracle@roxy02 (TNS V1-V3) SYS             oracle
+SQL*Net message from client    9189266
+
+      2     465   37341      59 2031                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client          3
+
+      2     505       1      12 31007                    oracle@roxy02 (LMD0)                      oracle
+ges remote message                   0
+
+      2     507   30795      36 8584                     oracle@roxy02 (PZ99)      SYS             oracle
+PX Deq: Execution Msg                0
+
+      2     510   26775      60 32731                    oracle@roxy02 (O005)                      oracle
+class slave wait                    10
+
+      2     547       1      13 31016                    oracle@roxy02 (LMS0)                      oracle
+gcs remote message                   0
+
+      2     589       1      14 31030                    oracle@roxy02 (LMS1)                      oracle
+gcs remote message                   0
+
+      2     592   60117      62 3178                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         12
+
+      2     596   41927      38 23024                    oracle@roxy02 (Q004)                      oracle
+Streams AQ: qmn slave idle wai       8
+
+      2     631       1      15 31041                    oracle@roxy02 (RMS0)                      oracle
+rdbms ipc message                    2
+
+      2     634   46051      39 23089                    oracle@roxy02             SYSMAN_OPSS     oracle
+SQL*Net message from client         76
+
+      2     635   19649      63 20335                    oracle@roxy02             SYSMAN_MDS      oracle
+SQL*Net message from client          8
+
+      2     673       1      16 31052                    oracle@roxy02 (LMHB)                      oracle
+GCR sleep                            4
+
+      2     677   15643      40 26792                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         11
+
+      2     715       1      17 31061                    oracle@roxy02 (MMAN)                      oracle
+rdbms ipc message                    1
+
+      2     717   63413      41 19027                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client        256
+
+      2     719   26729      65 31362                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client        102
+
+      2     757       1      18 31067                    oracle@roxy02 (DBW0)                      oracle
+rdbms ipc message                    2
+
+      2     758   30177      42 6595                     oracle@roxy02             DBSNMP          oracle
+SQL*Net message from client         11
+
+      2     799       1      19 31075                    oracle@roxy02 (DBW1)                      oracle
+rdbms ipc message                    3
+
+      2     800      11      91 32542                    oracle@roxy02 (E000)                      oracle
+EMON slave idle wait                 5
+
+      2     804   15157      67 10113                    oracle@roxy02             DBSNMP          oracle
+SQL*Net message from client          8
+
+      2     805   49337      43 23379                    oracle@roxy02 (J000)                      oracle
+jobq slave wait                      0
+
+      2     841       1      20 31084                    oracle@roxy02 (DBW2)                      oracle
+rdbms ipc message                    3
+
+      2     842       7      92 32546                    oracle@roxy02 (E001)                      oracle
+EMON slave idle wait                 5
+
+      2     843   12655      68 1351                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         23
+
+      2     845   35411      44 23383                    oracle@roxy02 (J001)                      oracle
+jobq slave wait                      0
+
+      2     883       1      21 31094                    oracle@roxy02 (LGWR)                      oracle
+rdbms ipc message                    0
+
+      2     884   14749      69 19807                    oracle@roxy02 (Q000)                      oracle
+class slave wait                    26
+
+      2     886   12365      45 1940                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         36
+
+      2     925       1      22 31100                    oracle@roxy02 (CKPT)                      oracle
+rdbms ipc message                    3
+
+      2     927     235      46 1949                     oracle@roxy02             SYSMAN          oracle
+wait for unread message on bro       0
+
+      2     930    2845      70 4682                     oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client         20
+
+      2     967       1      23 31107                    oracle@roxy02 (SMON)                      oracle
+smon timer                           9
+
+      2     968      23      71 32158                    oracle@roxy02 (GTX0)                      oracle
+rdbms ipc message                    2
+
+      2     971   25713      47 19427                    oracle@roxy02             SYSMAN          oracle
+SQL*Net message from client          1
+
+
+155 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- SYSTEM STATISTICS:
+Connected to: SYS @ EM01P
+SQL> -- All System Stats with values of > 0. These can be referenced in the
+Connected to: SYS @ EM01P
+SQL> -- Server Reference Manual
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column name format a60 tru
+Connected to: SYS @ EM01P
+SQL> column value format 9999999999999999999999999
+Connected to: SYS @ EM01P
+SQL> select inst_id, name, value
+  2  from gv$sysstat
+  3  where value > 0
+  4  order by inst_id, name;
+
+      1 Batched IO (bound) vector count                                                   11906
+      1 Batched IO (full) vector count                                                       61
+      1 Batched IO (space) vector count                                                      19
+      1 Batched IO block miss count                                                      111467
+      1 Batched IO buffer defrag count                                                      270
+      1 Batched IO double miss count                                                      20701
+      1 Batched IO same unit count                                                        40760
+      1 Batched IO single block count                                                     24146
+      1 Batched IO slow jump count                                                           54
+      1 Batched IO vector block count                                                     36108
+      1 Batched IO vector read count                                                       6291
+      1 Block Cleanout Optim referenced                                                 1692516
+      1 CCursor + sql area evicted                                                       168658
+      1 CPU used by this session                                                       24972781
+      1 CPU used when call started                                                     17184872
+      1 CR blocks created                                                              12093461
+      1 Cached Commit SCN referenced                                                    4486001
+      1 Commit SCN cached                                                                433025
+      1 DB time                                                                      7798536402
+      1 DBWR checkpoint buffers written                                                49758917
+      1 DBWR checkpoints                                                                  25490
+      1 DBWR fusion writes                                                              7517197
+      1 DBWR object drop buffers written                                                    275
+      1 DBWR tablespace checkpoint buffers written                                        53474
+      1 DBWR transaction table writes                                                    456329
+      1 DBWR undo block writes                                                         27630696
+      1 DFO trees parallelized                                                           316418
+      1 Effective IO time                                                            2844614339
+      1 HSC Heap Segment Block Changes                                                707798452
+      1 Heap Segment Array Inserts                                                      4615681
+      1 Heap Segment Array Updates                                                       181509
+      1 LOB table id lookup cache misses                                                    632
+      1 Misses for writing mapping                                                            3
+      1 Number of read IOs issued                                                        305363
+      1 PX local messages recv'd                                                        1219969
+      1 PX local messages sent                                                          1219969
+      1 PX remote messages recv'd                                                        759785
+      1 PX remote messages sent                                                          782415
+      1 Parallel operations not downgraded                                               316418
+      1 Requests to/from client                                                        73181123
+      1 RowCR - row contention                                                            41576
+      1 RowCR attempts                                                                 31299003
+      1 RowCR hits                                                                     42215658
+      1 SMON posted for undo segment shrink                                               17280
+      1 SQL*Net roundtrips to/from client                                              73203888
+      1 TBS Extension: bytes extended                                                4613734400
+      1 TBS Extension: files extended                                                       137
+      1 TBS Extension: tasks created                                                       4127
+      1 TBS Extension: tasks executed                                                      4127
+      1 active txn count during cleanout                                               35829446
+      1 application wait time                                                            283747
+      1 background checkpoints completed                                                    516
+      1 background checkpoints started                                                      516
+      1 background timeouts                                                           157149246
+      1 branch node splits                                                                72361
+      1 buffer is not pinned count                                                   3523268497
+      1 buffer is pinned count                                                       6323802160
+      1 bytes received via SQL*Net from client                                      16073593855
+      1 bytes sent via SQL*Net to client                                            10882394697
+      1 calls to get snapshot scn: kcmgss                                             558477888
+      1 calls to kcmgas                                                               185072955
+      1 calls to kcmgcs                                                                74455758
+      1 cell physical IO interconnect bytes                                       1729169036800
+      1 change write time                                                                829891
+      1 cleanout - number of ktugct calls                                              37895471
+      1 cleanouts and rollbacks - consistent read gets                                  6524136
+      1 cleanouts only - consistent read gets                                           1115911
+      1 cluster key scan block gets                                                    44708577
+      1 cluster key scans                                                              32446482
+      1 cluster wait time                                                               1281339
+      1 commit batch performed                                                               29
+      1 commit batch requested                                                               29
+      1 commit batch/immediate performed                                                 109546
+      1 commit batch/immediate requested                                                 109546
+      1 commit cleanout failures: block lost                                             363248
+      1 commit cleanout failures: buffer being written                                      169
+      1 commit cleanout failures: callback failure                                      4265847
+      1 commit cleanout failures: cannot pin                                              24156
+      1 commit cleanouts                                                              151432697
+      1 commit cleanouts successfully completed                                       146779277
+      1 commit immediate performed                                                       109517
+      1 commit immediate requested                                                       109517
+      1 commit txn count during cleanout                                               11321022
+      1 concurrency wait time                                                           6301335
+      1 consistent changes                                                             33005857
+      1 consistent gets                                                              4557387958
+      1 consistent gets - examination                                                 946015258
+      1 consistent gets direct                                                         19050463
+      1 consistent gets from cache                                                   4538337495
+      1 consistent gets from cache (fastpath)                                        3240678585
+      1 cursor authentications                                                           747636
+      1 data blocks consistent reads - undo records applied                            28405739
+      1 db block changes                                                             2453813315
+      1 db block gets                                                                2316223786
+      1 db block gets direct                                                             638792
+      1 db block gets from cache                                                     2315584994
+      1 db block gets from cache (fastpath)                                           393916003
+      1 deferred (CURRENT) block cleanout applications                                 53842324
+      1 dirty buffers inspected                                                           72232
+      1 enqueue conversions                                                            92978156
+      1 enqueue releases                                                             3511815098
+      1 enqueue requests                                                             3514891219
+      1 enqueue timeouts                                                                3076069
+      1 enqueue waits                                                                   6212036
+      1 exchange deadlocks                                                                13462
+      1 execute count                                                                 709375610
+      1 failed probes on index block reclamation                                          15254
+      1 file io service time                                                               2366
+      1 file io wait time                                                           16139314321
+      1 free buffer inspected                                                          32822286
+      1 free buffer requested                                                         105857254
+      1 gc blocks compressed                                                           40054476
+      1 gc cr block flush time                                                           110463
+      1 gc cr block receive time                                                         599146
+      1 gc cr blocks received                                                          22275129
+      1 gc cr blocks served                                                            27939124
+      1 gc current block flush time                                                       17489
+      1 gc current block pin time                                                         43783
+      1 gc current block receive time                                                    582405
+      1 gc current blocks received                                                     30528276
+      1 gc current blocks served                                                       29534246
+      1 gc kbytes saved                                                               147827409
+      1 gc kbytes sent                                                                311959549
+      1 gc local grants                                                                20296885
+      1 gc read wait time                                                                    49
+      1 gc read wait timeouts                                                                 7
+      1 gc read waits                                                                       659
+      1 gc remote grants                                                                7883116
+      1 gcs messages sent                                                             173062471
+      1 ges messages sent                                                             141983605
+      1 global enqueue get time                                                         7819475
+      1 global enqueue gets async                                                      27319021
+      1 global enqueue gets sync                                                     1474134421
+      1 global enqueue releases                                                      1415774035
+      1 heap block compress                                                             5290840
+      1 hot buffers moved to head of LRU                                                3901034
+      1 immediate (CR) block cleanout applications                                      7641353
+      1 immediate (CURRENT) block cleanout applications                                44290401
+      1 in call idle wait time                                                      48726208716
+      1 index crx upgrade (positioned)                                                 64653492
+      1 index crx upgrade (prefetch)                                                        450
+      1 index fast full scans (direct read)                                               14663
+      1 index fast full scans (full)                                                     416780
+      1 index fetch by key                                                           1046489560
+      1 index scans kdiixs1                                                           565440058
+      1 leaf node 90-10 splits                                                           743030
+      1 leaf node splits                                                                5354688
+      1 lob reads                                                                       1675954
+      1 lob writes                                                                      3323169
+      1 lob writes unaligned                                                            3323123
+      1 logical read bytes from cache                                            56147240124416
+      1 logons cumulative                                                               3211404
+      1 logons current                                                                       77
+      1 max cf enq hold time                                                               7720
+      1 messages received                                                              69802955
+      1 messages sent                                                                  69802953
+      1 min active SCN optimization applied on CR                                        172568
+      1 no buffer to keep pinned count                                                     3937
+      1 no work - consistent read gets                                               3262425080
+      1 non-idle wait count                                                          1131237680
+      1 non-idle wait time                                                             25967604
+      1 opened cursors cumulative                                                     678697974
+      1 opened cursors current                                                              305
+      1 parse count (describe)                                                             3253
+      1 parse count (failures)                                                            62862
+      1 parse count (hard)                                                              1485750
+      1 parse count (total)                                                            44292973
+      1 parse time cpu                                                                  1058631
+      1 parse time elapsed                                                              1123805
+      1 physical read IO requests                                                        594468
+      1 physical read bytes                                                        179796770816
+      1 physical read total IO requests                                                27593120
+      1 physical read total bytes                                                  622089720320
+      1 physical read total multi block requests                                         229908
+      1 physical reads                                                                 21947848
+      1 physical reads cache                                                             850655
+      1 physical reads cache prefetch                                                    663036
+      1 physical reads direct                                                          21097193
+      1 physical reads direct (lob)                                                        6464
+      1 physical reads direct temporary tablespace                                      1542225
+      1 physical reads prefetch warmup                                                    20369
+      1 physical write IO requests                                                     22053927
+      1 physical write bytes                                                       483485753344
+      1 physical write total IO requests                                               67082017
+      1 physical write total bytes                                                1107079316480
+      1 physical write total multi block requests                                       1915181
+      1 physical writes                                                                59019257
+      1 physical writes direct                                                          2185016
+      1 physical writes direct (lob)                                                       1400
+      1 physical writes direct temporary tablespace                                     2172512
+      1 physical writes from cache                                                     56834241
+      1 physical writes non checkpoint                                                 36521963
+      1 pinned buffers inspected                                                           8453
+      1 pinned cursors current                                                              199
+      1 prefetch clients - default                                                           86
+      1 prefetch warmup blocks aged out before use                                          858
+      1 prefetch warmup blocks flushed out before use                                       322
+      1 prefetched blocks aged out before use                                             57271
+      1 process last non-idle time                                                   1360156981
+      1 queries parallelized                                                             316361
+      1 recursive aborts on index block reclamation                                        2335
+      1 recursive calls                                                              1465591267
+      1 recursive cpu usage                                                            12268261
+      1 redo blocks checksummed by FG (exclusive)                                     204068229
+      1 redo blocks written                                                           963111350
+      1 redo buffer allocation retries                                                      249
+      1 redo entries                                                                 1277919784
+      1 redo log space requests                                                             300
+      1 redo log space wait time                                                            641
+      1 redo ordering marks                                                            27021011
+      1 redo size                                                                  468618502012
+      1 redo size for direct writes                                                      169240
+      1 redo subscn max counts                                                         12021269
+      1 redo synch long waits                                                             63235
+      1 redo synch time                                                                 2200221
+      1 redo synch time (usec)                                                      22132981801
+      1 redo synch writes                                                              27775782
+      1 redo wastage                                                                 8350623536
+      1 redo write broadcast ack count                                                   248313
+      1 redo write broadcast ack time                                                  24416439
+      1 redo write broadcast lgwr post count                                                 48
+      1 redo write time                                                                 2620414
+      1 redo writes                                                                    37143379
+      1 remote Oradebug requests                                                            558
+      1 rollback changes - undo records applied                                         1975620
+      1 rollbacks only - consistent read gets                                           2755607
+      1 root node splits                                                                    130
+      1 rows fetched via callback                                                     239789939
+      1 scheduler wait time                                                                   6
+      1 session connect time                                                         1353535098
+      1 session cursor cache count                                                     17269353
+      1 session cursor cache hits                                                     125856832
+      1 session logical reads                                                        6873611744
+      1 session pga memory                                                         219207861136
+      1 session pga memory max                                                     310779610000
+      1 session uga memory                                                      214298868553512
+      1 session uga memory max                                                    1330666220264
+      1 shared hash latch upgrades - no wait                                          288407046
+      1 shared hash latch upgrades - wait                                                125368
+      1 sorts (memory)                                                                149605705
+      1 sorts (rows)                                                                 5160659438
+      1 sql area evicted                                                                 278726
+      1 sql area purged                                                                   94165
+      1 summed dirty queue length                                                        139575
+      1 switch current to new buffer                                                    4415124
+      1 table fetch by rowid                                                         4201000693
+      1 table fetch continued row                                                       1931528
+      1 table scan blocks gotten                                                      457091444
+      1 table scan rows gotten                                                      16892517079
+      1 table scans (direct read)                                                         45627
+      1 table scans (long tables)                                                         46492
+      1 table scans (short tables)                                                     12152383
+      1 temp space allocated (bytes)                                                 1429209088
+      1 total cf enq hold time                                                           826590
+      1 total number of cf enq holders                                                   207555
+      1 total number of times SMON posted                                                 40874
+      1 transaction lock background gets                                                    195
+      1 transaction lock foreground requests                                                195
+      1 transaction lock foreground wait time                                                 7
+      1 transaction rollbacks                                                            108873
+      1 transaction tables consistent read rollbacks                                         39
+      1 transaction tables consistent reads - undo records applied                          325
+      1 undo change vector size                                                    179439194668
+      1 user I/O wait time                                                               438991
+      1 user calls                                                                     96098465
+      1 user commits                                                                   31513863
+      1 user rollbacks                                                                  3209740
+      1 workarea executions - onepass                                                      8456
+      1 workarea executions - optimal                                                  22725493
+      1 write clones created in background                                                   83
+      1 write clones created in foreground                                                  526
+      2 Batched IO (bound) vector count                                                  360469
+      2 Batched IO (full) vector count                                                      115
+      2 Batched IO (space) vector count                                                      14
+      2 Batched IO block miss count                                                     1459127
+      2 Batched IO buffer defrag count                                                     4276
+      2 Batched IO double miss count                                                      45804
+      2 Batched IO same unit count                                                       875700
+      2 Batched IO single block count                                                    290144
+      2 Batched IO slow jump count                                                          124
+      2 Batched IO vector block count                                                    285521
+      2 Batched IO vector read count                                                     103618
+      2 Block Cleanout Optim referenced                                                 2040222
+      2 CCursor + sql area evicted                                                       108574
+      2 CPU used by this session                                                       55787311
+      2 CPU used when call started                                                     16311051
+      2 CR blocks created                                                               8236207
+      2 Cached Commit SCN referenced                                                     209264
+      2 Commit SCN cached                                                                574160
+      2 DB time                                                                      5175698765
+      2 DBWR checkpoint buffers written                                                82252074
+      2 DBWR checkpoints                                                                  29629
+      2 DBWR fusion writes                                                              7353928
+      2 DBWR object drop buffers written                                                    685
+      2 DBWR tablespace checkpoint buffers written                                        79455
+      2 DBWR transaction table writes                                                    484210
+      2 DBWR undo block writes                                                         44764275
+      2 DFO trees parallelized                                                            62849
+      2 Effective IO time                                                              35027462
+      2 HSC Heap Segment Block Changes                                                862084701
+      2 Heap Segment Array Inserts                                                       435944
+      2 Heap Segment Array Updates                                                      1046697
+      2 LOB table id lookup cache misses                                                    725
+      2 Misses for writing mapping                                                            2
+      2 Number of read IOs issued                                                         12206
+      2 PX local messages recv'd                                                         200952
+      2 PX local messages sent                                                           200952
+      2 PX remote messages recv'd                                                        782415
+      2 PX remote messages sent                                                          759808
+      2 Parallel operations not downgraded                                                62849
+      2 Requests to/from client                                                        86843804
+      2 RowCR - row contention                                                            53453
+      2 RowCR attempts                                                                 21411114
+      2 RowCR hits                                                                     24061592
+      2 SMON posted for undo segment shrink                                               21520
+      2 SQL*Net roundtrips to/from client                                              86866067
+      2 TBS Extension: bytes extended                                                6312427520
+      2 TBS Extension: files extended                                                       183
+      2 TBS Extension: tasks created                                                       4193
+      2 TBS Extension: tasks executed                                                      4174
+      2 active txn count during cleanout                                               24506975
+      2 application wait time                                                            190581
+      2 auto extends on undo tablespace                                                      17
+      2 background checkpoints completed                                                    765
+      2 background checkpoints started                                                      765
+      2 background timeouts                                                           158534582
+      2 branch node splits                                                                77624
+      2 buffer is not pinned count                                                   4300260399
+      2 buffer is pinned count                                                       6942572030
+      2 bytes received via SQL*Net from client                                      24252025147
+      2 bytes sent via SQL*Net to client                                            14315674323
+      2 calls to get snapshot scn: kcmgss                                             799557579
+      2 calls to kcmgas                                                               217203810
+      2 calls to kcmgcs                                                               147513857
+      2 cell physical IO interconnect bytes                                       2312637310976
+      2 change write time                                                                942028
+      2 cleanout - number of ktugct calls                                              27160384
+      2 cleanouts and rollbacks - consistent read gets                                  6322907
+      2 cleanouts only - consistent read gets                                           1209943
+      2 cluster key scan block gets                                                    48797197
+      2 cluster key scans                                                              46035986
+      2 cluster wait time                                                               1252789
+      2 commit batch performed                                                               22
+      2 commit batch requested                                                               22
+      2 commit batch/immediate performed                                                  98277
+      2 commit batch/immediate requested                                                  98277
+      2 commit cleanout failures: block lost                                             493398
+      2 commit cleanout failures: buffer being written                                      232
+      2 commit cleanout failures: callback failure                                      4723184
+      2 commit cleanout failures: cannot pin                                              46477
+      2 commit cleanouts                                                              188505443
+      2 commit cleanouts successfully completed                                       183242152
+      2 commit immediate performed                                                        98255
+      2 commit immediate requested                                                        98255
+      2 commit txn count during cleanout                                               13722097
+      2 concurrency wait time                                                           5918871
+      2 consistent changes                                                             27492171
+      2 consistent gets                                                              9355870740
+      2 consistent gets - examination                                                1406052417
+      2 consistent gets direct                                                           195238
+      2 consistent gets from cache                                                   9355675502
+      2 consistent gets from cache (fastpath)                                        7477156414
+      2 cursor authentications                                                          1062212
+      2 data blocks consistent reads - undo records applied                            23991331
+      2 db block changes                                                             3899400706
+      2 db block gets                                                                4693515774
+      2 db block gets direct                                                              31687
+      2 db block gets from cache                                                     4693484087
+      2 db block gets from cache (fastpath)                                           954845736
+      2 deferred (CURRENT) block cleanout applications                                 66174156
+      2 dirty buffers inspected                                                           87761
+      2 enqueue conversions                                                            93890679
+      2 enqueue releases                                                             3601031586
+      2 enqueue requests                                                             3601035376
+      2 enqueue timeouts                                                                   3736
+      2 enqueue waits                                                                   2896856
+      2 exchange deadlocks                                                                15133
+      2 execute count                                                                 947580432
+      2 failed probes on index block reclamation                                          14014
+      2 file io service time                                                                  5
+      2 file io wait time                                                           21350580535
+      2 free buffer inspected                                                          39154676
+      2 free buffer requested                                                         126832396
+      2 gc blocks compressed                                                           35758021
+      2 gc cr block flush time                                                           181372
+      2 gc cr block receive time                                                         556889
+      2 gc cr blocks received                                                          27939124
+      2 gc cr blocks served                                                            22275129
+      2 gc current block flush time                                                       15616
+      2 gc current block pin time                                                         37744
+      2 gc current block receive time                                                    508025
+      2 gc current blocks received                                                     29534246
+      2 gc current blocks served                                                       30528276
+      2 gc kbytes saved                                                               136348769
+      2 gc kbytes sent                                                                286078470
+      2 gc local grants                                                                35288374
+      2 gc read wait time                                                                   139
+      2 gc read wait timeouts                                                                 9
+      2 gc read waits                                                                      3378
+      2 gc remote grants                                                                9191756
+      2 gcs messages sent                                                             179781732
+      2 ges messages sent                                                             140725247
+      2 global enqueue get time                                                        11885810
+      2 global enqueue gets async                                                      27041126
+      2 global enqueue gets sync                                                     7907964194
+      2 global enqueue releases                                                      7862168712
+      2 global undo segment hints helped                                                     57
+      2 global undo segment hints were stale                                                  3
+      2 heap block compress                                                             6709520
+      2 hot buffers moved to head of LRU                                                5591685
+      2 immediate (CR) block cleanout applications                                      7535204
+      2 immediate (CURRENT) block cleanout applications                                48755577
+      2 in call idle wait time                                                      47367903574
+      2 index crx upgrade (positioned)                                                 23776525
+      2 index crx upgrade (prefetch)                                                       1035
+      2 index fast full scans (direct read)                                                   4
+      2 index fast full scans (full)                                                    1793809
+      2 index fetch by key                                                           1390582182
+      2 index scans kdiixs1                                                           607182698
+      2 leaf node 90-10 splits                                                           744138
+      2 leaf node splits                                                                5768773
+      2 lob reads                                                                       2172628
+      2 lob writes                                                                      3487983
+      2 lob writes unaligned                                                            3487924
+      2 logical read bytes from cache                                           115090607374336
+      2 logons cumulative                                                               2854584
+      2 logons current                                                                       78
+      2 max cf enq hold time                                                             106330
+      2 messages received                                                              86948782
+      2 messages sent                                                                  86948780
+      2 min active SCN optimization applied on CR                                        302300
+      2 no buffer to keep pinned count                                                      894
+      2 no work - consistent read gets                                               7526885491
+      2 non-idle wait count                                                          1190269593
+      2 non-idle wait time                                                             27203684
+      2 opened cursors cumulative                                                     920642940
+      2 opened cursors current                                                              282
+      2 parse count (describe)                                                             3842
+      2 parse count (failures)                                                             4471
+      2 parse count (hard)                                                              1357269
+      2 parse count (total)                                                           127408132
+      2 parse time cpu                                                                  2546157
+      2 parse time elapsed                                                              2661021
+      2 physical read IO requests                                                        169136
+      2 physical read bytes                                                          3294724096
+      2 physical read total IO requests                                                42492194
+      2 physical read total bytes                                                  698056308224
+      2 physical read total multi block requests                                           1920
+      2 physical reads                                                                   402188
+      2 physical reads cache                                                             202892
+      2 physical reads cache prefetch                                                     53272
+      2 physical reads direct                                                            199295
+      2 physical reads direct (lob)                                                        8890
+      2 physical reads direct temporary tablespace                                           25
+      2 physical reads prefetch warmup                                                    27953
+      2 physical write IO requests                                                     28121844
+      2 physical write bytes                                                       736059211776
+      2 physical write total IO requests                                               83356743
+      2 physical write total bytes                                                1614581002752
+      2 physical write total multi block requests                                       3389431
+      2 physical writes                                                                89850978
+      2 physical writes direct                                                            35724
+      2 physical writes direct (lob)                                                       2020
+      2 physical writes direct temporary tablespace                                       17252
+      2 physical writes from cache                                                     89815254
+      2 physical writes non checkpoint                                                 50830439
+      2 pinned buffers inspected                                                          14585
+      2 pinned cursors current                                                              173
+      2 prefetch clients - default                                                          161
+      2 prefetch warmup blocks aged out before use                                         1354
+      2 prefetch warmup blocks flushed out before use                                       189
+      2 prefetched blocks aged out before use                                              5185
+      2 process last non-idle time                                                   1360156981
+      2 queries parallelized                                                              62849
+      2 recovery blocks read                                                               6044
+      2 recursive aborts on index block reclamation                                        2353
+      2 recursive calls                                                              2174574537
+      2 recursive cpu usage                                                            42672130
+      2 redo KB read                                                                     106045
+      2 redo blocks checksummed by FG (exclusive)                                     192212952
+      2 redo blocks read for recovery                                                    211188
+      2 redo blocks written                                                          1427309980
+      2 redo buffer allocation retries                                                      499
+      2 redo entries                                                                 2012622969
+      2 redo k-bytes read for recovery                                                   105594
+      2 redo log space requests                                                             478
+      2 redo log space wait time                                                            765
+      2 redo ordering marks                                                            43975859
+      2 redo size                                                                  696025117692
+      2 redo size for direct writes                                                      253544
+      2 redo subscn max counts                                                         21241308
+      2 redo synch long waits                                                             81136
+      2 redo synch time                                                                 2320262
+      2 redo synch time (usec)                                                      23453763638
+      2 redo synch writes                                                              31303300
+      2 redo wastage                                                                10972361144
+      2 redo write broadcast ack count                                                   433185
+      2 redo write broadcast ack time                                                  33599657
+      2 redo write broadcast lgwr post count                                                 83
+      2 redo write time                                                                 3034303
+      2 redo writes                                                                    46159694
+      2 remote Oradebug requests                                                            623
+      2 rollback changes - undo records applied                                         2331769
+      2 rollbacks only - consistent read gets                                           1349172
+      2 root node splits                                                                    152
+      2 rows fetched via callback                                                     494546611
+      2 scheduler wait time                                                                   9
+      2 session connect time                                                         1353535149
+      2 session cursor cache count                                                    103211320
+      2 session cursor cache hits                                                     240372723
+      2 session logical reads                                                       14049386514
+      2 session pga memory                                                        5478379150400
+      2 session pga memory max                                                   11804538625088
+      2 session uga memory                                                     6532306329682080
+      2 session uga memory max                                                    4361106543592
+      2 shared hash latch upgrades - no wait                                          285085279
+      2 shared hash latch upgrades - wait                                                121528
+      2 sorts (memory)                                                                176097315
+      2 sorts (rows)                                                                  465764330
+      2 sql area evicted                                                                 176379
+      2 sql area purged                                                                   18024
+      2 summed dirty queue length                                                        229790
+      2 switch current to new buffer                                                    9251752
+      2 table fetch by rowid                                                         5085054689
+      2 table fetch continued row                                                        986031
+      2 table scan blocks gotten                                                     1735187817
+      2 table scan rows gotten                                                      53539498677
+      2 table scans (direct read)                                                           383
+      2 table scans (long tables)                                                          2491
+      2 table scans (short tables)                                                     59833376
+      2 temp space allocated (bytes)                                                  489684992
+      2 total cf enq hold time                                                          1412950
+      2 total number of cf enq holders                                                   353453
+      2 total number of times SMON posted                                                 42781
+      2 transaction lock background gets                                                    205
+      2 transaction lock foreground requests                                                205
+      2 transaction lock foreground wait time                                                 4
+      2 transaction rollbacks                                                             96293
+      2 transaction tables consistent read rollbacks                                         85
+      2 transaction tables consistent reads - undo records applied                         3026
+      2 undo change vector size                                                    314676647164
+      2 user I/O wait time                                                               227965
+      2 user calls                                                                    112955667
+      2 user commits                                                                   36283285
+      2 user rollbacks                                                                  1657899
+      2 workarea executions - optimal                                                  34025759
+      2 write clones created in background                                                  265
+      2 write clones created in foreground                                                  709
+
+548 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- CURRENT SQL FOR WAITING SESSIONS:
+Connected to: SYS @ EM01P
+SQL> -- Current SQL for any session in the WAITING SESSIONS list
+Connected to: SYS @ EM01P
+SQL> --
+Connected to: SYS @ EM01P
+SQL> set numwidth 5
+Connected to: SYS @ EM01P
+SQL> column sql format a80 wra
+Connected to: SYS @ EM01P
+SQL> select sw.inst_id, sw.sid, sw.seconds_in_wait sec, sa.sql_text sql
+  2  from gv$session_wait sw, gv$session s, gv$sqlarea sa
+  3  where sw.sid = s.sid (+)
+  4  and sw.inst_id = s.inst_id (+)
+  5  and s.sql_address = sa.address
+  6  and sw.event not in ('rdbms ipc message','smon timer','pmon timer',
+  7  'SQL*Net message from client','lock manager wait for remote message',
+  8  'ges remote message', 'gcs remote message', 'gcs for action', 'client message',
+  9  'pipe get', 'null event', 'PX Idle Wait', 'single-task message',
+ 10  'PX Deq: Execution Msg', 'KXFQ: kxfqdeq - normal deqeue',
+ 11  'listen endpoint status','slave wait','wakeup time manager')
+ 12  and sw.seconds_in_wait > 0
+ 13  order by sw.seconds_in_wait desc;
+
+      1   843     8 BEGIN EM_ADMINMSG_BUS.DEQUEUE(:1 , :2 ); END;
+      1   300     8 BEGIN EM_ADMINMSG_BUS.DEQUEUE(:1 , :2 ); END;
+      2   927     1 begin em_cntr_queue.listen(:1 , :2 , :3 ); end;
+      1   759     1 begin em_event_bus.listen(:1 , :2 , :3 ); end;
+
+4 rows selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- WAIT CHAINS
+Connected to: SYS @ EM01P
+SQL> -- 11.x+ Only (This will not work in < v11
+Connected to: SYS @ EM01P
+SQL> -- See Note 1428210.1 for instructions on interpreting.
+Connected to: SYS @ EM01P
+SQL> set pages 1000
+Connected to: SYS @ EM01P
+SQL> set lines 120
+Connected to: SYS @ EM01P
+SQL> set heading off
+Connected to: SYS @ EM01P
+SQL> column w_proc format a50 tru
+Connected to: SYS @ EM01P
+SQL> column instance format a20 tru
+Connected to: SYS @ EM01P
+SQL> column inst format a28 tru
+Connected to: SYS @ EM01P
+SQL> column wait_event format a50 tru
+Connected to: SYS @ EM01P
+SQL> column p1 format a16 tru
+Connected to: SYS @ EM01P
+SQL> column p2 format a16 tru
+Connected to: SYS @ EM01P
+SQL> column p3 format a15 tru
+Connected to: SYS @ EM01P
+SQL> column seconds format a50 tru
+Connected to: SYS @ EM01P
+SQL> column sincelw format a50 tru
+Connected to: SYS @ EM01P
+SQL> column blocker_proc format a50 tru
+Connected to: SYS @ EM01P
+SQL> column waiters format a50 tru
+Connected to: SYS @ EM01P
+SQL> column chain_signature format a100 wra
+Connected to: SYS @ EM01P
+SQL> column blocker_chain format a100 wra
+Connected to: SYS @ EM01P
+SQL> SELECT *
+  2  FROM (SELECT 'Current Process: '||osid W_PROC, 'SID '||i.instance_name INSTANCE,
+  3  'INST #: '||instance INST,'Blocking Process: '||decode(blocker_osid,null,'<none>',blocker_osid)||
+  4  ' from Instance '||blocker_instance BLOCKER_PROC,'Number of waiters: '||num_waiters waiters,
+  5  'Wait Event: ' ||wait_event_text wait_event, 'P1: '||p1 p1, 'P2: '||p2 p2, 'P3: '||p3 p3,
+  6  'Seconds in Wait: '||in_wait_secs Seconds, 'Seconds Since Last Wait: '||time_since_last_wait_secs sincelw,
+  7  'Wait Chain: '||chain_id ||': '||chain_signature chain_signature,'Blocking Wait Chain: '||decode(blocker_chain_id,null,
+  8  '<none>',blocker_chain_id) blocker_chain
+  9  FROM v$wait_chains wc,
+ 10  v$instance i
+ 11  WHERE wc.instance = i.instance_number (+)
+ 12  AND ( num_waiters > 0
+ 13  OR ( blocker_osid IS NOT NULL
+ 14  AND in_wait_secs > 10 ) )
+ 15  ORDER BY chain_id,
+ 16  num_waiters DESC)
+ 17  WHERE ROWNUM < 101;
+
+no rows selected
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> -- Taking Hang Analyze dumps
+Connected to: SYS @ EM01P
+SQL> -- This may take a little while...
+Connected to: SYS @ EM01P
+SQL> oradebug setmypid
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> oradebug unlimit
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> oradebug -g all hanganalyze 3
+Hang Analysis in /oracle/app/oracle/diag/rdbms/em01p/EM01P1/trace/EM01P1_diag_4005.trc
+Connected to: SYS @ EM01P
+SQL> -- This part may take the longest, you can monitor bdump or udump to see
+Connected to: SYS @ EM01P
+SQL> -- if the file is being generated.
+Connected to: SYS @ EM01P
+SQL> oradebug -g all dump systemstate 258
+Statement processed.
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> set echo off
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> select to_char(sysdate) time from dual;
+
+FEB-06-2013 14:23:13
+
+1 row selected.
+
+Connected to: SYS @ EM01P
+SQL> 
+Connected to: SYS @ EM01P
+SQL> spool off

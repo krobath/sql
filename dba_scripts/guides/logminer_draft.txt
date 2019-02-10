@@ -1,0 +1,292 @@
+
+
+
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231370.arc', Options=>dbms_logmnr.NEW);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231371.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231372.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231373.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231374.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231375.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231376.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231377.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231378.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231379.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231380.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231381.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231382.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231383.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231384.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231385.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231386.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231387.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231388.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231389.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231390.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231391.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231392.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231393.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231394.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231395.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231396.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231397.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231398.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231399.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231400.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231401.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231402.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231403.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231404.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231405.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231406.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231407.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231408.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231409.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231410.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231411.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231412.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231413.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231414.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231415.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231416.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231417.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231418.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231419.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231420.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231421.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231422.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231423.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231424.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231425.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231426.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231427.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231428.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231429.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231430.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231431.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231432.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231433.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231434.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231435.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231436.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231437.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231438.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231439.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231440.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231441.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231442.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231443.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231444.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231445.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231446.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231447.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231448.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231449.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231450.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231451.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231452.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231453.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231454.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231455.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231456.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231457.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231458.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231459.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231460.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231461.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231462.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231463.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231464.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231465.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231466.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231467.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231468.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231469.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231470.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231471.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231472.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231473.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231474.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231475.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231476.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231477.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231478.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231479.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231480.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231481.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231482.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231483.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231484.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231485.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231486.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231487.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231488.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231489.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231490.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231491.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231492.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231493.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231494.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231495.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231496.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231497.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231498.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231499.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231500.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231501.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231502.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231503.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231504.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231505.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231506.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231507.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231508.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231509.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231510.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231511.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231512.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231513.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231514.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231515.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231516.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231517.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231518.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231519.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231520.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231521.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231522.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231523.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231524.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231525.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231526.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231527.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231528.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231529.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231530.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231531.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231532.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231533.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231534.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231535.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231536.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231537.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231538.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231539.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231540.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231541.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231542.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231543.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231544.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231545.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231546.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231547.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231548.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231549.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231550.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231551.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231552.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231553.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231554.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231555.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231556.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231557.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231558.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231559.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231560.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231561.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231562.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231563.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231564.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231565.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231566.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231567.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231568.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231569.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231570.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231571.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231572.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231573.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231574.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231575.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231576.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231577.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231578.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231579.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231580.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231581.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231582.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231583.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231584.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231585.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231586.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231587.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231588.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231589.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231590.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231591.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231592.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231593.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231594.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231595.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231596.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231597.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231598.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231599.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231600.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231601.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231602.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231603.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231604.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231605.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231606.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231607.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231608.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231609.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231610.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231611.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231612.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231613.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231614.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231615.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231616.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231617.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231618.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231619.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231620.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231621.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231622.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231623.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231624.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231625.arc', Options=>dbms_logmnr.ADDFILE);
+execute dbms_logmnr.add_logfile(LogFileName=>'/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000231626.arc', Options=>dbms_logmnr.ADDFILE);
+
+@add_log_files_to_logmnr.sql
+
+execute DBMS_LOGMNR.START_LOGMNR(dictfilename => '/u01/app/oracle/admin/marcu1d/utl_file_dir/cocop_dictionary.ora');
+
+CREATE TABLE lgmnr_content AS
+SELECT *
+       FROM V$LOGMNR_CONTENTS
+       WHERE (SEG_OWNER = 'SENTRY' AND SEG_NAME IN ('SWIFTMESSAGES','BOOKINGENTRIES',') 
+	   AND OPERATION IN ('DELETE','UPDATE','INSERT'))
+	   OR sql_redo LIKE '%COLT34480050%'
+	   OR sql_undo LIKE '%COLT34480050%';
+
+exit
+
+
+COLUMN username   FORMAT A8
+COLUMN operation  FORMAT A9
+COLUMN sql_redo   FORMAT A25 WORD_WRAPPED
+COLUMN sql_undo   FORMAT A25 WORD_WRAPPED
+COLUMN timestamp  FORMAT A20
+
+
+SELECT 
+    username
+  , operation
+  , sql_redo
+  , sql_undo
+  , TO_CHAR(timestamp, 'DD-MON-YYYY HH24:MI:SS') timestamp
+  , scn
+FROM
+    lgmnr_1;

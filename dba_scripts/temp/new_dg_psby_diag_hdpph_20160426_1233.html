@@ -1,0 +1,4896 @@
+
+Session altered.<br>
+<br>
+
+
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+TIME
+</th>
+</tr>
+<tr>
+<td>
+26-APR-2016 12:33:34
+</td>
+</tr>
+</table>
+<p>
+
+1 row selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> 
+<br>
+SQL> -- The following select will give us the generic information about how this standby is setup.
+<br>
+SQL> -- The DATABASE_ROLE should be STANDBY as that is what this script is intended to be run on.
+<br>
+SQL> -- PLATFORM_ID should match the PLATFORM_ID of the primary or conform to the supported options in
+<br>
+SQL> -- Note: 413484.1 Data Guard Support for Heterogeneous Primary and Physical Standbys in Same Data Guard Configuration.
+<br>
+SQL> -- FLASHBACK can be YES (recommended) or NO.
+<br>
+SQL> -- If PROTECTION_LEVEL is different from PROTECTION_MODE then for some reason the mode listed in PROTECTION_MODE experienced a need to downgrade.
+<br>
+SQL> -- Once the error condition has been corrected the PROTECTION_LEVEL should match the PROTECTION_MODE after the next log switch.
+<br>
+SQL> 
+<br>
+SQL> SELECT database_role role, name, db_unique_name, platform_id, open_mode, log_mode, flashback_on, protection_mode, protection_level FROM v$database;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+ROLE
+</th>
+<th scope="col">
+NAME
+</th>
+<th scope="col">
+DB_UNIQUE_NAME
+</th>
+<th scope="col">
+PLATFORM_ID
+</th>
+<th scope="col">
+OPEN_MODE
+</th>
+<th scope="col">
+LOG_MODE
+</th>
+<th scope="col">
+FLASHBACK_ON
+</th>
+<th scope="col">
+PROTECTION_MODE
+</th>
+<th scope="col">
+PROTECTION_LEVEL
+</th>
+</tr>
+<tr>
+<td>
+PHYSICAL STANDBY
+</td>
+<td>
+HDPP
+</td>
+<td>
+hdpph
+</td>
+<td align="right">
+              13
+</td>
+<td>
+READ ONLY WITH APPLY
+</td>
+<td>
+ARCHIVELOG
+</td>
+<td>
+NO
+</td>
+<td>
+MAXIMUM PERFORMANCE
+</td>
+<td>
+MAXIMUM PERFORMANCE
+</td>
+</tr>
+</table>
+<p>
+
+1 row selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- FORCE_LOGGING is not mandatory but is recommended.
+<br>
+SQL> -- REMOTE_ARCHIVE should be ENABLE.
+<br>
+SQL> -- SUPPLEMENTAL_LOG_DATA_PK and SUPPLEMENTAL_LOG_DATA_UI must be enabled if this standby is associated with a primary that has a logical standby.
+<br>
+SQL> -- During normal operations it is acceptable for SWITCHOVER_STATUS to be NOT ALLOWED.
+<br>
+SQL> -- DATAGUARD_BROKER can be ENABLED (recommended) or DISABLED.
+<br>
+SQL> 
+<br>
+SQL> column force_logging format a13 tru
+<br>
+SQL> column supplemental_log_data_pk format a24 tru
+<br>
+SQL> column supplemental_log_data_ui format a24 tru
+<br>
+SQL> 
+<br>
+SQL> SELECT force_logging, remote_archive, supplemental_log_data_pk, supplemental_log_data_ui, switchover_status, dataguard_broker  FROM v$database;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+FORCE_LOGGING
+</th>
+<th scope="col">
+REMOTE_A
+</th>
+<th scope="col">
+SUPPLEMENTAL_LOG_DATA_PK
+</th>
+<th scope="col">
+SUPPLEMENTAL_LOG_DATA_UI
+</th>
+<th scope="col">
+SWITCHOVER_STATUS
+</th>
+<th scope="col">
+DATAGUAR
+</th>
+</tr>
+<tr>
+<td>
+YES
+</td>
+<td>
+ENABLED
+</td>
+<td>
+NO
+</td>
+<td>
+NO
+</td>
+<td>
+NOT ALLOWED
+</td>
+<td>
+ENABLED
+</td>
+</tr>
+</table>
+<p>
+
+1 row selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- Check how many threads are enabled and started for this database. If the number of instances below does not match then not all instances are up.
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, instance, status FROM v$thread;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+INSTANCE
+</th>
+<th scope="col">
+STATUS
+</th>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td>
+hdppc1
+</td>
+<td>
+CLOSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+hdpph2
+</td>
+<td>
+OPEN
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+hdpph3
+</td>
+<td>
+CLOSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td>
+hdppc4
+</td>
+<td>
+CLOSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td>
+hdppc5
+</td>
+<td>
+CLOSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td>
+hdppc6
+</td>
+<td>
+CLOSED
+</td>
+</tr>
+</table>
+<p>
+
+6 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- The number of instances returned below is the number currently running.  If it does not match the number returned in Threads above then not all instances are up.
+<br>
+SQL> -- VERSION should match the version from the primary database.
+<br>
+SQL> -- ARCHIVER can be (STOPPED | STARTED | FAILED). FAILED means that the archiver failed to archive a log last time, but will try again within 5 minutes.
+<br>
+SQL> -- LOG_SWITCH_WAIT the ARCHIVE LOG/CLEAR LOG/CHECKPOINT event log switching is waiting for.
+<br>
+SQL> -- Note that if ALTER SYSTEM SWITCH LOGFILE is hung, but there is room in the current online redo log, then the value is NULL.
+<br>
+SQL> 
+<br>
+SQL> column host_name format a32 wrap
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, instance_name, host_name, version, archiver, log_switch_wait FROM gv$instance ORDER BY thread#;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+INSTANCE_NAME
+</th>
+<th scope="col">
+HOST_NAME
+</th>
+<th scope="col">
+VERSION
+</th>
+<th scope="col">
+ARCHIVE
+</th>
+<th scope="col">
+LOG_SWITCH_WAIT
+</th>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+hdpph2
+</td>
+<td>
+dm11dbadm02.oneadr.net
+</td>
+<td>
+11.2.0.4.0
+</td>
+<td>
+STARTED
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+hdpph3
+</td>
+<td>
+dm11dbadm03.oneadr.net
+</td>
+<td>
+11.2.0.4.0
+</td>
+<td>
+STARTED
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+<p>
+
+2 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- Check the number and size of online redo logs on each thread.
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, group#, sequence#, bytes, archived ,status FROM v$log ORDER BY thread#, group#;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+GROUP#
+</th>
+<th scope="col">
+SEQUENCE#
+</th>
+<th scope="col">
+BYTES
+</th>
+<th scope="col">
+ARC
+</th>
+<th scope="col">
+STATUS
+</th>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+               1
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+               2
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              13
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              14
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               3
+</td>
+<td align="right">
+           26675
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               4
+</td>
+<td align="right">
+           26676
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CURRENT
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              15
+</td>
+<td align="right">
+           26673
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              16
+</td>
+<td align="right">
+           26674
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               5
+</td>
+<td align="right">
+            1478
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               6
+</td>
+<td align="right">
+            1479
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CURRENT
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              17
+</td>
+<td align="right">
+            1476
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              18
+</td>
+<td align="right">
+            1477
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+CLEARING
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+               7
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+               8
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              19
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              20
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+               9
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              10
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              21
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              22
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              11
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              12
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              23
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              24
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNUSED
+</td>
+</tr>
+</table>
+<p>
+
+24 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- The following query is run to see if standby redo logs have been created.
+<br>
+SQL> -- The standby redo logs should be the same size as the online redo logs.
+<br>
+SQL> -- There should be (( # of online logs per thread + 1) * # of threads) standby redo logs.
+<br>
+SQL> -- A value of 0 for the thread# means the log has never been allocated.
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, group#, sequence#, bytes, archived, status FROM v$standby_log order by thread#, group#;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+GROUP#
+</th>
+<th scope="col">
+SEQUENCE#
+</th>
+<th scope="col">
+BYTES
+</th>
+<th scope="col">
+ARC
+</th>
+<th scope="col">
+STATUS
+</th>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              30
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              36
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              42
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              48
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               1
+</td>
+<td align="right">
+              54
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              25
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+NO
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              31
+</td>
+<td align="right">
+           26676
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+ACTIVE
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              37
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              43
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              49
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              26
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+NO
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              32
+</td>
+<td align="right">
+            1479
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+ACTIVE
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              38
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              44
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              50
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              27
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              33
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              39
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              45
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               4
+</td>
+<td align="right">
+              51
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              28
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              34
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              40
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              46
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               5
+</td>
+<td align="right">
+              52
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              29
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              35
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              41
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              47
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+<tr>
+<td align="right">
+               6
+</td>
+<td align="right">
+              53
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+      4294967296
+</td>
+<td>
+YES
+</td>
+<td>
+UNASSIGNED
+</td>
+</tr>
+</table>
+<p>
+
+30 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- This query produces a list of defined archive destinations.
+<br>
+SQL> -- It shows if they are enabled, what process is servicing that destination, if the destination is local or remote, and if remote what the current mount ID is.
+<br>
+SQL> -- For a physical standby we should have at least one remote destination that points the primary set.
+<br>
+SQL> 
+<br>
+SQL> column destination format a35 wrap
+<br>
+SQL> column process format a7
+<br>
+SQL> column ID format 99
+<br>
+SQL> column mid format 99
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, dest_id, destination, gvad.status, target, schedule, process, mountid mid FROM gv$archive_dest gvad, gv$instance gvi WHERE gvad.inst_id = gvi.inst_id AND destination is NOT NULL ORDER BY thread#, dest_id;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+DEST_ID
+</th>
+<th scope="col">
+DESTINATION
+</th>
+<th scope="col">
+STATUS
+</th>
+<th scope="col">
+TARGET
+</th>
+<th scope="col">
+SCHEDULE
+</th>
+<th scope="col">
+PROCESS
+</th>
+<th scope="col">
+MID
+</th>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               1
+</td>
+<td>
+USE_DB_RECOVERY_FILE_DEST
+</td>
+<td>
+VALID
+</td>
+<td>
+LOCAL
+</td>
+<td>
+ACTIVE
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               2
+</td>
+<td>
+hdppc
+</td>
+<td>
+VALID
+</td>
+<td>
+REMOTE
+</td>
+<td>
+PENDING
+</td>
+<td>
+LGWR
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              32
+</td>
+<td>
+USE_DB_RECOVERY_FILE_DEST
+</td>
+<td>
+VALID
+</td>
+<td>
+LOCAL
+</td>
+<td>
+ACTIVE
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               1
+</td>
+<td>
+USE_DB_RECOVERY_FILE_DEST
+</td>
+<td>
+VALID
+</td>
+<td>
+LOCAL
+</td>
+<td>
+ACTIVE
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               2
+</td>
+<td>
+hdppc
+</td>
+<td>
+VALID
+</td>
+<td>
+REMOTE
+</td>
+<td>
+PENDING
+</td>
+<td>
+LGWR
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              32
+</td>
+<td>
+USE_DB_RECOVERY_FILE_DEST
+</td>
+<td>
+VALID
+</td>
+<td>
+LOCAL
+</td>
+<td>
+ACTIVE
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+  0
+</td>
+</tr>
+</table>
+<p>
+
+6 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- If the protection mode of the standby is set to anything higher than max performance then we need to make sure the remote destination that points to the primary is set with the correct options else we will have issues during switchover.
+<br>
+SQL> 
+<br>
+SQL> set numwidth 8
+<br>
+SQL> column archiver format a8
+<br>
+SQL> column ID format 99
+<br>
+SQL> column error format a55 wrap
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, dest_id, gvad.archiver, transmit_mode, affirm, async_blocks, net_timeout, delay_mins, reopen_secs reopen, register, binding FROM gv$archive_dest gvad, gv$instance gvi WHERE gvad.inst_id = gvi.inst_id AND destination is NOT NULL ORDER BY thread#, dest_id;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+DEST_ID
+</th>
+<th scope="col">
+ARCHIVER
+</th>
+<th scope="col">
+TRANSMIT_MOD
+</th>
+<th scope="col">
+AFF
+</th>
+<th scope="col">
+ASYNC_BLOCKS
+</th>
+<th scope="col">
+NET_TIMEOUT
+</th>
+<th scope="col">
+DELAY_MINS
+</th>
+<th scope="col">
+REOPEN
+</th>
+<th scope="col">
+REG
+</th>
+<th scope="col">
+BINDING
+</th>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               1
+</td>
+<td>
+ARCH
+</td>
+<td>
+SYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               2
+</td>
+<td>
+LGWR
+</td>
+<td>
+ASYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+           61440
+</td>
+<td align="right">
+              30
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              32
+</td>
+<td>
+ARCH
+</td>
+<td>
+SYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               1
+</td>
+<td>
+ARCH
+</td>
+<td>
+SYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               2
+</td>
+<td>
+LGWR
+</td>
+<td>
+ASYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+           61440
+</td>
+<td align="right">
+              30
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              32
+</td>
+<td>
+ARCH
+</td>
+<td>
+SYNCHRONOUS
+</td>
+<td>
+NO
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+             300
+</td>
+<td>
+YES
+</td>
+<td>
+OPTIONAL
+</td>
+</tr>
+</table>
+<p>
+
+6 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- The following select will show any errors that occured the last time an attempt to archive to the destination was attempted.
+<br>
+SQL> -- If ERROR is blank and status is VALID then the archive completed correctly.
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, dest_id, gvad.status, error FROM gv$archive_dest gvad, gv$instance gvi WHERE gvad.inst_id = gvi.inst_id AND destination is NOT NULL ORDER BY thread#, dest_id;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+DEST_ID
+</th>
+<th scope="col">
+STATUS
+</th>
+<th scope="col">
+ERROR
+</th>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               1
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+               2
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+              32
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               1
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+               2
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+              32
+</td>
+<td>
+VALID
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+<p>
+
+6 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- The query below will determine if any error conditions have been reached by querying the v$dataguard_status view (view only available in 9.2.0 and above).
+<br>
+SQL> 
+<br>
+SQL> column message format a80
+<br>
+SQL> 
+<br>
+SQL> SELECT timestamp, gvi.thread#, message FROM gv$dataguard_status gvds, gv$instance gvi WHERE gvds.inst_id = gvi.inst_id AND severity in ('Error','Fatal') ORDER BY timestamp, thread#;
+<br>
+
+no rows selected
+
+<br>
+SQL> 
+<br>
+SQL> -- Query gv$managed_standby to see the status of processes involved in the shipping redo on this system.
+<br>
+SQL> -- Does not include processes needed to apply redo.
+<br>
+SQL> 
+<br>
+SQL> SELECT thread#, process, pid, status, client_process, client_pid, sequence#, block#, active_agents, known_agents FROM gv$managed_standby ORDER BY thread#, process;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+PROCESS
+</th>
+<th scope="col">
+PID
+</th>
+<th scope="col">
+STATUS
+</th>
+<th scope="col">
+CLIENT_P
+</th>
+<th scope="col">
+CLIENT_PID
+</th>
+<th scope="col">
+SEQUENCE#
+</th>
+<th scope="col">
+BLOCK#
+</th>
+<th scope="col">
+ACTIVE_AGENTS
+</th>
+<th scope="col">
+KNOWN_AGENTS
+</th>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+          117681
+</td>
+<td>
+CONNECTED
+</td>
+<td>
+ARCH
+</td>
+<td>
+117681
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+           97810
+</td>
+<td>
+CONNECTED
+</td>
+<td>
+ARCH
+</td>
+<td>
+97810
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+           41946
+</td>
+<td>
+IDLE
+</td>
+<td>
+UNKNOWN
+</td>
+<td>
+68569
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+           70003
+</td>
+<td>
+IDLE
+</td>
+<td>
+ARCH
+</td>
+<td>
+68571
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+           35545
+</td>
+<td>
+IDLE
+</td>
+<td>
+UNKNOWN
+</td>
+<td>
+92903
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+           33712
+</td>
+<td>
+IDLE
+</td>
+<td>
+UNKNOWN
+</td>
+<td>
+68575
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               0
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+          125512
+</td>
+<td>
+IDLE
+</td>
+<td>
+ARCH
+</td>
+<td>
+92907
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+          117706
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+117706
+</td>
+<td align="right">
+           26674
+</td>
+<td align="right">
+           12288
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+          117659
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+117659
+</td>
+<td align="right">
+           26673
+</td>
+<td align="right">
+            6144
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+          117620
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+117620
+</td>
+<td align="right">
+           26675
+</td>
+<td align="right">
+           16384
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+            7028
+</td>
+<td>
+IDLE
+</td>
+<td>
+LGWR
+</td>
+<td>
+68583
+</td>
+<td align="right">
+           26676
+</td>
+<td align="right">
+            3130
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+           97816
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+97816
+</td>
+<td align="right">
+             901
+</td>
+<td align="right">
+            6144
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+           97812
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+97812
+</td>
+<td align="right">
+            1478
+</td>
+<td align="right">
+               1
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+ARCH
+</td>
+<td align="right">
+           97806
+</td>
+<td>
+CLOSING
+</td>
+<td>
+ARCH
+</td>
+<td>
+97806
+</td>
+<td align="right">
+            1021
+</td>
+<td align="right">
+            4096
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+MRP0
+</td>
+<td align="right">
+           33738
+</td>
+<td>
+APPLYING_LOG
+</td>
+<td>
+N/A
+</td>
+<td>
+N/A
+</td>
+<td align="right">
+            1479
+</td>
+<td align="right">
+             425
+</td>
+<td align="right">
+               5
+</td>
+<td align="right">
+               5
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td>
+RFS
+</td>
+<td align="right">
+          125473
+</td>
+<td>
+IDLE
+</td>
+<td>
+LGWR
+</td>
+<td>
+92915
+</td>
+<td align="right">
+            1479
+</td>
+<td align="right">
+             429
+</td>
+<td align="right">
+               0
+</td>
+<td align="right">
+               0
+</td>
+</tr>
+</table>
+<p>
+
+16 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- Verify the last sequence# received and the last sequence# applied to standby database.
+<br>
+SQL> 
+<br>
+SQL> SELECT al.thrd "Thread", almax "Last Seq Received", lhmax "Last Seq Applied" FROM (select thread# thrd, MAX(sequence#) almax FROM v$archived_log WHERE resetlogs_change#=(SELECT resetlogs_change# FROM v$database) GROUP BY thread#) al, (SELECT thread# thrd, MAX(sequence#) lhmax FROM v$log_history WHERE resetlogs_change#=(SELECT resetlogs_change# FROM v$database) GROUP BY thread#) lh WHERE al.thrd = lh.thrd;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+Thread
+</th>
+<th scope="col">
+Last Seq Received
+</th>
+<th scope="col">
+Last Seq Applied
+</th>
+</tr>
+<tr>
+<td align="right">
+               2
+</td>
+<td align="right">
+           26675
+</td>
+<td align="right">
+           26675
+</td>
+</tr>
+<tr>
+<td align="right">
+               3
+</td>
+<td align="right">
+            1478
+</td>
+<td align="right">
+            1478
+</td>
+</tr>
+</table>
+<p>
+
+2 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- Check the transport lag and apply lag from the V$DATAGUARD_STATS view.	This is only relevant when LGWR log transport and real time apply are in use.
+<br>
+SQL> 
+<br>
+SQL> SELECT * FROM v$dataguard_stats WHERE name LIKE '%lag%';
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+NAME
+</th>
+<th scope="col">
+VALUE
+</th>
+<th scope="col">
+UNIT
+</th>
+<th scope="col">
+TIME_COMPUTED
+</th>
+<th scope="col">
+DATUM_TIME
+</th>
+</tr>
+<tr>
+<td>
+transport lag
+</td>
+<td>
++00 00:00:00
+</td>
+<td>
+day(2) to second(0) interval
+</td>
+<td>
+04/26/2016 12:33:35
+</td>
+<td>
+04/26/2016 12:33:34
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td>
++00 00:00:00
+</td>
+<td>
+day(2) to second(0) interval
+</td>
+<td>
+04/26/2016 12:33:35
+</td>
+<td>
+04/26/2016 12:33:34
+</td>
+</tr>
+</table>
+<p>
+
+2 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- Check how often and how far the apply lags.
+<br>
+SQL> 
+<br>
+SQL> SELECT name, time, unit, count, TO_DATE(last_time_updated, 'MM/DD/YYYY HH24:MI:SS') FROM v$standby_event_histogram ORDER BY unit DESC, time;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+NAME
+</th>
+<th scope="col">
+TIME
+</th>
+<th scope="col">
+UNIT
+</th>
+<th scope="col">
+COUNT
+</th>
+<th scope="col">
+TO_DATE(LAST_TIME_UP
+</th>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               0
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+          456271
+</td>
+<td>
+26-APR-2016 12:33:34
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               1
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+           56392
+</td>
+<td>
+26-APR-2016 12:33:27
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               2
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+            7958
+</td>
+<td>
+26-APR-2016 12:33:33
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               3
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+             875
+</td>
+<td>
+26-APR-2016 12:25:03
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               4
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+             126
+</td>
+<td>
+26-APR-2016 12:20:03
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               5
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              53
+</td>
+<td>
+26-APR-2016 12:18:36
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               6
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              52
+</td>
+<td>
+26-APR-2016 12:20:04
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               7
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              31
+</td>
+<td>
+26-APR-2016 12:18:38
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               8
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              23
+</td>
+<td>
+26-APR-2016 12:18:39
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+               9
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              15
+</td>
+<td>
+26-APR-2016 12:18:41
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              10
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              14
+</td>
+<td>
+25-APR-2016 14:54:01
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              11
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+              11
+</td>
+<td>
+25-APR-2016 12:57:19
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              12
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               9
+</td>
+<td>
+25-APR-2016 12:57:21
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              13
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               7
+</td>
+<td>
+25-APR-2016 14:54:03
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              14
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               9
+</td>
+<td>
+25-APR-2016 14:54:05
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              15
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               3
+</td>
+<td>
+21-APR-2016 11:57:52
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              16
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               5
+</td>
+<td>
+21-APR-2016 11:13:35
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              17
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+21-APR-2016 11:13:26
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              18
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              19
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+21-APR-2016 11:13:27
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              20
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               2
+</td>
+<td>
+21-APR-2016 11:13:32
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              21
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+21-APR-2016 11:13:29
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              22
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+21-APR-2016 11:13:30
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              23
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+21-APR-2016 11:13:31
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              24
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              25
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              26
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              27
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              28
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              29
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              30
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               0
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              31
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:25
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              32
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:27
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              33
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               2
+</td>
+<td>
+21-APR-2016 11:13:33
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              34
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:29
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              35
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               2
+</td>
+<td>
+21-APR-2016 11:13:34
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              36
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:31
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              37
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:32
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              38
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:33
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              39
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:34
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              40
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:35
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              41
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:36
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              42
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:37
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              43
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:38
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              44
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:39
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              45
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:40
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              46
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:41
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              47
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:42
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              48
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:43
+</td>
+</tr>
+<tr>
+<td>
+apply lag
+</td>
+<td align="right">
+              49
+</td>
+<td>
+seconds
+</td>
+<td align="right">
+               1
+</td>
+<td>
+20-APR-2016 11:58:44
+</td>
+</tr>
+</table>
+<p>
+
+50 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> -- The V$ARCHIVE_GAP fixed view on a physical standby database only returns the next gap that is currently blocking redo apply from continuing.
+<br>
+SQL> -- After resolving the identified gap and starting redo apply, query the V$ARCHIVE_GAP fixed view again on the physical standby database to determine the next gap sequence, if there is one.
+<br>
+SQL> 
+<br>
+SQL> SELECT * FROM v$archive_gap;
+<br>
+
+no rows selected
+
+<br>
+SQL> 
+<br>
+SQL> -- Non-default init parameters.
+<br>
+SQL> -- For a RAC DB Thread# = * means the value is the same for all threads (SID=*)
+<br>
+SQL> -- Threads with different values are shown with their individual thread# and values.
+<br>
+SQL> 
+<br>
+SQL> column num noprint
+<br>
+SQL> 
+<br>
+SQL> SELECT num, '*' "THREAD#", name, value FROM v$PARAMETER WHERE NUM IN (SELECT num FROM v$parameter WHERE (isdefault = 'FALSE' OR ismodified <> 'FALSE') AND name NOT LIKE 'nls%'
+<br>
+  2  MINUS
+<br>
+  3  SELECT num FROM gv$parameter gvp, gv$instance gvi WHERE num IN (SELECT DISTINCT gvpa.num FROM gv$parameter gvpa, gv$parameter gvpb WHERE gvpa.num = gvpb.num AND  gvpa.value <> gvpb.value AND (gvpa.isdefault = 'FALSE' OR gvpa.ismodified <> 'FALSE') AND gvpa.name NOT LIKE 'nls%') AND gvi.inst_id = gvp.inst_id  AND (gvp.isdefault = 'FALSE' OR gvp.ismodified <> 'FALSE') AND gvp.name NOT LIKE 'nls%')
+<br>
+  4  UNION
+<br>
+  5  SELECT num, TO_CHAR(thread#) "THREAD#", name, value FROM gv$parameter gvp, gv$instance gvi WHERE num IN (SELECT DISTINCT gvpa.num FROM gv$parameter gvpa, gv$parameter gvpb WHERE gvpa.num = gvpb.num AND gvpa.value <> gvpb.value AND (gvpa.isdefault = 'FALSE' OR gvpa.ismodified <> 'FALSE') AND gvp.name NOT LIKE 'nls%') AND gvi.inst_id = gvp.inst_id  AND (gvp.isdefault = 'FALSE' OR gvp.ismodified <> 'FALSE') AND gvp.name NOT LIKE 'nls%' ORDER BY 1, 2;
+<br>
+<p>
+<table border='1' width='90%' align='center' summary='Script output'>
+<tr>
+<th scope="col">
+THREAD#
+</th>
+<th scope="col">
+NAME
+</th>
+<th scope="col">
+VALUE
+</th>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+processes
+</td>
+<td>
+500
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+cpu_count
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_enable_NUMA_support
+</td>
+<td>
+FALSE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+use_large_pages
+</td>
+<td>
+ONLY
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+shared_pool_size
+</td>
+<td>
+33554432
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+large_pool_size
+</td>
+<td>
+134217728
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+java_pool_size
+</td>
+<td>
+33554432
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+spfile
+</td>
+<td>
++DATAC1/hdpph/spfilehdpph.ora
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+filesystemio_options
+</td>
+<td>
+setall
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_file_size_increase_increment
+</td>
+<td>
+2143289344
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+resource_manager_plan
+</td>
+<td>
+default_plan
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+cluster_interconnects
+</td>
+<td>
+192.168.10.23:192.168.10.24
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+cluster_interconnects
+</td>
+<td>
+192.168.10.25:192.168.10.26
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+sga_target
+</td>
+<td>
+10737418240
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+control_files
+</td>
+<td>
++DATAC1/hdpph/control01.ctl, +RECOC1/hdpph/control02.ctl, +DATAC1/hdpph/control03.ctl
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_file_name_convert
+</td>
+<td>
++DATAC1/HCPPC/, +DATAC1/HDPPH/, +RECOC1/HDPPC/, +RECOC1/HDPPH/
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_file_name_convert
+</td>
+<td>
++DATAC1/HDPPC/, +DATAC1/HDPPH/, +RECOC1/HDPPC/, +RECOC1/HDPPH/
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+control_file_record_keep_time
+</td>
+<td>
+35
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_block_checksum
+</td>
+<td>
+typical
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_block_size
+</td>
+<td>
+8192
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+compatible
+</td>
+<td>
+11.2.0.4.0
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_dest_1
+</td>
+<td>
+location=USE_DB_RECOVERY_FILE_DEST
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_dest_2
+</td>
+<td>
+service="hdppc", LGWR ASYNC NOAFFIRM delay=0 optional compression=disable max_failure=0 max_connections=1 reopen=300 db_unique_name="hdppc" net_timeout=30, valid_for=(all_logfiles,primary_role)
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_dest_state_2
+</td>
+<td>
+ENABLE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_min_succeed_dest
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+fal_server
+</td>
+<td>
+hdppc
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_trace
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_config
+</td>
+<td>
+dg_config=(hdpph,hdppc)
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_format
+</td>
+<td>
+%t_%s_%r.dbf
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_archive_max_processes
+</td>
+<td>
+4
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+log_buffer
+</td>
+<td>
+134217728
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+archive_lag_target
+</td>
+<td>
+900
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_files
+</td>
+<td>
+4096
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+cluster_database
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_create_file_dest
+</td>
+<td>
++DATAC1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_create_online_log_dest_1
+</td>
+<td>
++RECOC1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_create_online_log_dest_2
+</td>
+<td>
++DATAC1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_recovery_file_dest
+</td>
+<td>
++RECOC1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_recovery_file_dest_size
+</td>
+<td>
+42326818816000
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+standby_file_management
+</td>
+<td>
+AUTO
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+thread
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+thread
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+fast_start_mttr_target
+</td>
+<td>
+300
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_lost_write_protect
+</td>
+<td>
+typical
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+recovery_parallelism
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_backup_disk_bufsz
+</td>
+<td>
+1048576
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_backup_disk_bufcnt
+</td>
+<td>
+64
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_backup_file_bufsz
+</td>
+<td>
+1048576
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_backup_file_bufcnt
+</td>
+<td>
+64
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+undo_tablespace
+</td>
+<td>
+UNDOTBS2
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+undo_tablespace
+</td>
+<td>
+UNDOTBS3
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+undo_retention
+</td>
+<td>
+36000
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+fast_start_parallel_rollback
+</td>
+<td>
+LOW
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+resumable_timeout
+</td>
+<td>
+3600
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+instance_number
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+instance_number
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_block_checking
+</td>
+<td>
+false
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+recyclebin
+</td>
+<td>
+on
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_keep_remote_column_size
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_securefile
+</td>
+<td>
+ALWAYS
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+remote_login_passwordfile
+</td>
+<td>
+EXCLUSIVE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+audit_sys_operations
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_domain
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+global_names
+</td>
+<td>
+FALSE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+service_names
+</td>
+<td>
+rman_hdpph
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+local_listener
+</td>
+<td>
+ (ADDRESS=(PROTOCOL=TCP)(HOST=10.152.114.24)(PORT=1521))
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+local_listener
+</td>
+<td>
+ (ADDRESS=(PROTOCOL=TCP)(HOST=10.152.114.26)(PORT=1521))
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+remote_listener
+</td>
+<td>
+dm11-scan-c1:1521
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+session_cached_cursors
+</td>
+<td>
+200
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+remote_dependencies_mode
+</td>
+<td>
+SIGNATURE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+smtp_out_server
+</td>
+<td>
+smtp.root4.net
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+plsql_code_type
+</td>
+<td>
+INTERPRETED
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+job_queue_processes
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_min_servers
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_max_servers
+</td>
+<td>
+3
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_execution_message_size
+</td>
+<td>
+16384
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+open_links
+</td>
+<td>
+10
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+open_links_per_instance
+</td>
+<td>
+10
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+audit_trail
+</td>
+<td>
+OS
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_name
+</td>
+<td>
+hdpp
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+db_unique_name
+</td>
+<td>
+hdpph
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+open_cursors
+</td>
+<td>
+800
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+os_authent_prefix
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+sql92_security
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_degree_policy
+</td>
+<td>
+MANUAL
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_adaptive_multi_user
+</td>
+<td>
+FALSE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_threads_per_cpu
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+query_rewrite_enabled
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+query_rewrite_integrity
+</td>
+<td>
+TRUSTED
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+pga_aggregate_target
+</td>
+<td>
+2147483648
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+deferred_segment_creation
+</td>
+<td>
+FALSE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_min_time_threshold
+</td>
+<td>
+10
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_degree_limit
+</td>
+<td>
+2
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+parallel_force_local
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+sec_max_failed_login_attempts
+</td>
+<td>
+5
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+aq_tm_processes
+</td>
+<td>
+1
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+dg_broker_start
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+dg_broker_config_file1
+</td>
+<td>
++DATAC1/hdpph/dr1hdpph.dat
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+dg_broker_config_file2
+</td>
+<td>
++DATAC1/hdpph/dr2hdpph.dat
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+diagnostic_dest
+</td>
+<td>
+/u01/app/oracle
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+_trace_files_public
+</td>
+<td>
+TRUE
+</td>
+</tr>
+<tr>
+<td>
+*
+</td>
+<td>
+max_dump_file_size
+</td>
+<td>
+102400
+</td>
+</tr>
+</table>
+<p>
+
+102 rows selected.<br>
+<br>
+
+
+SQL> 
+<br>
+SQL> spool off
+<br>

@@ -1,0 +1,161 @@
+    public void setE2eMetrics(Connection c, String module, String action, String clientid) {
+
+        try {
+
+            String e2eMetrics[] = new String[OracleConnection.END_TO_END_STATE_INDEX_MAX];
+            e2eMetrics[OracleConnection.END_TO_END_ACTION_INDEX] = action;
+            e2eMetrics[OracleConnection.END_TO_END_MODULE_INDEX] = module;
+            e2eMetrics[OracleConnection.END_TO_END_CLIENTID_INDEX] = clientid;
+            ((OracleConnection) c).setEndToEndMetrics(e2eMetrics, (short) 0);
+
+        } catch (SQLException sqle) {
+
+            // Do something...
+        }
+    }
+
+        public void eraseE2eMetrics(Connection c) {
+
+        try {
+
+            String e2eMetrics[] = new String[OracleConnection.END_TO_END_STATE_INDEX_MAX];
+            e2eMetrics[OracleConnection.END_TO_END_ACTION_INDEX] = null;
+            e2eMetrics[OracleConnection.END_TO_END_MODULE_INDEX] = null;
+            e2eMetrics[OracleConnection.END_TO_END_CLIENTID_INDEX] = null;
+            ((OracleConnection) c).setEndToEndMetrics(e2eMetrics, (short) 0);
+
+        } catch (SQLException sqle) {
+
+            // Do something...
+        }
+    }
+    /**
+     *
+     * Method used to return all database sessions
+     *
+     */
+    public List<Session> getAllSessions() {
+        l.p("Getting all sessions...");
+        List<Session> sessionsList = null;
+        String q = "SELECT s.inst_id,\n"
+                + "        s.sid sid,\n"
+                + "       s.serial#,\n"
+                + "       logon_time,\n"
+                + "       s.status session_status,\n"
+                + "       NVL (\n"
+                + "          DECODE (TYPE, 'BACKGROUND', 'SYS (' || b.NAME || ')', s.username),\n"
+                + "          SUBSTR (p.program, INSTR (p.program, '(')))\n"
+                + "          oracle_user,\n"
+                + "       NVL (s.osuser, '(' || b.NAME || ')') os_user,\n"
+                + "       p.spid os_pid,\n"
+                + "       s.program session_program,\n"
+                + "       s.seconds_in_wait,\n"
+                + "  FROM gv$session s,\n"
+                + "       gv$sess_io i,\n"
+                + "       gv$process p,\n"
+                + "       (  SELECT SID, SUM (VALUE) / 1000 cpu\n"
+                + "            FROM gv$sess_time_model\n"
+                + "           WHERE stat_name IN ('DB CPU', 'background cpu time')\n"
+                + "        GROUP BY SID) t,\n"
+                + "       gv$bgprocess b,\n"
+                + "       gv$sql sql\n"
+                + " WHERE     p.addr(+) = s.paddr\n"
+                + "       AND i.SID = s.SID\n"
+                + "       AND t.SID = s.SID\n"
+                + "       AND p.addr = b.paddr(+)\n"
+                + "       AND s.INST_ID = I.INST_ID\n"
+                + "       AND s.SID = i.SID\n"
+                + "       AND s.sql_id = sql.sql_id(+)";
+
+        Connection c = null;
+        java.sql.Statement stmt = null;
+        java.sql.ResultSet rs = null;
+
+        try {
+            c = db_pds.getConnection();
+
+            /*
+             * Set End-2-end metrics
+             */
+            setE2eMetrics(c, "DBExplrFX","getAllSessions","krobath");
+            
+            stmt = c.createStatement();
+            stmt.execute(q);
+            rs = stmt.getResultSet();
+
+            sessionsList = new ArrayList<Session>();
+
+            while (rs.next()) {
+                String inst_id = Integer.toString(rs.getInt("INST_ID"));
+                String sid = Integer.toString(rs.getInt("SID"));
+                String serial = Integer.toString(rs.getInt("SERIAL#"));
+                String logon_time = rs.getString("LOGON_TIME");
+                String session_status = rs.getString("SESSION_STATUS");
+                String oracle_user = rs.getString("ORACLE_USER");
+                String os_user = rs.getString("OS_USER");
+                String os_pid = rs.getString("OS_PID");
+                String session_program = rs.getString("SESSION_PROGRAM");
+                String seconds_waiting = Integer.toString(rs.getInt("SECONDS_IN_WAIT"));
+                sessionsList.add(new Session(inst_id, sid, serial, logon_time, session_status, oracle_user, os_user, os_pid, session_program, seconds_waiting));
+            }
+            
+            /*
+             * Reset End-2-end metrics
+             */
+            eraseE2eMetrics(c);
+
+        } catch (SQLException e) {
+            l.p("Failed to execute statement in getAllSessions():" + e);
+            l.p(q);
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    l.p("Failed to close ResultSet rs in getAllSessions(): " + e);
+                }
+            }
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    l.p("Failed to close Statement stmt in getAllSessions(): " + e);
+                }
+            }
+
+            if (c != null) {
+                try {
+                    c.close();
+                    c = null;
+                } catch (SQLException e) {
+                    l.p("Failed to close Connection c in getAllSessions(): " + e);
+                }
+            }
+
+        }
+
+        return sessionsList;
+    }
+
+public static void setOracleSessionInfo(String serverInstanceId, String clientInfo, String action) throws Exception {
+
+if(connInfoMissing)
+{
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+CallableStatement cs = createDBConnection().prepareCall("{call begin dbms_application_info.set_module(?,?); dbms_application_info.set_client_info(?); end}");
+
+cs.setString(1, "ServerInstanceId_" + serverInstanceId);
+
+cs.setString(2, action);
+
+cs.setString(3, clientInfo + " [" + sdf.format(new java.util.Date()) + "]");
+
+cs.execute();
+
+cs.close();
+
+connInfoMissing = false;
+}
+}
+	

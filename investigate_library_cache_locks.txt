@@ -1,0 +1,125 @@
+select sid Waiter, p1raw,
+substr(rawtohex(p1),1,30) Handle,
+substr(rawtohex(p2),1,30) Pin_addr
+from v$session_wait where wait_time=0 and event like'%library cache%';
+
+
+select to_char(SESSION_ID,'99999') sid ,
+substr(LOCK_TYPE,1,30) Type,
+substr(lock_id1,1,23) Object_Name,
+substr(mode_held,1,4) HELD, substr(mode_requested,1,4) REQ,
+lock_id2 Lock_addr
+from dba_lock_internal
+where
+mode_requested<>'None'
+and mode_requested<>mode_held
+and session_id in ( select sid
+from v$session_wait where wait_time=0
+and event like'%library cache%') ;
+
+
+select sid Holder ,KGLPNUSE Sesion , KGLPNMOD Held, KGLPNREQ Req
+from x$kglpn , v$session
+where KGLPNHDL in (select p1raw from v$session_wait
+where wait_time=0 and event like'%library cache%')
+and KGLPNMOD <> 0
+and v$session.saddr=x$kglpn.kglpnuse ;
+
+
+SELECT SID Holder ,KGLPNUSE Sesion , KGLPNMOD Held, KGLPNREQ Req
+FROM x$kglpn , v$session
+WHERE KGLPNHDL IN (SELECT p1raw FROM v$session_wait
+WHERE wait_time=0 AND event LIKE'%library cache%')
+AND KGLPNMOD <> 0
+AND v$session.saddr=x$kglpn.kglpnuse ;
+
+
+select a.sid Holder ,a.SERIAL#,b.INST_ID,b.KGLPNUSE Sesion , b.KGLPNMOD Held, b.KGLPNREQ Req
+from x$kglpn b , v$session a
+where b.KGLPNHDL in (select p1raw from v$session_wait
+where wait_time=0 and event like'library cache%')
+and b.KGLPNMOD <> 0
+and a.saddr=b.kglpnuse ;
+
+col object_name for a24
+
+select lob.kglobtyp,decode(lob.kglobtyp,
+0,'NEXT OBJECT',
+1,'INDEX',
+2,'TABLE',
+3,'CLUSTER',
+4,'VIEW',
+5,'SYNONYM',
+6,'SEQUENCE',
+7,'PROCEDURE',
+8,'FUNCTION',
+9,'PACKAGE',
+11,'PACKAGE BODY',
+12,'TRIGGER',
+13,'TYPE',
+14,'TYPE BODY',
+19,'TABLE PARTITION',
+20,'INDEX PARTITION',
+21,'LOB',
+22,'LIBRARY',
+23,'DIRECTORY',
+24,'QUEUE',
+28,'JAVA SOURCE',
+29,'JAVA CLASS',
+30,'JAVA RESOURCE',
+32,'INDEXTYPE',
+33,'OPERATOR',
+34,'TABLE SUBPARTITION',
+35,'INDEX SUBPARTITION',
+40,'LOB PARTITION',
+41,'LOB SUBPARTITION',
+42,'MATERIALIZED VIEW',
+43,'DIMENSION',
+44,'CONTEXT',
+46,'RULE SET',
+47,'RESOURCE PLAN',
+48,'CONSUMER GROUP',
+51,'SUBSCRIPTION',
+52,'LOCATION',
+55,'XML SCHEMA',
+56,'JAVA DATA',
+57,'SECURITY PROFILE',
+59,'RULE',
+62,'EVALUATION CONTEXT',
+'UNDEFINED') object_type,
+lob.kglnaobj object_name,
+pn.kglpnmod lock_mode_held,
+pn.kglpnreq lock_mode_requested,
+ses.sid,
+ses.serial#,
+ses.username
+from v$session_wait vsw,
+x$kglob lob,
+x$kglpn pn,
+v$session ses
+where vsw.event ='library cache lock'
+and vsw.p1raw = lob.kglhdadr
+and lob.kglhdadr = pn.kglpnhdl
+and pn.kglpnmod != 0
+and pn.kglpnuse = ses.saddr
+/
+
+Detect Library Cache holders that sessions are waiting for
+
+set pagesize 40
+select x$kglpn.inst_id,sid Holder ,KGLPNUSE Sesion , KGLPNMOD Held, KGLPNREQ Req
+from x$kglpn , gv$session
+where KGLPNHDL in (select p1raw from gv$session_wait
+where wait_time=0 and event like'library cache%')
+and KGLPNMOD <> 0
+and gv$session.saddr=x$kglpn.kglpnuse ;
+
+PROMPT Detect Library Cache holders that sessions are waiting for
+
+-- Detect sessions waiting for a Library Cache Locks
+
+select sid Waiter, p1raw,
+substr(rawtohex(p1),1,30) Handle,
+substr(rawtohex(p2),1,30) Pin_addr
+from gv$session_wait where wait_time=0 and event like'library cache%';
+

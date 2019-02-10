@@ -1,0 +1,10 @@
+Connected to: SYS @ MUREXP
+SQL> select * from dul;
+select * from dul
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+Connected to: SYS @ MUREXP
+SQL> spool off

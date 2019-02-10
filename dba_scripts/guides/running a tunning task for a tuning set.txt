@@ -1,0 +1,194 @@
+--
+-- Running a tuning task for a SQL Tuning set (STS)
+--
+
+--
+-- Create a sql baseline
+--
+BEGIN
+  DBMS_WORKLOAD_REPOSITORY.create_baseline (
+    start_snap_id => 414494, 
+    end_snap_id   => 414603,
+    baseline_name => 'UNIKA_NETS_JOB');
+END;
+/
+
+
+
+--
+-- Create a SQL Tuning Set (STS)
+--
+BEGIN
+  DBMS_SQLTUNE.CREATE_SQLSET(
+    sqlset_name => 'UNIKA_NETS_JOB_STS1', 
+    description  => 'SQL executed by pg_opkraevning.pr_opkraevning ');
+END;
+/
+
+
+--
+-- Populate STS with sql statements from the baseline
+--
+DECLARE
+ baseline_cursor DBMS_SQLTUNE.SQLSET_CURSOR;
+BEGIN
+ OPEN baseline_cursor FOR
+    SELECT VALUE(p)
+    FROM TABLE (DBMS_SQLTUNE.SELECT_WORKLOAD_REPOSITORY(
+                  'UNIKA_NETS_JOB',
+                   NULL, NULL,
+                   'elapsed_time',
+                   NULL, NULL, NULL,
+                   1000)) p;
+
+    DBMS_SQLTUNE.LOAD_SQLSET(
+             sqlset_name     => 'UNIKA_NETS_JOB_STS1',
+             populate_cursor => baseline_cursor);
+END;
+/
+
+
+
+DECLARE
+  cur sys_refcursor;
+BEGIN
+open cur for
+   select value(p) from table(dbms_sqltune.select_workload_repository(
+      begin_snap => 5184,
+      end_snap => 5269,
+      basic_filter => 'parsing_schema_name in (''TWCALYP'')',
+      ranking_measure1 => NULL,
+      result_limit => NULL)) p;
+    dbms_sqltune.load_sqlset('SP_BOND_COUPONS_STS', cur);
+  close cur;
+END;
+/
+
+
+DECLARE
+  cur sys_refcursor;
+BEGIN
+open cur for
+   select value(p) from table(dbms_sqltune.select_workload_repository(
+      begin_snap => 5184,
+      end_snap => 5269,
+      basic_filter => 'parsing_schema_name in (''TWCALYP'')',
+      ranking_measure1 => 'elapsed_time',
+      result_limit => 250)) p;
+    dbms_sqltune.load_sqlset('SP_BOND_COUPONS_STS', cur);
+  close cur;
+END;
+/
+--
+-- Create a sql tuning task
+--
+DECLARE
+ my_task_name VARCHAR2(30);
+BEGIN
+			   
+ my_task_name := DBMS_SQLTUNE.CREATE_TUNING_TASK(
+         sql_id      => '1cvk5d96dnx92',
+         plan_hash_value => NULL,
+         scope       => 'COMPREHENSIVE',
+         time_limit  => 60,
+         task_name   => 'SP_BON_COUPONS_TT',
+         description => 'Task to tune mw query for gwf.gwf_log_file');
+END;
+/
+
+
+
+
+-- Tuning task created from an SQL tuning set.
+BEGIN
+  DBMS_SQLTUNE.DROP_TUNING_TASK( task_name => 'SP_BON_COUPONS_TT' );
+END;
+/
+
+DECLARE
+  l_sql_tune_task_id  VARCHAR2(100);
+BEGIN
+  l_sql_tune_task_id := DBMS_SQLTUNE.create_tuning_task (
+                          sqlset_name => 'UNIKA_NETS_JOB_STS1',
+                          scope       => DBMS_SQLTUNE.scope_comprehensive,
+                          time_limit  => 10000,
+                          task_name   => 'UNIKA_NETS_JOB_TT1',
+                          description => 'Tuning task for UNIKA_NETS_JOB_STS SQL tuning set.');
+  DBMS_OUTPUT.put_line('l_sql_tune_task_id: ' || l_sql_tune_task_id);
+END;
+/
+
+
+--
+-- Configure the sql tuning task
+--
+BEGIN
+  DBMS_SQLTUNE.SET_TUNING_TASK_PARAMETER(
+    task_name => 'SP_BON_COUPONS_TT',
+    parameter => 'TIME_LIMIT', value => 300);
+	END;
+/
+
+BEGIN
+  DBMS_SQLTUNE.SET_TUNING_TASK_PARAMETER(
+    task_name => 'UNIKA_NETS_JOB_TT1',
+	parameter => 'TEST_EXECUTE', value => 'ON');
+END;
+/
+
+--
+-- Execute the tuning task--
+BEGIN
+  DBMS_SQLTUNE.EXECUTE_TUNING_TASK( task_name => 'UNIKA_NETS_JOB_TT1' );
+END;
+/
+
+--
+-- Display status of the tuning task
+--
+SELECT status FROM USER_ADVISOR_TASKS WHERE task_name = 'SP_BON_COUPONS_TT';
+
+--
+-- Display the output of the tuning task
+--
+SET LONG 1000000
+SET LONGCHUNKSIZE 1000
+SET LINESIZE 120
+SELECT DBMS_SQLTUNE.REPORT_TUNING_TASK( 'UNIKA_NETS_JOB_TT')
+  FROM DUAL;
+  
+SET LONG 1000000
+SET LONGCHUNKSIZE 10000
+SET LINESIZE 120
+SET PAGES 50000
+trims on
+spool /tmp/unika_nets_job_TT1.txt
+SELECT DBMS_SQLTUNE.REPORT_TUNING_TASK( 'UNIKA_NETS_JOB_TT1','HTML')
+  FROM DUAL;
+spool off
+
+--
+-- Drop the tuning Task
+--
+BEGIN
+  DBMS_SQLTUNE.DROP_TUNING_TASK( task_name => 'SP_BON_COUPONS_TT' );
+END;
+/
+  
+--
+-- 
+--
+BEGIN
+  DBMS_SQLTUNE.DROP_SQLSET( sqlset_name => 'SP_BON_COUPONS_STS' );
+END;
+/  
+  
+--  
+-- Remove the Baseline
+--
+BEGIN
+  DBMS_WORKLOAD_REPOSITORY.drop_baseline (
+    baseline_name => 'SP_BOND_COUPONS',
+    cascade       => FALSE); -- Deletes associated snapshots if TRUE.
+END;
+/

@@ -1,0 +1,84 @@
+--
+-- Fine-grained audit example
+--
+
+CREATE TABLE SYSTEM.G97110_FGA_TEST (
+id number,
+create_date date,
+name varchar2(32),
+salary number);
+
+INSERT INTO SYSTEM.g97110_fga_test VALUES(1,sysdate,'Henrik',1000);
+INSERT INTO SYSTEM.g97110_fga_test VALUES(2,sysdate,'Mads',2000);
+INSERT INTO SYSTEM.g97110_fga_test VALUES(3,sysdate,'Niels',3000);
+INSERT INTO SYSTEM.g97110_fga_test VALUES(4,sysdate,'Ole',4000);
+commit;
+
+
+BEGIN
+    DBMS_FGA.ADD_POLICY(
+         object_schema => 'SYSTEM'
+        ,object_name => 'G97110_FGA_TEST'
+        ,policy_name => 'G97110_FGA_TEST_FGA_HI'
+        ,audit_condition => NULL
+        ,audit_column => 'ID,CREATE_DATE,NAME,SALARY'
+        ,handler_schema => NULL
+        ,handler_module => NULL
+        ,enable => TRUE
+        ,statement_types => 'INSERT,UPDATE,DELETE'
+        ,audit_trail => DBMS_FGA.DB_EXTENDED
+        ,audit_column_opts => DBMS_FGA.ANY_COLUMNS
+    );
+END;
+/
+
+TTITLE 'Currently Active FGA Policies|(From DBA_AUDIT_POLICIES)'
+COL object_schema	FORMAT A10      HEADING 'Object|Schema'
+COL object_name     FORMAT A20      HEADING 'Object Name' WRAP
+COL policy_name     FORMAT A16      HEADING 'Policy Name' WRAP
+COL policy_text     FORMAT A24      HEADING 'Policy Text' WRAP
+COL policy_column   FORMAT A16      HEADING 'Policy Column' WRAP
+COL enabled         FORMAT A05      HEADING 'On?'
+COL siud_options    FORMAT A04      HEADING 'SIUD|Set'
+SELECT 
+     policy_name
+    ,policy_text
+    ,policy_column
+    ,enabled
+    ,object_schema
+    ,object_name
+    ,DECODE(sel,'YES','Y','N') || DECODE(ins,'YES','Y','N')|| 
+     DECODE(upd,'YES','Y','N') || DECODE(del,'YES','Y','N') siud_options
+  FROM dba_audit_policies
+;
+TTITLE OFF
+
+
+
+
+UPDATE SYSTEM.g97110_fga_test SET salary = 5000 WHERE name = 'Henrik';
+UPDATE SYSTEM.g97110_fga_test SET id = 5 WHERE name = 'Henrik';
+commit;
+
+TTITLE 'Current Fine-Grained Auditing (FGA) Results'
+COL audit_date      FORMAT A10      HEADING 'Audit|Date'
+COL policy_name     FORMAT A16      HEADING 'Policy Name' WRAP
+COL object_schema	FORMAT A10      HEADING 'Object|Schema'
+COL object_name     FORMAT A20      HEADING 'Object Name' WRAP
+COL db_user      	FORMAT A10      HEADING 'DBUser'
+COL os_user      	FORMAT A10      HEADING 'OSUser'
+COL userhost      	FORMAT A10      HEADING 'UserHost'
+COL sql_text        FORMAT A36      HEADING 'SQL Text' WRAP
+SELECT
+     TO_CHAR(timestamp,'mm/dd/yyyy hh24:mi:ss') audit_date
+    ,db_user
+	,os_user
+	,userhost
+    ,object_schema
+    ,object_name
+    ,policy_name
+    ,sql_text
+  FROM dba_fga_audit_trail
+ ORDER BY timestamp
+;
+TTITLE OFF

@@ -1,0 +1,209 @@
+--
+-- Check dataguard status
+--
+
+dgmgrl
+connect sys/<pwd>
+
+show configuration
+show database verbose <sid>
+
+--
+-- Set apply-off
+--
+EDIT DATABASE '<sid>' SET STATE='APPLY-OFF';
+
+--
+-- Set apply-on
+--
+EDIT DATABASE '<sid>' SET STATE='APPLY-ON';
+
+--
+-- Do the switchover
+--
+
+DGMGRL> show configuration
+
+Configuration - db_rosmed
+
+  Protection Mode: MaxPerformance
+  Databases:
+    rosme1d - Primary database
+    rosme2d - Physical standby database
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS
+
+DGMGRL>
+
+
+DGMGRL> switchover to 'rosme2d';
+Performing switchover NOW, please wait...
+New primary database "rosme2d" is opening...
+Operation requires startup of instance "rosme1d" on database "rosme1d"
+Starting instance "rosme1d"...
+ORACLE instance started.
+Database mounted.
+Database opened.
+Switchover succeeded, new primary is "rosme2d"
+DGMGRL>
+
+--
+-- Fix erroneous state in crsctl
+--
+
+NOTICE!!! After the switchover the standby is started correctly by dgrmgrl but the state is not correctly updated in crsctl
+
+[oracle@db-rosme1d ~]$ crsctl status res -t
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS      
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.RECO.dg
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.asm
+               ONLINE  ONLINE       db-rosme1d               Started            
+ora.ons
+               OFFLINE OFFLINE      db-rosme1d                                  
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       db-rosme1d                                  
+ora.diskmon
+      1        OFFLINE OFFLINE                                                  
+ora.evmd
+      1        ONLINE  ONLINE       db-rosme1d                                  
+ora.rosmed.db
+      1        OFFLINE OFFLINE                               Instance Shutdown  
+[oracle@db-rosme1d ~]
+
+
+this is resolved by running:
+
+[oracle@db-rosme1d ~]$ srvctl stop database -d rosmed
+PRCC-1016 : rosmed was already stopped
+[oracle@db-rosme1d ~]$ srvctl start database -d rosmed
+[oracle@db-rosme1d ~]$
+
+After this the state is correctly reflected by crsctl.
+
+[oracle@db-rosme1d ~]$ crsctl status res -t
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS      
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.RECO.dg
+               ONLINE  ONLINE       db-rosme1d                                  
+ora.asm
+               ONLINE  ONLINE       db-rosme1d               Started            
+ora.ons
+               OFFLINE OFFLINE      db-rosme1d                                  
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       db-rosme1d                                  
+ora.diskmon
+      1        OFFLINE OFFLINE                                                  
+ora.evmd
+      1        ONLINE  ONLINE       db-rosme1d                                  
+ora.rosmed.db
+      1        ONLINE  ONLINE       db-rosme1d               Open,Readonly      
+[oracle@db-rosme1d ~]$
+
+--
+-- SWITCH BACK
+--
+
+DGMGRL> show configuration verbose
+
+Configuration - db_rosmed
+
+  Protection Mode: MaxPerformance
+  Databases:
+    rosme2d - Primary database
+    rosme1d - Physical standby database
+
+  Properties:
+    FastStartFailoverThreshold      = '30'
+    OperationTimeout                = '30'
+    FastStartFailoverLagLimit       = '30'
+    CommunicationTimeout            = '180'
+    ObserverReconnect               = '0'
+    FastStartFailoverAutoReinstate  = 'TRUE'
+    FastStartFailoverPmyShutdown    = 'TRUE'
+    BystandersFollowRoleChange      = 'ALL'
+    ObserverOverride                = 'FALSE'
+    ExternalDestination1            = ''
+    ExternalDestination2            = ''
+    PrimaryLostWriteAction          = 'CONTINUE'
+
+Fast-Start Failover: DISABLED
+
+Configuration Status:
+SUCCESS
+
+DGMGRL>
+
+
+
+DGMGRL> switchover to 'rosme1d';
+Performing switchover NOW, please wait...
+New primary database "rosme1d" is opening...
+Operation requires startup of instance "rosme2d" on database "rosme2d"
+Starting instance "rosme2d"...
+ORACLE instance started.
+Database mounted.
+Database opened.
+Switchover succeeded, new primary is "rosme1d"
+DGMGRL>
+
+--
+-- Resolve erroneous state in crsctl
+--
+
+[oracle@db-rosme2d ~]$ srvctl stop database -d rosmed
+PRCC-1016 : rosmed was already stopped
+[oracle@db-rosme2d ~]$ srvctl start database -d rosmed
+[oracle@db-rosme2d ~]$ crsctl status res -t
+--------------------------------------------------------------------------------
+NAME           TARGET  STATE        SERVER                   STATE_DETAILS      
+--------------------------------------------------------------------------------
+Local Resources
+--------------------------------------------------------------------------------
+ora.DATA.dg
+               ONLINE  ONLINE       db-rosme2d                                  
+ora.LISTENER.lsnr
+               ONLINE  ONLINE       db-rosme2d                                  
+ora.RECO.dg
+               ONLINE  ONLINE       db-rosme2d                                  
+ora.asm
+               ONLINE  ONLINE       db-rosme2d               Started            
+ora.ons
+               OFFLINE OFFLINE      db-rosme2d                                  
+--------------------------------------------------------------------------------
+Cluster Resources
+--------------------------------------------------------------------------------
+ora.cssd
+      1        ONLINE  ONLINE       db-rosme2d                                  
+ora.diskmon
+      1        OFFLINE OFFLINE                                                  
+ora.evmd
+      1        ONLINE  ONLINE       db-rosme2d                                  
+ora.rosmed.db
+      1        ONLINE  ONLINE       db-rosme2d               Open,Readonly      
+[oracle@db-rosme2d ~]$
+

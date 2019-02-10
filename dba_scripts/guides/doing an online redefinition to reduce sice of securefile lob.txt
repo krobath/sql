@@ -1,0 +1,110 @@
+CONN / AS SYSDBA
+
+-- Check table can be redefined
+EXEC DBMS_REDEFINITION.can_redef_table('NORDEA', 'INCOMING_MESSAGE');
+
+-- Create new table
+CREATE TABLE nordea.incoming_message_ord AS
+SELECT * 
+FROM nordea.incoming_message WHERE 1=2;
+
+-- Start Redefinition
+EXEC DBMS_REDEFINITION.start_redef_table('NORDEA', 'INCOMING_MESSAGE', 'INCOMING_MESSAGE_ORD');
+
+-- Copy table dependents
+SET SERVEROUTPUT ON
+DECLARE
+  l_num_errors PLS_INTEGER;
+BEGIN
+  DBMS_REDEFINITION.copy_table_dependents(
+    uname             => 'NORDEA',
+    orig_table        => 'INCOMING_MESSAGE',
+    int_table         => 'INCOMING_MESSAGE_ORD',
+    copy_indexes      => DBMS_REDEFINITION.cons_orig_params, -- Non-Default
+    copy_triggers     => TRUE,  -- Default
+    copy_constraints  => TRUE,  -- Default
+    copy_privileges   => TRUE,  -- Default
+    ignore_errors     => FALSE, -- Default
+    num_errors        => l_num_errors); 
+  DBMS_OUTPUT.put_line('l_num_errors=' || l_num_errors);
+END;
+/
+
+l_num_errors=0
+
+PL/SQL procedure successfully completed.
+
+SQL>
+
+-- Display schema contents, notice the new objects.
+COLUMN object_name FORMAT A30
+SELECT object_name, object_type, status 
+FROM dba_objects 
+WHERE owner = 'NORDEA'
+AND (object_name LIKE 'INCOMING%' OR object_name LIKE 'SYS%');
+
+OBJECT_NAME               OBJECT_TYPE         STATUS
+------------------------- ------------------- -------
+REDEF_TAB                 TABLE               VALID
+REDEF_TAB_PK              INDEX               VALID
+REDEF_TAB_SEQ             SEQUENCE            VALID
+REDEF_TAB_DESC_I          INDEX               VALID
+REDEF_TAB2                TABLE               VALID
+MLOG$_REDEF_TAB           TABLE               VALID
+RUPD$_REDEF_TAB           TABLE               VALID
+TMP$$_REDEF_TAB_PK0       INDEX               VALID
+TMP$$_REDEF_TAB_DESC_I0   INDEX               VALID
+REDEF_TAB_BIR             TRIGGER             VALID
+TMP$$_REDEF_TAB_BIR0      TRIGGER             VALID
+
+SQL> 
+
+-- Optionally synchronize new table with interim data before index creation
+EXEC DBMS_REDEFINITION.sync_interim_table('NORDEA', 'INCOMING_MESSAGE', 'INCOMING_MESSAGE_ORD'); 
+
+-- Complete redefinition
+EXEC DBMS_REDEFINITION.finish_redef_table('NORDEA', 'INCOMING_MESSAGE', 'INCOMING_MESSAGE_ORD');
+
+-- Display schema contents, notice the object name changes.
+COLUMN object_name FORMAT A30
+SELECT object_name, object_type, status 
+FROM dba_objects 
+WHERE owner = 'NORDEA'
+AND (object_name LIKE 'INCOMING%' OR object_name LIKE 'SYS%');
+
+OBJECT_NAME               OBJECT_TYPE         STATUS
+------------------------- ------------------- -------
+REDEF_TAB_SEQ             SEQUENCE            VALID
+REDEF_TAB                 TABLE               VALID
+REDEF_TAB2                TABLE               VALID
+REDEF_TAB_DESC_I          INDEX               VALID
+TMP$$_REDEF_TAB_DESC_I0   INDEX               VALID
+REDEF_TAB_PK              INDEX               VALID
+TMP$$_REDEF_TAB_PK0       INDEX               VALID
+TMP$$_REDEF_TAB_BIR0      TRIGGER             INVALID
+REDEF_TAB_BIR             TRIGGER             INVALID
+
+SQL>
+
+-- Remove original table which now has the name of the new table
+DROP TABLE nordea.incoming_message_ord;
+
+-- Display schema contents, notice the trigger status.
+COLUMN object_name FORMAT A30
+SELECT object_name, object_type, status 
+FROM dba_objects 
+WHERE owner = 'NORDEA'
+AND (object_name LIKE 'INCOMING%' OR object_name LIKE 'SYS%');
+
+OBJECT_NAME               OBJECT_TYPE         STATUS
+------------------------- ------------------- -------
+REDEF_TAB_SEQ             SEQUENCE            VALID
+REDEF_TAB                 TABLE               VALID
+REDEF_TAB_DESC_I          INDEX               VALID
+REDEF_TAB_PK              INDEX               VALID
+REDEF_TAB_BIR             TRIGGER             INVALID
+
+SQL>
+
+-- Recompile the trigger
+ALTER TRIGGER test.redef_tab_bir COMPILE;

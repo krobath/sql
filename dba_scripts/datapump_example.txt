@@ -1,0 +1,122 @@
+
+
+
+
+
+select owner_name, job_Name, state, job_mode from dba_datapump_jobs;
+
+
+
+DECLARE
+  ind NUMBER;              -- Loop index
+  h1 NUMBER;               -- Data Pump job handle
+  percent_done NUMBER;     -- Percentage of job complete
+  job_state VARCHAR2(30);  -- To keep track of job state
+  js ku$_JobStatus;        -- The job status from get_status
+  ws ku$_WorkerStatusList; -- Worker status
+  sts ku$_Status;          -- The status object returned by get_status
+BEGIN
+h1 := DBMS_DATAPUMP.attach('SYS_EXPORT_SCHEMA_02', 'SYSTEM'); -- job name and owner
+dbms_datapump.get_status(h1,
+           dbms_datapump.ku$_status_job_error +
+           dbms_datapump.ku$_status_job_status +
+           dbms_datapump.ku$_status_wip, 0, job_state, sts);
+js := sts.job_status;
+ws := js.worker_status_list;
+      dbms_output.put_line('*** Job percent done = ' ||
+                           to_char(js.percent_done));
+      dbms_output.put_line('restarts - '||js.restart_count);
+ind := ws.first;
+  while ind is not null loop
+    dbms_output.put_line('rows completed - '||ws(ind).completed_rows);
+    ind := ws.next(ind);
+  end loop;
+DBMS_DATAPUMP.detach(h1);
+end;
+/
+
+
+set lines 160
+set pages 30
+col username for a12
+col module for a30
+col program for a30
+col event for a45
+select sid, username, module, program, logon_time, event, seconds_in_wait 
+from v$session where lower(module) LIKE '%pump%'
+
+SET ECHO        OFF
+SET FEEDBACK    6
+SET HEADING     ON
+SET LINESIZE    180
+SET PAGESIZE    50000
+SET TERMOUT     ON
+SET TIMING      OFF
+SET TRIMOUT     ON
+SET TRIMSPOOL   ON
+SET VERIFY      OFF
+
+CLEAR COLUMNS
+CLEAR BREAKS
+CLEAR COMPUTES
+
+COLUMN sid                FORMAT 999999     HEADING 'SID'
+COLUMN serial_id          FORMAT 99999999   HEADING 'Serial ID'
+COLUMN session_status     FORMAT a9         HEADING 'Status'
+COLUMN oracle_username    FORMAT a18        HEADING 'Oracle User'
+COLUMN os_username        FORMAT a18        HEADING 'O/S User'
+COLUMN os_pid             FORMAT a8         HEADING 'O/S PID'
+COLUMN session_program    FORMAT a30        HEADING 'Session Program'  TRUNC
+
+PROMPT 
+PROMPT +------------------------------------------------------------------------+
+PROMPT | Listing My Sessions                                              |
+PROMPT +------------------------------------------------------------------------+
+
+SELECT
+    s.sid             sid
+  , s.serial#         serial_id
+  , s.inst_id         inst_id
+  , s.status          session_status
+  , s.username        oracle_username
+  , s.osuser          os_username
+  , p.spid            os_pid
+  , s.program         session_program
+  , s.event           event
+  , s.seconds_in_wait w_time_sec
+  , SQL.SQL_ID        sql_id
+  , substr(sql.sql_text,0,100) SQL_TEXT
+FROM 
+    gv$process p,
+    gv$session s,
+    gv$sql sql
+WHERE lower(module) LIKE '%pump%'
+    AND s.inst_id = p.inst_id
+    AND S.INST_ID (+) = sql.inst_id
+    AND p.addr (+) = s.paddr
+    AND S.SQL_ID (+) = sql.SQL_ID
+ORDER BY seconds_in_wait desc
+/
+
+
+CREATE DIRECTORY calxt_imp AS '/zfssa/misc/calxt/calypt_dump_g97110';
+
+userid=system
+schemas=TWCALYP,CALYPSO_MIDTIER,CALYPSO,AC,CALYPP,IM,DM,BL,CALYPSO_READ,SEOP_READ,DM_SYS,D35209,G46480
+parallel=16
+directory=calxt_imp
+dumpfile=calypp_%U.dmp
+job_name=imp_calypp
+logfile=imp_calypp.log
+remap_tablespace=UNDOTBS1:UNDOTBS1_1
+
+
+
+
+schemas=TWCALYP,CALYPSO_MIDTIER,CALYPSO,AC,CALYPP,IM,DM,BL,CALYPSO_READ,SEOP_READ,DM_SYS,D35209,G46480
+parallel=16
+dumpfile=calypp_%U.dmp
+logfile=calypt_export.log
+directory=dp_exp
+compression=ALL
+flashback_scn=2441532774503

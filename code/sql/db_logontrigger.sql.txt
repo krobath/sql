@@ -1,0 +1,29 @@
+DROP TRIGGER SYS.DB_ROLECHANGE;
+
+CREATE OR REPLACE TRIGGER SYS.db_RoleChange After DB_ROLE_CHANGE On Database
+Declare
+  vcService Varchar2(30);
+  vcServiceReadOnly Varchar2(35);
+  vcRole v$database.database_role%type;
+Begin
+  -- Assign the read only service;
+  Select lower(name) into vcService from v$database;
+  vcServiceReadOnly := concat(vcService, '_ro');
+
+  -- Get the new Role in the Dataguard Setup
+  Select Database_Role
+  Into vcRole
+  From v$database;
+
+  -- Assign the Service
+  If vcRole = 'PRIMARY' Then
+    DBMS_SERVICE.START_SERVICE (vcService);
+    DBMS_SERVICE.STOP_SERVICE (vcServiceReadOnly);
+  Else
+    DBMS_SERVICE.START_SERVICE (vcServiceReadOnly);
+    DBMS_SERVICE.STOP_SERVICE (vcService);
+  End If;
+Exception
+  When Others Then Raise;
+End;
+/

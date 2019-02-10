@@ -1,0 +1,217 @@
+
+--
+-- Restore the needed archivelogs
+--
+rman target / catalog cocop/cat_cocop@rmanp
+
+
+rman 
+
+connect target / 
+connect catalog cocop/cat_cocop@rmanp 
+
+run {
+allocate channel c1 type 'SBT_TAPE' PARMS='ENV=(TDPO_OPTFILE=/opt/tivoli/tsm/client/oracle/bin64/tdpo_cocop.opt)';
+ set archivelog destination to '/dp_pump/oracle/cocop/logmnr';
+ # restore archivelog all ;
+ # restore archivelog like '<string pattern>' ;
+ # restore archivelog from logseq  ;
+ # restore archivelog until logseq  ;
+ restore archivelog from logseq 229766 until logseq 230826 ;
+ # restore archivelog from time <date> ;
+ # restore archivelog until time <date> ;
+ # restore archivelog from time <date> until time <date> ;
+}
+exit
+
+
+--
+-- Create a logminer user
+--
+grant create session to logmnr_admin;
+
+grant select on sys.v_$logmnr_contents to logmnr_admin;
+
+grant select on sys.v_$logmnr_parameters to logmnr_admin;
+
+grant select on sys.v_$logmnr_logs to logmnr_admin;
+
+grant select on sys.v_$archived_log to logmnr_admin;
+
+grant  execute_catalog_role, select any dictionary, select any transaction, select any table, create tablespace, drop tablespace to logmnr_admin;
+
+create user miner identified by miner;
+
+grant logmnr_admin to miner;
+
+alter user miner quota unlimited on users;
+
+--
+-- Create a directory for the logminer dictionary flat file
+--
+
+SQL> !mkdir /home/oracle/logmnr
+
+SQL> alter system set utl_file_dir='/home/oracle/logmnr' scope=spfile;
+
+SQL> shutdown immediate; startup;
+
+SQL> exec DBMS_LOGMNR_D.BUILD('marcu1d_dictionary.ora', '/u01/app/oracle/admin/cocos/utl_file_dir', options => dbms_logmnr_d.store_in_flat_file);
+
+exec DBMS_LOGMNR_D.BUILD('cocop_dictionary.ora', '/u01/app/oracle/admin/cocos/utl_file_dir', options => dbms_logmnr_d.store_in_flat_file);
+
+
+Note : /home/oracle/logmnr should be same as utl_file_dir
+
+--
+-- List the archivelogs to be mined
+--
+SELECT name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+FROM v$archived_log
+WHERE name IS NOT NULL AND first_time BETWEEN TO_DATE('08-OCT-2014 08:00:00', 'DD-MON-YYYY HH24:MI:SS')
+AND TO_DATE('04-NOV-2014 23:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#;
+
+set lines 120
+col name for a50
+SELECT sequence#, name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+FROM v$archived_log
+WHERE first_time > TO_DATE('08-OCT-2014 08:00:00', 'DD-MON-YYYY HH24:MI:SS')
+AND first_time < TO_DATE('04-NOV-2014 23:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#;
+--
+--
+--
+
+set lines 120
+col name for a50
+SELECT sequence#, name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+FROM v$archived_log
+WHERE first_time > sysdate-15
+AND first_time < TO_DATE('04-NOV-2014 23:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#;
+
+ALTER SESSION SET NLS_DATE_FORMAT='dd/mm/yyyy hh24:mi:ss';
+select min(sequence#)-1, max(sequence#)+1, (max(sequence#)+1)-(min(sequence#)-1) as count FROM (
+SELECT sequence#, name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time 
+FROM v$archived_log
+WHERE first_time > TO_DATE('13-NOV-2014 16:00:00', 'DD-MON-YYYY HH24:MI:SS')
+AND first_time < TO_DATE('13-NOV-2014 17:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#);
+
+SELECT sequence#, name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+FROM v$archived_log
+WHERE first_time > TO_DATE('04-NOV-2014 23:59:59', 'DD-MON-YYYY HH24:MI:SS')
+AND first_time < TO_DATE('05-NOV-2014 01:30:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#;
+
+SELECT sum(blocks*block_size)/(1024*1024*1024) from v$archived_log WHERE sequence# between 231709 AND 231849;
+--
+-- Start logminer
+--
+ i) Alter session set NLS_DATE_FORMAT = ‘DD-MON-YYYY HH24:MI:SS';
+Execute DBMS_LOGMNR.START_LOGMNR(STARTTIME => ’19-MAR-2013 14:02:14′, ENDTIME => SYSDATE, OPTIONS => DBMS_LOGMNR.DICT_FROM_ONLINE_CATALOG + DBMS_LOGMNR.CONTINUOUS_MINE ); 
+
+
+set lines 120
+col name for a50
+SELECT sequence#, name, TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+FROM v$archived_log
+WHERE first_time > sysdate-1
+ORDER BY sequence#;
+
+
+--
+-- 
+--
+
+
+execute dbms_logmnr.add_logfile(LogFileName=>’/ora_arch/cocop_0561206046_0001_0000231592.arc’, Options=>dbms_logmnr.NEW);     –Adds first file.
+execute dbms_logmnr.add_logfile(LogFileName=>’/u01/oradata/MYSID/archive/arch_803914076_1_23.arc’, Options=>dbms_logmnr.ADDFILE);
+
+SELECT 'execute dbms_logmnr.add_logfile(LogFileName=>''/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000'||sequence#||'.arc'', Options=>dbms_logmnr.NEW);' 
+FROM (
+SELECT min(sequence#)-1 as sequence FROM v$archived_log
+WHERE first_time > sysdate-15
+AND first_time < TO_DATE('04-NOV-2014 23:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#
+)
+UNION
+SELECT 'execute dbms_logmnr.add_logfile(LogFileName=>''/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000'||sequence#||'.arc'', Options=>dbms_logmnr.ADDFILE);'
+FROM v$archived_log
+WHERE first_time > sysdate-15
+AND first_time < TO_DATE('04-NOV-2014 23:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY sequence#;
+
+execute dbms_logmnr.add_logfile(LogFileName=>’/ora_arch/cocop_0561206046_0001_0000229772.arc’, Options=>dbms_logmnr.NEW);
+set lines 130
+set pages 2000
+set feedback off
+set head off
+spool add_log_files_to_logmnr.sql
+SELECT 'execute dbms_logmnr.add_logfile(LogFileName=>''/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000'||sequence#||'.arc'', Options=>dbms_logmnr.NEW);'
+FROM v$archived_log
+WHERE sequence# = 229766
+UNION
+SELECT 'execute dbms_logmnr.add_logfile(LogFileName=>''/dp_pump/oracle/cocop/logmnr/cocop_0561206046_0001_0000'||sequence#||'.arc'', Options=>dbms_logmnr.ADDFILE);'
+FROM v$archived_log
+WHERE sequence# > 229766
+AND sequence# < 231709+1;
+spool off
+
+231370 231626
+------------------------------------------------------
+
+
+COLUMN name             FORMAT A66 HEAD "Log File Name"
+COLUMN first_time       FORMAT A23 HEAD "First Time"
+COLUMN dictionary_begin FORMAT A5  HEAD "Dict|Begin"
+COLUMN dictionary_end   FORMAT A5  HEAD "Dict|End"
+
+SELECT
+    sequence#
+  , TO_CHAR(first_time, 'DD-MON-YYYY HH24:MI:SS') first_time
+  , dictionary_begin
+  , dictionary_end
+FROM
+    v$archived_log
+WHERE
+      first_time BETWEEN
+      TO_DATE('10-NOV-2014 16:00:00', 'DD-MON-YYYY HH24:MI:SS') AND
+      TO_DATE('12-NOV-2014 08:00:00', 'DD-MON-YYYY HH24:MI:SS')
+ORDER BY
+    sequence#;
+
+alter session set NLS_DATE_FORMAT = 'DD-MON-YYYY HH24:MI:SS';
+
+execute DBMS_LOGMNR.START_LOGMNR(STARTTIME => '11-NOV-2014 17:00:00',  ENDTIME => '12-NOV-2014 08:30:00', OPTIONS => DBMS_LOGMNR.DICT_FROM_ONLINE_CATALOG + DBMS_LOGMNR.CONTINUOUS_MINE );
+
+CREATE TABLE lgmnr_content AS
+SELECT *
+       FROM V$LOGMNR_CONTENTS
+       WHERE (SEG_OWNER = 'SENTRY' AND SEG_NAME IN ('SWIFTMESSAGES','BOOKINGENTRIES',') 
+	   AND OPERATION IN ('DELETE','UPDATE','INSERT'))
+	   OR sql_redo LIKE '%COLT34480050%'
+	   OR sql_undo LIKE '%COLT34480050%';
+	   
+CREATE TABLE lgmnr_1 AS
+SELECT *
+       FROM V$LOGMNR_CONTENTS
+       WHERE SEG_OWNER = 'SENTRY' AND SEG_NAME IN ('SWIFTMESSAGES','BOOKINGENTRIES') 
+	   AND OPERATION IN ('DELETE','UPDATE','INSERT');
+	   AND username IS NOT NULL;	   
+
+set pages 9999 lines 1024 long 90000 trims on
+spool /tmp/logminer_1.csv
+SELECT timestamp, username, session_info, OPERATION, SQL_REDO
+       FROM V$LOGMNR_CONTENTS
+       WHERE SEG_OWNER = 'SENTRY' AND SEG_NAME IN ('SWIFTMESSAGES','BOOKINGENTRIES') 
+	   AND OPERATION IN ('DELETE','UPDATE','INSERT')
+	   AND username IS NOT NULL;
+	   
+	   
+SELECT timestamp, username, session_info, OPERATION, SQL_REDO
+FROM lgmnr_131114
+WHERE SEG_OWNER = 'SENTRY' 
+AND SEG_NAME IN ('SWIFTMESSAGES','BOOKINGENTRIES') 
+AND OPERATION IN ('DELETE','UPDATE','INSERT');	   

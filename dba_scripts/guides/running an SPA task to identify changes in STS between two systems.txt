@@ -1,0 +1,396 @@
+1. Apply the patches to 10g and 11g.
+
+ You can see the list of required patches from the following document:
+ 
+Document 560977.1 Real Application Testing Now Available for Earlier Releases
+ 
+2. Create a STS and Load test SQL statements into the STS in 10g database
+
+	NOTE : The example provided below works successfully on 11g and may not work in 10g. 
+	In this case, please just list the values without any parameter names similar to the following:
+ 
+	select value(p) from table(dbms_sqltune.select_cursor_cache('sql_id =''fgtq4z4vb0xx5''',NULL,NULL,NULL,NULL,1,NULL,'ALL')) p;
+  
+  
+	Create a SQL Tuning Set:
+	 
+	EXEC dbms_sqltune.create_sqlset('mysts');
+	 
+	Load SQL into the STS
+
+	1. From Cursor Cache
+
+	1) To load a query with a specific sql_id
+	 
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_cursor_cache('sql_id = ''fgtq4z4vb0xx5''')) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+	2) To load queries with a specific query string and more than 1,000 buffer_gets
+	 
+	DECLARE 
+	cur sys_refcursor;
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_cursor_cache('sql_text like ''%querystring%'' and buffer_gets > 1000')) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+
+	2. From AWR Snapshots
+
+	1) Find the two snapshots you want
+	 
+	select snap_id, begin_interval_time, end_interval_time from dba_hist_snapshot order by 1;
+	 
+	2) To load all the queries between two snapshots
+	 
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_workload_repository(begin_snap => 2245, end_snap => 2248)) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+	3) To load a query with a specific sql_id and plan_hash_value
+	 
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_workload_repository(begin_snap => 2245, end_snap => 2248, basic_filter => 'sql_id = ''fgtq4z4vb0xx5'' and plan_hash_value = 431456802')) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+	 
+	 
+	NOTE : 
+	"basic_filter" is the SQL predicate to filter the SQL from the cursor cache defined on attributes of the SQLSET_ROW.  If basic_filter is not set by the caller, the subprogram captures only statements of the type CREATE TABLE, INSERT, SELECT, UPDATE, DELETE, and MERGE. 
+
+
+	CREATE TYPE sqlset_row AS object (
+	sql_id VARCHAR(13),
+	force_matching_signature NUMBER,
+	sql_text CLOB,
+	object_list sql_objects,
+	bind_data RAW(2000),
+	parsing_schema_name VARCHAR2(30),
+	module VARCHAR2(48),
+	action VARCHAR2(32),
+	elapsed_time NUMBER,
+	cpu_time NUMBER,
+	buffer_gets NUMBER,
+	disk_reads NUMBER,
+	direct_writes NUMBER,
+	rows_processed NUMBER,
+	fetches NUMBER,
+	executions NUMBER,
+	end_of_fetch_count NUMBER,
+	optimizer_cost NUMBER,
+	optimizer_env RAW(2000),
+	priority NUMBER,
+	command_type NUMBER,
+	first_load_time VARCHAR2(19),
+	stat_period NUMBER,
+	active_stat_period NUMBER,
+	other CLOB,
+	plan_hash_value NUMBER,
+	sql_plan sql_plan_table_type,
+	bind_list sql_binds) ;
+	   
+
+	3. From an AWR Baseline
+
+	1) Find the baseline you want to load
+	 
+	select baseline_name, start_snap_id, end_snap_id from dba_hist_baseline;
+	 
+	2) Load queries from the baseline
+	 
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_workload_repository('MY_BASELINE')) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+	4. From another SQL Tuning Set
+
+	1) Find the SQL Tuning Set you want to load
+	 
+	select name, owner, statement_count from dba_sqlset;
+	 
+	2) Load queries from the SQL Tuning Set
+	 
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_sqlset(sqlset_name => 'HR_STS', sqlset_owner => 'HR', basic_filter => 'sql_text like ''%querystring%''')) p; 
+	dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	END; 
+	/
+	 
+
+	5. From 10046 trace files (11g+)
+
+	 1) Loading into a SQL Tuning Set in the same database that it originated from
+	 
+	i. Create a directory object for the directory where the trace files are.
+	 
+	create directory my_dir as '/home/oracle/trace';
+	 
+	ii. Load the queries
+	 
+
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_sql_trace(directory=>'MY_DIR', file_name=>'%.trc')) p;
+	 dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	 END; 
+	/
+	 
+	2) Loading into a SQL Tuning Set in a different database
+	 
+	i. Create a mapping table from the database where the trace files were captured.
+	 
+	create table mapping as
+	 select object_id id, owner, substr(object_name, 1, 30) name
+	 from dba_objects
+	 union all
+	 select user_id id, username owner, null name
+	 from dba_users;
+	 
+	 
+	 ii. Copy the trace files into a directory of the target server and create a directory object for the directory. And import the mapping table into the target database.
+	 
+	create directory my_dir as '/home/oracle/trace';
+	 
+
+	iii. Specify the mapping table when loading the queries.
+	 
+
+	DECLARE 
+	cur sys_refcursor; 
+	BEGIN 
+	open cur for 
+	select value(p) from table(dbms_sqltune.select_sql_trace(directory=>'MY_DIR', file_name=>'%.trc', mapping_table_name=> 'MAPPING', mapping_table_owner=> 'HR')) p;
+	 dbms_sqltune.load_sqlset('mysts', cur); 
+	close cur;
+	 END; 
+	/ 
+ 
+ 
+ 
+ 
+ Document 1271343.1 HOW TO LOAD QUERIES INTO A SQL TUNING SET
+ 
+3. Move the STS to 11g database
+ 
+	1. 
+	Create/load STS test_set owned by SYS
+	 
+	sqlplus / as sysdba 
+
+	exec dbms_sqltune.create_sqlset(sqlset_name => 'test_set', description =>'11g workload'); 
+
+	declare 
+	mycur dbms_sqltune.sqlset_cursor; 
+	begin 
+	open mycur for 
+	select value (P) 
+	from table(dbms_sqltune.select_cursor_cache('parsing_schema_name <> ''SYS'' and elapsed_time > 250', null, null, null, null,1, null, 'ALL')
+			   ) P;
+	 
+	dbms_sqltune.load_sqlset(sqlset_name => 'test_set', populate_cursor => mycur); 
+	end; 
+	/
+	 
+	Display the SQL Stored in the STS:
+
+	 
+	select sql_text from dba_sqlset_statements where sqlset_name='test_set';
+	 
+	2. 
+	Create stgtab sqlset_tab table in TEST schema:
+	 
+	BEGIN 
+	DBMS_SQLTUNE.create_stgtab_sqlset(table_name => 'SQLSET_TAB', 
+	schema_name => 'TEST', 
+	tablespace_name => 'USERS'); 
+	END; 
+	/
+	 
+	3. 
+	Pack test_set into the stgtab
+	 From SYS
+	 
+	BEGIN 
+	DBMS_SQLTUNE.pack_stgtab_sqlset(sqlset_name => 'test_set', 
+	sqlset_owner => 'SYS', 
+	staging_table_name => 'SQLSET_TAB', 
+	staging_schema_owner => 'TEST'); 
+	END; 
+	/
+	 
+	4. 
+	Transfer the table containing the SQL SET (SQLSET_TAB) table to the TEST system
+	 The staging table SQLSET_TAB cand be exported and imported to the TEST schema of the test system using datapump. See information on export datapump for details of how to do this : 
+
+
+	Document 556636.1 Oracle Server - Export Data Pump and Import DataPump FAQ
+	 
+	5. 
+	Export/import into test system, connect as scott
+	 
+	conn scott/tiger EXEC DBMS_SQLTUNE.create_sqlset(sqlset_name => 'testtarget_test_set');
+	 
+	 
+	 
+	NOTE: Scott should have DBA privilege because unpacking is done under SCOTT where as the staging table is imported to TEST schema. Without the DBA privilege scott will not be able to access the test schema.
+	 
+	6. 
+	Attempt to unpack an STS named 'testtarget_test_set'
+	 
+
+	BEGIN 
+	DBMS_SQLTUNE.unpack_stgtab_sqlset(sqlset_name => 'testtarget_test_set', 
+	sqlset_owner => 'SCOTT', 
+	replace => TRUE, 
+	staging_table_name => 'SQLSET_TAB', 
+	staging_schema_owner => 'TEST'); 
+	END; 
+	/
+	 
+	This will end up with the following error:- 
+
+
+	BEGIN 
+	* 
+	ERROR at line 1: 
+	ORA-19377: no "SQL Tuning Set" with name like "testtarget_test_set" exists for 
+	owner like "TESTTARGET" 
+	ORA-06512: at "SYS.DBMS_SQLTUNE", line 5422 
+	ORA-06512: at line 2
+	 The above unpack procedure fails because there is no STS in the staging table named 'testtarget_test_set', owned by SCOTT (or by any other user). Unpack expects you to pass it the name of an STS as it is in the staging table. 
+
+
+	7. 
+	MAPPING
+	 
+	If you are trying to rename the STS and change its owner before it is unpacked (reconstituted on the test system), use the remap_stgtab_sqlset API as follows, for example:
+	 
+	exec dbms_sqltune.remap_stgtab_sqlset(old_sqlset_name => 'test_set', 
+	old_sqlset_owner => 'SYS', new_sqlset_name => 'testtarget_test_set', 
+	new_sqlset_owner => 'SCOTT', staging_table_name => 'SQLSET_TAB', 
+	staging_schema_owner => '<schema where stg tab was imported>');
+	 
+	Here the staging table is imported to TEST schema of TEST system:
+	 
+	exec dbms_sqltune.remap_stgtab_sqlset(old_sqlset_name =>'test_set',old_sqlset_owner => 'SYS', new_sqlset_name => 'testtarget_test_set',new_sqlset_owner => 'SCOTT', staging_table_name => 'SQLSET_TAB',staging_schema_owner => 'TEST');
+	 
+	8. 
+	UNPACK THE SQLSET_TAB TABLE IN THE TEST SYSTEM
+	 
+	BEGIN 
+	DBMS_SQLTUNE.unpack_stgtab_sqlset(sqlset_name => 'testtarget_test_set', 
+	sqlset_owner => 'SCOTT', 
+	replace => TRUE, 
+	staging_table_name => 'SQLSET_TAB', 
+	staging_schema_owner => 'TEST'); 
+	END; 
+	/
+	 
+	Now the SQL Tuning Set is transferred successfully to another database without any issues.
+
+ 
+ 
+ 
+	Document 751068.1 How To Move SQL Tuning Set From One Database to Other
+ 
+4. Create a public database link from 11g to 10g. 
+
+
+create public database link &dblink_name connect to &username identified by &password using 'connect_string';
+ 
+5. Create a SPA Task 
+
+
+
+exec DBMS_SQLPA.DROP_ANALYSIS_TASK('SPA_TEST');
+ 
+var tname varchar2(30); 
+var sname varchar2(30); 
+
+exec :sname := 'TEST_STS'; 
+exec :tname := 'SPA_TEST'; 
+
+exec :tname := DBMS_SQLPA.CREATE_ANALYSIS_TASK(sqlset_name => :sname, task_name => :tname);
+ 
+
+6. Test Execution in 10g
+ NOTE : You may want to flush shared pool and buffer cache of 10g before this execution.
+ 
+
+begin 
+DBMS_SQLPA.EXECUTE_ANALYSIS_TASK( 
+task_name => 'SPA_TEST', 
+execution_type => 'TEST EXECUTE', 
+execution_name => 'exec_10g',
+ execution_params => dbms_advisor.arglist('DATABASE_LINK', '&dblink_name')); 
+end; 
+/
+ 
+7. Test Execution in 11g
+ NOTE : You may want to flush shared pool and buffer cache of 11g before this execution.
+ 
+begin 
+DBMS_SQLPA.EXECUTE_ANALYSIS_TASK( 
+task_name => 'SPA_TEST', 
+execution_type => 'TEST EXECUTE', 
+execution_name => 'exec_11g');
+ end; 
+/
+ 
+8. Execute the Comparison report
+ 
+begin 
+DBMS_SQLPA.EXECUTE_ANALYSIS_TASK( 
+task_name => 'SPA_TEST', 
+execution_type => 'COMPARE PERFORMANCE', 
+execution_name => 'Compare_elapsed_time', 
+execution_params => dbms_advisor.arglist('execution_name1', 'exec_10g', 'execution_name2', 'exec_11g', 'comparison_metric', 'elapsed_time') ); 
+end; 
+/
+ 
+9. Generate the SPA Report
+ 
+
+set long 100000 longchunksize 100000 linesize 200 head off feedback off echo off 
+spool spa_report_elapsed_time.html 
+SELECT dbms_sqlpa.report_analysis_task('SPA_TEST', 'HTML', 'ALL','ALL', execution_name=>'Compare_elapsed_time') FROM dual; 
+spool off
+ 
+10. Review the results
+
+

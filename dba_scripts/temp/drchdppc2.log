@@ -1,0 +1,2223 @@
+07/24/2015 13:47:38
+Creating Data Guard Broker Monitor Process (DMON)
+07/24/2015 13:47:41
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+DMON: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+07/24/2015 13:47:43
+DMON: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+DMON: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+07/24/2015 13:47:45
+DMON: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+DMON: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+07/24/2015 13:47:50
+INSV: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+INSV: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+07/24/2015 13:47:52
+INSV: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+INSV: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+07/24/2015 13:47:54
+INSV: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+DMON: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+07/24/2015 13:47:56
+DMON: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+DMON: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+07/24/2015 13:47:57
+Configuration does not exist, Data Guard broker ready
+07/27/2015 10:21:18
+Broker operation
+DMON: cannot open configuration file "+DATAC1/hdppc/dr1hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr1hdppc.dat
+  ORA-15173: entry 'dr1hdppc.dat' does not exist in directory 'hdppc'
+07/27/2015 10:21:20
+DMON: cannot open configuration file "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+  ORA-27037: unable to obtain file status
+  Linux-x86_64 Error: 2: No such file or directory
+  Additional information: 3
+No database profile named hdppc found in configuration
+Command Broker operation completed
+ADD DATABASE
+DMON Registering service hdppc_DGB with listener(s)
+Command ADD DATABASE completed
+07/27/2015 10:22:17
+ADD DATABASE
+07/27/2015 10:22:21
+Cannot find destination to match the site.
+Command ADD DATABASE completed
+07/27/2015 10:24:54
+EDIT DATABASE hdpph SET PROPERTY dbfilenameconvert = +DATAC1/HCPPC/,+DATAC1/HDPPH/,+RECOC1/HDPPC/,+RECOC1/HDPPH/
+Command EDIT DATABASE hdpph SET PROPERTY dbfilenameconvert = +DATAC1/HCPPC/,+DATAC1/HDPPH/,+RECOC1/HDPPC/,+RECOC1/HDPPH/ completed
+07/27/2015 10:29:36
+EDIT DATABASE hdppc SET PROPERTY dbfilenameconvert = +DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/
+Command EDIT DATABASE hdppc SET PROPERTY dbfilenameconvert = +DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/ completed
+07/27/2015 10:32:11
+EDIT DATABASE hdpph SET PROPERTY logfilenameconvert = +DATAC1/HDPPC/,+DATAC1/HDPPH/,+RECOC1/HDPPC/,+RECOC1/HDPPH/
+Command EDIT DATABASE hdpph SET PROPERTY logfilenameconvert = +DATAC1/HDPPC/,+DATAC1/HDPPH/,+RECOC1/HDPPC/,+RECOC1/HDPPH/ completed
+07/27/2015 10:33:03
+EDIT DATABASE hdppc SET PROPERTY logfilenameconvert = +DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/
+Command EDIT DATABASE hdppc SET PROPERTY logfilenameconvert = +DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/ completed
+07/27/2015 10:34:03
+ENABLE CONFIGURATION
+07/27/2015 10:34:12
+Creating process RSM0
+07/27/2015 10:34:22
+Command ENABLE CONFIGURATION completed
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2
+Apply Instance for database hdpph is hdpph2
+Command EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2 completed
+07/27/2015 10:35:15
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:36:15
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:37:15
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:38:15
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:39:15
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:40:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:41:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:42:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:43:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:44:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16792
+07/27/2015 10:44:32
+Processing last gasp from site hdpph, instance 1
+Broker operation
+Setting SHUTDOWN status for database hdpph
+07/27/2015 10:45:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16631
+07/27/2015 10:46:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16631
+07/27/2015 10:47:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16631
+07/27/2015 10:48:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16631
+07/27/2015 10:49:16
+Property 'DbFileNameConvert' has inconsistent values:METADATA='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HCPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Property 'LogFileNameConvert' has inconsistent values:METADATA='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', SPFILE='+DATAC1/HDPPH/,+DATAC1/HDPPC/,+RECOC1/HDPPH/,+RECOC1/HDPPC/', DATABASE=''
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Warning  ORA-16792
+  Physical Standby Database   hdpph                             Warning  ORA-16631
+07/27/2015 10:49:19
+Notifying DMON of db close
+Notifying RSM0 of db close
+07/27/2015 10:49:24
+Data Guard Broker shutting down
+RSM0 successfully terminated
+07/27/2015 10:49:27
+>> Data Guard Broker Has Been Shut Down <<
+07/27/2015 10:49:49
+Creating Data Guard Broker Monitor Process (DMON)
+07/27/2015 10:49:57
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+07/27/2015 10:50:00
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdppc (0x01010000)
+      Standby Database:           hdpph, Disabled Physical Standby (0x02010000)
+07/27/2015 10:50:03
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Version Check Results:
+      Database hdpph returned ORA-12514
+Creating process RSM0
+07/27/2015 10:50:40
+Send broker configuration metadata to database hdpph
+07/27/2015 12:29:59
+EDIT DATABASE hdppc SET PROPERTY ClusterName = dm12-clu1
+Command EDIT DATABASE hdppc SET PROPERTY ClusterName = dm12-clu1 completed
+EDIT DATABASE hdpph SET PROPERTY ClusterName = dm11-clu1
+07/27/2015 12:30:00
+Command EDIT DATABASE hdpph SET PROPERTY ClusterName = dm11-clu1 completed
+07/27/2015 12:58:21
+SWITCHOVER TO hdpph
+Command SWITCHOVER TO hdpph completed with warning ORA-16523
+07/27/2015 12:59:12
+SWITCHOVER TO hdpph
+Command SWITCHOVER TO hdpph completed with warning ORA-16523
+SWITCHOVER TO hdpph
+Notifying Oracle Clusterware to teardown primary database for SWITCHOVER
+07/27/2015 12:59:29
+Command SWITCHOVER TO hdpph completed
+Shutting down instance after CTL_SWITCH
+07/27/2015 12:59:37
+Creating Data Guard Broker Monitor Process (DMON)
+07/27/2015 12:59:45
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+07/27/2015 12:59:48
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+07/27/2015 12:59:54
+Creating process RSM0
+07/27/2015 13:00:07
+Notifying Oracle Clusterware to buildup standby database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 13:00:10
+Command SWITCHOVER TO hdppc completed
+07/27/2015 13:30:50
+Notifying Oracle Clusterware to teardown target standby database for SWITCHOVER
+07/27/2015 13:31:02
+Notifying DMON of db close
+07/27/2015 13:31:06
+Command SWITCHOVER TO hdppc completed
+07/27/2015 13:31:10
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 13:31:12
+Command SWITCHOVER TO hdppc completed
+07/27/2015 13:31:19
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+07/27/2015 13:31:20
+Failed to connect to remote database hdpph. Error is ORA-12528
+Failed to send message to site hdpph. Error code is ORA-12528.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12528
+07/27/2015 13:32:19
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:32:34
+Site hdpph returned ORA-16664.
+07/27/2015 13:33:19
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:33:49
+Site hdpph returned ORA-16664.
+07/27/2015 13:34:04
+Site hdpph returned ORA-16664.
+07/27/2015 13:34:19
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:34:34
+Site hdpph returned ORA-16664.
+07/27/2015 13:35:04
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16664.
+07/27/2015 13:35:19
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:35:50
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:36:49
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:37:12
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:38:04
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:38:49
+Site hdpph returned ORA-16664.
+07/27/2015 13:39:04
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:39:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:40:49
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:41:49
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:42:43
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:43:34
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:43:49
+Site hdpph returned ORA-16664.
+07/27/2015 13:44:34
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:45:34
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:46:34
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:47:34
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 13:48:45
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-12514
+07/27/2015 13:48:49
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+07/27/2015 13:49:24
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 13:49:29
+Command SWITCHOVER TO hdpph completed
+07/27/2015 13:54:13
+SWITCHOVER TO hdpph
+Command SWITCHOVER TO hdpph completed with warning ORA-16523
+SWITCHOVER TO hdpph
+Notifying Oracle Clusterware to teardown primary database for SWITCHOVER
+07/27/2015 13:54:31
+Command SWITCHOVER TO hdpph completed
+Shutting down instance after CTL_SWITCH
+07/27/2015 13:54:39
+Creating Data Guard Broker Monitor Process (DMON)
+07/27/2015 13:54:47
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+07/27/2015 13:54:49
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+07/27/2015 13:54:53
+Creating process RSM0
+07/27/2015 13:55:08
+Notifying Oracle Clusterware to buildup standby database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 13:55:10
+Command SWITCHOVER TO hdppc completed
+07/27/2015 14:59:56
+Notifying Oracle Clusterware to teardown target standby database for SWITCHOVER
+07/27/2015 15:00:07
+Notifying DMON of db close
+07/27/2015 15:00:11
+Command SWITCHOVER TO hdppc completed
+07/27/2015 15:00:16
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 15:00:18
+Command SWITCHOVER TO hdppc completed
+07/27/2015 15:00:20
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+07/27/2015 15:00:21
+Failed to connect to remote database hdpph. Error is ORA-12528
+Failed to send message to site hdpph. Error code is ORA-12528.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12528
+07/27/2015 15:01:20
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:02:20
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:03:20
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:04:20
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:05:20
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:06:20
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:06:42
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:07:35
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:08:36
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+07/27/2015 15:08:47
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 15:08:53
+Command SWITCHOVER TO hdpph completed
+07/27/2015 15:09:18
+SWITCHOVER TO hdpph
+Command SWITCHOVER TO hdpph completed with warning ORA-16523
+SWITCHOVER TO hdpph
+Notifying Oracle Clusterware to teardown primary database for SWITCHOVER
+07/27/2015 15:09:35
+Command SWITCHOVER TO hdpph completed
+Shutting down instance after CTL_SWITCH
+07/27/2015 15:09:42
+Creating Data Guard Broker Monitor Process (DMON)
+07/27/2015 15:09:50
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "/u01/app/oracle/product/11.2.0/dbhome_2/dbs/dr2hdppc.dat"
+07/27/2015 15:09:52
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+07/27/2015 15:09:56
+Creating process RSM0
+07/27/2015 15:10:09
+Notifying Oracle Clusterware to buildup standby database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+07/27/2015 15:10:11
+Command SWITCHOVER TO hdppc completed
+09/04/2015 12:00:20
+Data Guard Broker shutting down
+RSM0 successfully terminated
+09/04/2015 12:00:23
+>> Data Guard Broker Has Been Shut Down <<
+Fore Deregistering service hdppc_DGB with listener(s)
+09/04/2015 13:49:14
+Creating Data Guard Broker Monitor Process (DMON)
+09/04/2015 13:49:17
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+DMON: cannot open configuration file "+DATAC1/hdppc/dr2hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr2hdppc.dat
+  ORA-15173: entry 'dr2hdppc.dat' does not exist in directory 'hdppc'
+09/04/2015 13:49:22
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+09/04/2015 13:49:25
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+database hdppc unable to contact primary database for version check; status ORA-12514
+      completing bootstrap of this database
+Creating process RSM0
+09/04/2015 13:52:37
+Notifying DMON of db close
+Notifying RSM0 of db close
+09/04/2015 13:52:38
+Data Guard Broker shutting down
+Broker - notifying primary of shutdown
+posting shutdown message to primary database 0x02001000
+RSM0 successfully terminated
+09/04/2015 13:52:41
+>> Data Guard Broker Has Been Shut Down <<
+09/04/2015 13:56:24
+Creating Data Guard Broker Monitor Process (DMON)
+09/04/2015 13:56:32
+Fore: cannot open configuration file "+DATAC1/hdppc/dr2hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr2hdppc.dat
+  ORA-15173: entry 'dr2hdppc.dat' does not exist in directory 'hdppc'
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+09/04/2015 13:56:33
+INSV: cannot open configuration file "+DATAC1/hdppc/dr2hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr2hdppc.dat
+  ORA-15173: entry 'dr2hdppc.dat' does not exist in directory 'hdppc'
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+09/04/2015 13:56:36
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+09/04/2015 14:07:13
+Notifying DMON of db close
+Notifying RSM0 of db close
+09/04/2015 14:07:14
+Data Guard Broker shutting down
+Broker - notifying primary of shutdown
+posting shutdown message to primary database 0x02001000
+RSM0 successfully terminated
+09/04/2015 14:07:17
+>> Data Guard Broker Has Been Shut Down <<
+09/04/2015 14:07:33
+Creating Data Guard Broker Monitor Process (DMON)
+09/04/2015 14:07:41
+Fore: cannot open configuration file "+DATAC1/hdppc/dr2hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr2hdppc.dat
+  ORA-15173: entry 'dr2hdppc.dat' does not exist in directory 'hdppc'
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+09/04/2015 14:07:43
+INSV: cannot open configuration file "+DATAC1/hdppc/dr2hdppc.dat"
+  ORA-17503: ksfdopn:2 Failed to open file +DATAC1/hdppc/dr2hdppc.dat
+  ORA-15173: entry 'dr2hdppc.dat' does not exist in directory 'hdppc'
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+09/04/2015 14:07:46
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+09/04/2015 14:10:31
+Command ENABLE DATABASE hdppc completed
+09/04/2015 14:10:43
+Command ENABLE DATABASE hdppc completed
+09/04/2015 14:11:02
+Command ENABLE DATABASE hdppc completed
+09/07/2015 12:18:46
+Notifying Oracle Clusterware to teardown target standby database for SWITCHOVER
+09/07/2015 12:18:59
+Notifying DMON of db close
+09/07/2015 12:19:03
+Command SWITCHOVER TO hdppc completed
+09/07/2015 12:19:07
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+09/07/2015 12:19:10
+Command SWITCHOVER TO hdppc completed
+09/07/2015 12:20:06
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+09/07/2015 12:20:07
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:21:06
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:22:06
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:22:21
+Site hdpph returned ORA-16664.
+09/07/2015 12:23:06
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:24:06
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:25:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:26:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:27:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:28:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:29:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:30:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:31:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:32:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:33:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:34:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:35:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:36:06
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:37:03
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:37:51
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:38:06
+Site hdpph returned ORA-16664.
+09/07/2015 12:38:21
+Site hdpph returned ORA-16664.
+09/07/2015 12:38:36
+Site hdpph returned ORA-16664.
+09/07/2015 12:38:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:39:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:40:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:41:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:42:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:43:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:44:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:45:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:46:51
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:47:31
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:48:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:49:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:50:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:51:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:52:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:53:21
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16613
+09/07/2015 12:54:21
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+09/07/2015 12:54:32
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+09/07/2015 12:55:26
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+Data Guard notifying Oracle Clusterware to start services and other instances change
+09/07/2015 12:55:32
+Command SWITCHOVER TO hdpph completed
+10/10/2015 11:16:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+10/10/2015 11:16:52
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:17:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:18:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:19:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:19:57
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+10/10/2015 11:20:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:21:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:22:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:23:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:24:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:24:57
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+10/10/2015 11:25:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:26:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:27:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:28:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:29:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:29:57
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+10/10/2015 11:30:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:31:51
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:32:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:33:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:34:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:34:57
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+10/10/2015 11:35:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:36:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:37:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:38:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:39:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:39:57
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+10/10/2015 11:40:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/10/2015 11:41:52
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12514: TNS:listener does not currently know of service requested in connect descriptor
+Failed to connect to remote database hdpph. Error is ORA-12514
+Failed to send message to site hdpph. Error code is ORA-12514.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12514
+10/11/2015 13:43:35
+SWITCHOVER TO hdpph
+Command SWITCHOVER TO hdpph completed with warning ORA-16523
+SWITCHOVER TO hdpph
+Notifying Oracle Clusterware to teardown primary database for SWITCHOVER
+10/11/2015 13:43:55
+Command SWITCHOVER TO hdpph completed
+Shutting down instance after CTL_SWITCH
+10/11/2015 13:44:02
+Creating Data Guard Broker Monitor Process (DMON)
+10/11/2015 13:44:10
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+10/11/2015 13:44:13
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+10/11/2015 13:44:15
+Creating process RSM0
+10/11/2015 13:44:29
+Notifying Oracle Clusterware to buildup standby database after SWITCHOVER
+10/11/2015 13:44:31
+Data Guard notifying Oracle Clusterware to start services and other instances change
+10/11/2015 13:44:34
+Command SWITCHOVER TO hdppc completed
+10/12/2015 21:27:27
+Creating Data Guard Broker Monitor Process (DMON)
+10/12/2015 21:27:35
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+10/12/2015 21:27:38
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+10/12/2015 21:27:42
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+10/12/2015 21:35:30
+Creating Data Guard Broker Monitor Process (DMON)
+10/12/2015 21:35:38
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+10/12/2015 21:35:41
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+10/12/2015 21:35:45
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+10/22/2015 10:52:38
+Creating Data Guard Broker Monitor Process (DMON)
+10/22/2015 10:52:51
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+10/22/2015 10:52:54
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+10/22/2015 10:52:57
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+10/22/2015 11:43:49
+Creating Data Guard Broker Monitor Process (DMON)
+10/22/2015 11:44:02
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+10/22/2015 11:44:05
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+10/22/2015 11:44:08
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+11/04/2015 12:34:09
+Creating Data Guard Broker Monitor Process (DMON)
+11/04/2015 12:34:17
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+11/04/2015 12:34:19
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+11/04/2015 12:34:23
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+11/04/2015 14:57:37
+Creating Data Guard Broker Monitor Process (DMON)
+11/04/2015 14:57:50
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+11/04/2015 14:57:54
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+11/04/2015 14:57:58
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+11/05/2015 09:59:21
+Warning: the apply instance hdppc1 is not running.
+11/05/2015 09:59:36
+Warning: the apply instance hdppc1 is not running.
+Warning: the apply instance hdppc1 has not been running for at least 15 seconds, which exceeds the timeout limit 0 given by the ApplyInstanceTimeout property. Initiate an automatic apply instance failover.
+11/05/2015 09:59:43
+Apply Instance for Database hdppc set to hdppc2
+Command EDIT DATABASE hdppc SET PROPERTY ActualApplyInstance = hdppc2 completed
+12/03/2015 03:25:11
+Creating Data Guard Broker Monitor Process (DMON)
+12/03/2015 03:25:24
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+12/03/2015 03:25:28
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+12/03/2015 03:25:30
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/09/2016 20:21:02
+Creating Data Guard Broker Monitor Process (DMON)
+02/09/2016 20:21:15
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/09/2016 20:21:18
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/09/2016 20:21:22
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/09/2016 20:56:56
+Creating Data Guard Broker Monitor Process (DMON)
+02/09/2016 20:57:09
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/09/2016 20:57:13
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/09/2016 20:57:17
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/09/2016 22:02:33
+Creating Data Guard Broker Monitor Process (DMON)
+02/09/2016 22:02:46
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/09/2016 22:02:50
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/09/2016 22:02:54
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+02/09/2016 22:44:38
+Notifying DMON of db close
+Notifying RSM0 of db close
+02/09/2016 22:44:43
+Warning: the apply instance hdppc3 is not running.
+02/09/2016 22:44:58
+Warning: the apply instance hdppc3 is not running.
+Warning: the apply instance hdppc3 has not been running for at least 15 seconds, which exceeds the timeout limit 0 given by the ApplyInstanceTimeout property. Initiate an automatic apply instance failover.
+Instance closed due to abnormal termination of recovery instance.  Opening now
+02/09/2016 22:45:07
+Apply Instance for Database hdppc set to hdppc2
+02/09/2016 22:45:08
+Command EDIT DATABASE hdppc SET PROPERTY ActualApplyInstance = hdppc2 completed
+02/10/2016 17:25:45
+Creating Data Guard Broker Monitor Process (DMON)
+02/10/2016 17:26:03
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+02/10/2016 17:26:06
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+02/10/2016 17:26:09
+hdppc version check successfully completed
+hdppc has current configuration metadata
+Creating process RSM0
+03/30/2016 14:40:47
+Process RSM0, PID = 8314, will be killed
+03/30/2016 14:40:48
+Creating process RSM0
+03/30/2016 14:40:51
+Process RSM0 re-created with PID = 62086
+04/09/2016 09:36:27
+Notifying DMON of db close
+Notifying RSM0 of db close
+04/09/2016 09:36:30
+Data Guard Broker shutting down
+Broker - notifying primary of shutdown
+posting shutdown message to primary database 0x02001000
+RSM0 successfully terminated
+04/09/2016 09:36:33
+>> Data Guard Broker Has Been Shut Down <<
+04/09/2016 09:36:52
+Creating Data Guard Broker Monitor Process (DMON)
+04/09/2016 09:37:05
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+04/09/2016 09:37:12
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdpph (0x02010000)
+      Standby Database:           hdppc, Enabled Physical Standby (0x01010000)
+04/09/2016 09:37:16
+Connection to database hdpph returns ORA-01017.
+Please check database hdpph is using a remote password file,
+its remote_login_passwordfile is set to SHARED or EXCLUSIVE,
+and the SYS password is the same as this database.
+Failed to connect to remote database hdpph. Error is ORA-01017
+Failed to send message to site hdpph. Error code is ORA-01017.
+database hdppc unable to contact primary database for version check; status ORA-01017
+      completing bootstrap of this database
+Creating process RSM0
+04/09/2016 09:44:20
+Connection to database hdpph returns ORA-01017.
+Please check database hdpph is using a remote password file,
+its remote_login_passwordfile is set to SHARED or EXCLUSIVE,
+and the SYS password is the same as this database.
+Failed to connect to remote database hdpph. Error is ORA-01017
+Failed to send message to site hdpph. Error code is ORA-01017.
+04/09/2016 09:47:08
+Database Data Guard Broker operation needs instance count reduced to 1
+04/09/2016 09:47:19
+Command EDIT DATABASE hdppc SET STATE = APPLY-ON completed
+04/16/2016 09:41:56
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:43:10
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:44:25
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:45:40
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:46:55
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:48:10
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:49:25
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:50:40
+Failed to connect to remote database hdpph. Error is ORA-12537
+Failed to send message to site hdpph. Error code is ORA-12537.
+04/16/2016 09:54:25
+Notifying Oracle Clusterware to teardown target standby database for SWITCHOVER
+04/16/2016 09:54:39
+Notifying DMON of db close
+04/16/2016 09:54:44
+Command SWITCHOVER TO hdppc completed
+04/16/2016 09:54:50
+Deferring associated archivelog destinations of sites permanently disabled due to Switchover
+Notifying Oracle Clusterware to buildup primary database after SWITCHOVER
+04/16/2016 09:54:52
+Data Guard notifying Oracle Clusterware to start services and other instances change
+04/16/2016 09:54:54
+Command SWITCHOVER TO hdppc completed
+04/16/2016 09:54:56
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+04/16/2016 09:54:57
+Failed to connect to remote database hdpph. Error is ORA-12528
+Failed to send message to site hdpph. Error code is ORA-12528.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-12528
+04/16/2016 09:55:56
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Site hdpph returned ORA-16613.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 09:56:25
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+04/16/2016 09:56:56
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 09:57:36
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+04/16/2016 09:57:56
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 09:58:56
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 09:59:56
+Site hdpph returned ORA-16613.
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-12528: TNS:listener: all appropriate instances are blocking new connections
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16613
+04/16/2016 10:04:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:05:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:06:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:08:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:09:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:10:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:11:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:13:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:14:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:15:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:16:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:18:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:19:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:19:56
+Notifying DMON of db close
+Notifying RSM0 of db close
+04/16/2016 10:20:00
+Data Guard Broker shutting down
+RSM0 successfully terminated
+04/16/2016 10:20:03
+>> Data Guard Broker Has Been Shut Down <<
+04/16/2016 10:21:30
+Creating Data Guard Broker Monitor Process (DMON)
+04/16/2016 10:21:38
+>> Starting Data Guard Broker bootstrap <<
+Broker Configuration File Locations:
+      dg_broker_config_file1 = "+DATAC1/hdppc/dr1hdppc.dat"
+      dg_broker_config_file2 = "+DATAC1/hdppc/dr2hdppc.dat"
+04/16/2016 10:21:41
+DMON Registering service hdppc_DGB with listener(s)
+Broker Configuration:       "hdpp"
+      Protection Mode:            Maximum Performance
+      Fast-Start Failover (FSFO): Disabled, flags=0x0, version=0
+      Primary Database:           hdppc (0x01010000)
+      Standby Database:           hdpph, Enabled Physical Standby (0x02010000)
+04/16/2016 10:21:45
+Version Check Results:
+      Database hdpph returned ORA-00000
+Creating process RSM0
+04/16/2016 10:22:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:23:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:25:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:26:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:27:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:28:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:30:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:31:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:32:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:33:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:35:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:36:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:37:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:38:56
+Site hdpph returned ORA-16664.
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:40:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:40:56
+Site hdpph returned ORA-16664.
+04/16/2016 10:41:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:42:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:43:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:45:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:46:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:47:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:48:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:50:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:51:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:52:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:53:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:55:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:56:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:57:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 10:58:56
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 11:00:11
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 11:01:26
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 11:02:41
+Site hdpph returned ORA-16664.
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16664
+04/16/2016 11:03:43
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:04:42
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:05:38
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:06:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:07:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:08:22
+EDIT DATABASE hdpph SET STATE = APPLY-OFF
+Command EDIT DATABASE hdpph SET STATE = APPLY-OFF completed
+04/16/2016 11:08:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:09:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:10:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:11:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:12:27
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:13:03
+EDIT DATABASE hdpph SET PROPERTY PreferredApplyInstance = hdpph3
+Command EDIT DATABASE hdpph SET PROPERTY PreferredApplyInstance = hdpph3 completed
+04/16/2016 11:13:05
+EDIT DATABASE hdpph SET STATE = APPLY-ON
+Command EDIT DATABASE hdpph SET STATE = APPLY-ON completed
+04/16/2016 11:13:12
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:14:12
+Redo transport problem detected: redo transport for database hdpph has the following error:
+  ORA-03135: connection lost contact
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                               Error  ORA-16778
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/16/2016 11:14:36
+Processing last gasp from site hdpph, instance 1
+Broker operation
+Setting SHUTDOWN status for database hdpph
+04/16/2016 11:15:33
+Send broker configuration metadata to database hdpph
+04/19/2016 13:37:59
+EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph3
+04/19/2016 13:38:01
+Apply Instance for database hdpph is hdpph3
+Command EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph3 completed
+04/19/2016 20:10:04
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                             Warning  ORA-16613
+04/20/2016 00:50:05
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/20/2016 00:51:14
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/20/2016 01:01:05
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/20/2016 01:01:22
+EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2
+Apply Instance for database hdpph is hdpph2
+Command EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph2 completed
+04/20/2016 01:02:04
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16608
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                             Warning  ORA-16857
+04/20/2016 10:45:24
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/20/2016 10:46:37
+Data Guard Broker Status Summary:
+  Type                        Name                             Severity  Status
+  Configuration               hdpp                              Warning  ORA-16607
+  Primary Database            hdppc                             Success  ORA-00000
+  Physical Standby Database   hdpph                               Error  ORA-16766
+04/20/2016 10:47:00
+EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph3
+Apply Instance for database hdpph is hdpph3
+Command EDIT DATABASE hdpph SET PROPERTY ActualApplyInstance = hdpph3 completed
